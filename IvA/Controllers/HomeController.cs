@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using IvA.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IvA.Controllers
 {
@@ -28,6 +29,7 @@ namespace IvA.Controllers
             return View();
         }
 
+        [Authorize(Policy = "RequireAdminRole")]
         public IActionResult Verwaltung()
         {
             return View();
