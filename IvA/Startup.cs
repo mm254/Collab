@@ -12,6 +12,7 @@ using IvA.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace IvA
 {
@@ -29,8 +30,8 @@ namespace IvA
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddDbContext<ProjectUserLoginContext>(options =>
+        
+            services.AddDbContext<ProjekteContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -44,6 +45,7 @@ namespace IvA
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
