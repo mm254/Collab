@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IvA.Data;
 using IvA.Models;
+using IvA.Migrations;
 
 namespace IvA.Controllers
 {
@@ -54,11 +55,12 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Projektname,Projektersteller,Mitglieder,Beschreibung,Deadline,Status")] Projekte projekte)
+        public async Task<IActionResult> Create([Bind("Id,Projektname,Projektersteller,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.Projekte projekte)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(projekte);
+                projekte.ErstelltAm = DateTime.Now;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -73,7 +75,7 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            var projekte = await _context.Projekte.FindAsync(id);
+            IvA.Models.Projekte projekte = await _context.Projekte.FindAsync(id);
             if (projekte == null)
             {
                 return NotFound();
@@ -86,8 +88,9 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Projektname,Projektersteller,Mitglieder,Beschreibung,Deadline,Status")] Projekte projekte)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Projektname,Projektersteller,ErstelltAm,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.Projekte projekte)
         {
+          
             if (id != projekte.Id)
             {
                 return NotFound();
@@ -97,7 +100,7 @@ namespace IvA.Controllers
             {
                 try
                 {
-                    _context.Update(projekte);
+                    _context.Update(projekte);                   
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

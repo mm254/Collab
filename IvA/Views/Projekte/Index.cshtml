@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<IvA.Models.Projekte>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Projektübersicht";
 }
 
-<h1>Index</h1>
+<h2 style="padding-top:25px">Behalten sie die Übersicht über ihre Projekte. <br />
+    Erstellen und Verwalten sie flexibel Projekte und Arbeitspakete.
+</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p style="padding-top:25px ; padding-bottom: 25px">
+    <a asp-action="Create">Neues Projekt erstellen</a>
 </p>
 <table class="table">
     <thead>
@@ -17,6 +19,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Projektersteller)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ErstelltAm)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Mitglieder)
@@ -36,39 +41,41 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Projektname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Projektersteller)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Mitglieder)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Beschreibung)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Deadline)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Projektname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Projektersteller)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ErstelltAm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mitglieder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Beschreibung)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Deadline)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Anpassen</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Löschen</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
 
-<p>
+<p style="padding-top : 50px">
     <h2 align="center" class="display-4">Projektdashboard</h2>
-<p align="center">
-    Behalten sie den Überblick! Ihre aktuellen Projekte: </palign="center">
+
     <div class="" row>
 
 

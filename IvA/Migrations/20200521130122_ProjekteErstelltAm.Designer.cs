@@ -4,14 +4,16 @@ using IvA.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IvA.Migrations
 {
     [DbContext(typeof(ProjekteContext))]
-    partial class ProjekteContextModelSnapshot : ModelSnapshot
+    [Migration("20200521130122_ProjekteErstelltAm")]
+    partial class ProjekteErstelltAm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,57 +1,74 @@
 ﻿@model IvA.Models.Projekte
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Projektdetails ändern";
 }
 
-<h1>Edit</h1>
 
-<h4>Projekte</h4>
+<h2>Projektdetails ändern</h2>
+
+<h4 style="padding-bottom:25px ; padding-top:25px">Ändern sie ihre Projektdetails. Passen sie die Beschreibung des Projektes an, fügen sie neuen Projektmitglieder hinzu oder ändern sie den aktuellen Bearbeitungsstatus.</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
+            <div style="padding-bottom:10px"> Projektname: @Model.Projektname</div>
+
+            <div style="padding-bottom:10px"> Projektersteller: @Model.Projektersteller</div>
+
+            <div style="padding-bottom:10px"> Erstellt am: @Model.ErstelltAm</div>
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+
             <div class="form-group">
-                <label asp-for="Projektname" class="control-label"></label>
-                <input asp-for="Projektname" class="form-control" />
+                <input asp-for="Projektname" type="hidden" class="form-control" />
                 <span asp-validation-for="Projektname" class="text-danger"></span>
             </div>
+
+            <div class="form-group">              
+                <input asp-for="ErstelltAm" type ="hidden" class="form-control" />
+                <span asp-validation-for="ErstelltAm" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
-                <label asp-for="Projektersteller" class="control-label"></label>
-                <input asp-for="Projektersteller" class="form-control" />
+                <input asp-for="Projektersteller" type="hidden" class="form-control" />
                 <span asp-validation-for="Projektersteller" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Mitglieder" class="control-label"></label>
                 <input asp-for="Mitglieder" class="form-control" />
                 <span asp-validation-for="Mitglieder" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Beschreibung" class="control-label"></label>
                 <input asp-for="Beschreibung" class="form-control" />
                 <span asp-validation-for="Beschreibung" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Deadline" class="control-label"></label>
-                <input asp-for="Deadline" class="form-control" />
-                <span asp-validation-for="Deadline" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
                 <input asp-for="Status" class="form-control" />
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label asp-for="Deadline" class="control-label"></label>
+                <input asp-for="Deadline" class="form-control" />
+                <span asp-validation-for="Deadline" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Änderungen speichern" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Zurück zur Projektübersicht</a>
 </div>
 
 @section Scripts {
