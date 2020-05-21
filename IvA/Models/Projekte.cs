@@ -17,13 +17,12 @@ namespace IvA.Models
         public string Projektname { get; set; }
         public string Projektersteller { get; set; }
 
-        [Display(Name = "Erstellt am:")]
+        [Display(Name = "Erstellt:")]
         [DataType(DataType.Date)]
         public DateTime ErstelltAm { get; set; }
 
         public string Mitglieder { get; set; }
 
-        
         public string Beschreibung { get; set; }
 
         [DataType(DataType.Date)]

@@ -37,13 +37,8 @@
                 <input asp-for="Deadline" class="form-control" />
                 <span asp-validation-for="Deadline" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option value="To Do">To Do</option>
-                    <option value="In Bearbeitung">In Bearbeitung</option>
-                    <option value="Fertig">Fertig</option>
-                </select>
+            <div class="form-group">            
+                <input asp-for="Status" type="hidden" class="form-control" />                                 
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">

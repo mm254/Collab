@@ -61,6 +61,7 @@ namespace IvA.Controllers
             {
                 _context.Add(projekte);
                 projekte.ErstelltAm = DateTime.Now;
+                projekte.Status = "To Do";
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

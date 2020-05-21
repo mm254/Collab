@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Projektübersicht";
 }
-
+<h2 align="center" class="display-4">Projektdashboard</h2>
 <h2 style="padding-top:25px">Behalten sie die Übersicht über ihre Projekte. <br />
     Erstellen und Verwalten sie flexibel Projekte und Arbeitspakete.
 </h2>
@@ -43,7 +43,7 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Projektname)
+                <a asp-action="Edit" asp-route-id="@item.Id">@item.Projektname</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Projektersteller)
@@ -63,18 +63,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Anpassen</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Löschen</a>
-            </td>
         </tr>
         }
     </tbody>
 </table>
 
 <p style="padding-top : 50px">
-    <h2 align="center" class="display-4">Projektdashboard</h2>
+    
 
     <div class="" row>
 
