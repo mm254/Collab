@@ -42,6 +42,14 @@ html {
     padding: 0px;
 }
 
+#hallo{
+    color: white;
+}
+
+#loginName {
+    color: #FFBD4A;
+}
+
 .col {
     color: white;
     margin: 0;
@@ -75,7 +83,7 @@ hr {
 }
 
 a {
-  color: white;
+    color: #FFBD4A;
 }
 
 p {
