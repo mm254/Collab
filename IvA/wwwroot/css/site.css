@@ -36,12 +36,42 @@ html {
   }
 }
 
+#collab {
+    margin: 0 auto;
+    border: 0px solid #38761d;
+    padding: 0px;
+}
+
+.col {
+    color: white;
+    margin: 0;
+    padding: 0px;
+}
+
+.lab {
+    color: #FFBD4A;
+    margin: 0;
+    padding: 0px;
+}
+
 h1 {
     color: white;
 }
 
 h2 {
   color: white;
+}
+
+h3 {
+    color: white;
+}
+
+h4 {
+    color: white;
+}
+
+hr {
+    color: white;
 }
 
 a {
@@ -52,15 +82,15 @@ p {
     color: white;
 }
 
+label {
+    color: white;
+}
+
+.col-md-4{
+    color: white;
+}
+
 .table {
-    color: white;
-}
-
-navbar-brand{
-    color: white;
-}
-
-a.navbar-brand {
     color: white;
 }
 
