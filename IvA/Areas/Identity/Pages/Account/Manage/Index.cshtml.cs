@@ -35,6 +35,9 @@ namespace IvA.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Telefonnummer")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Name")]
+            public string UserName { get; set; }
         }
 
         private async Task LoadAsync(IdentityUser user)
@@ -42,11 +45,10 @@ namespace IvA.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            Username = userName;
-
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                UserName = userName
             };
         }
 
@@ -84,6 +86,17 @@ namespace IvA.Areas.Identity.Pages.Account.Manage
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                }
+            }
+
+            var name = await _userManager.GetUserNameAsync(user);
+            if (Input.UserName != name)
+            {
+                var setNameResult = await _userManager.SetUserNameAsync(user, Input.UserName);
+                if (!setNameResult.Succeeded)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting name for user with ID '{userId}'.");
                 }
             }
 
