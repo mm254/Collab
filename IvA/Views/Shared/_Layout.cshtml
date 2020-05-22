@@ -26,10 +26,11 @@
                                 <a class="nav-link text-white" asp-area="" asp-controller="Projekte" asp-action="Index">Projekte</a>
                             </li>
                         }
+                        <!-- Nur fürs debugging ansonsten diese Abfrage: (this.User.IsInRole("Admin")) -->
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Verwaltung">Verwaltung</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Admin" asp-action="ListUsers">Adminpanel</a>
                             </li>
                         }
                     </ul>

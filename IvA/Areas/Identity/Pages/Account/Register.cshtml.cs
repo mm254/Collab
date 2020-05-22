@@ -82,6 +82,7 @@ namespace IvA.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    _userManager.AddToRoleAsync(user, "Nutzer").Wait();
                     _logger.LogInformation("Benutzer angelegt");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
