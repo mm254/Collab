@@ -1,0 +1,48 @@
+﻿@model IvA.Models.ArbeitsPaket
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ArbeitsPaket</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PaketName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PaketName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Beschreibung)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Beschreibung)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Mitglieder)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Mitglieder)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Frist)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Frist)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ArbeitsPaketId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

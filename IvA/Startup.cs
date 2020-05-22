@@ -34,8 +34,10 @@ namespace IvA
             services.AddDbContext<ProjekteContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDbContext<ArbeitsPaketContext>(options =>
+              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             
 
             services.AddAuthorization(options =>

@@ -7,28 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IvA.Data;
 using IvA.Models;
-using IvA.Migrations;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 
 namespace IvA.Controllers
 {
-    public class ProjekteController : Controller
+    public class ArbeitsPaketController : Controller
     {
-        private readonly ProjekteContext _context;
+        private readonly ArbeitsPaketContext _context;
 
-        public ProjekteController(ProjekteContext context)
+        public ArbeitsPaketController(ArbeitsPaketContext context)
         {
             _context = context;
         }
 
-        // GET: Projekte
+        // GET: ArbeitsPaket
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Projekte.ToListAsync());
+            return View(await _context.ArbeitsPaket.ToListAsync());
         }
 
-        // GET: Projekte/Details/5
+        // GET: ArbeitsPaket/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,44 +33,39 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            var projekte = await _context.Projekte
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (projekte == null)
+            var arbeitsPaket = await _context.ArbeitsPaket
+                .FirstOrDefaultAsync(m => m.ArbeitsPaketId == id);
+            if (arbeitsPaket == null)
             {
                 return NotFound();
             }
 
-            return View(projekte);
+            return View(arbeitsPaket);
         }
 
-        // GET: Projekte/Create
+        // GET: ArbeitsPaket/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Projekte/Create
+        // POST: ArbeitsPaket/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Projektname,Projektersteller,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.Projekte projekte)
+        public async Task<IActionResult> Create([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Frist,Status")] ArbeitsPaket arbeitsPaket)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(projekte);
-
-                projekte.ErstelltAm = DateTime.Now;
-                projekte.Status = "To Do";
-                projekte.Projektersteller = this.User.Identity.Name;
-
+                _context.Add(arbeitsPaket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(projekte);
+            return View(arbeitsPaket);
         }
 
-        // GET: Projekte/Edit/5
+        // GET: ArbeitsPaket/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,23 +73,22 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            IvA.Models.Projekte projekte = await _context.Projekte.FindAsync(id);
-            if (projekte == null)
+            var arbeitsPaket = await _context.ArbeitsPaket.FindAsync(id);
+            if (arbeitsPaket == null)
             {
                 return NotFound();
             }
-            return View(projekte);
+            return View(arbeitsPaket);
         }
 
-        // POST: Projekte/Edit/5
+        // POST: ArbeitsPaket/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Projektname,Projektersteller,ErstelltAm,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.Projekte projekte)
+        public async Task<IActionResult> Edit(int id, [Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Frist,Status")] ArbeitsPaket arbeitsPaket)
         {
-          
-            if (id != projekte.Id)
+            if (id != arbeitsPaket.ArbeitsPaketId)
             {
                 return NotFound();
             }
@@ -106,12 +97,12 @@ namespace IvA.Controllers
             {
                 try
                 {
-                    _context.Update(projekte);                   
+                    _context.Update(arbeitsPaket);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjekteExists(projekte.Id))
+                    if (!ArbeitsPaketExists(arbeitsPaket.ArbeitsPaketId))
                     {
                         return NotFound();
                     }
@@ -122,10 +113,10 @@ namespace IvA.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(projekte);
+            return View(arbeitsPaket);
         }
 
-        // GET: Projekte/Delete/5
+        // GET: ArbeitsPaket/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,30 +124,30 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            var projekte = await _context.Projekte
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (projekte == null)
+            var arbeitsPaket = await _context.ArbeitsPaket
+                .FirstOrDefaultAsync(m => m.ArbeitsPaketId == id);
+            if (arbeitsPaket == null)
             {
                 return NotFound();
             }
 
-            return View(projekte);
+            return View(arbeitsPaket);
         }
 
-        // POST: Projekte/Delete/5
+        // POST: ArbeitsPaket/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var projekte = await _context.Projekte.FindAsync(id);
-            _context.Projekte.Remove(projekte);
+            var arbeitsPaket = await _context.ArbeitsPaket.FindAsync(id);
+            _context.ArbeitsPaket.Remove(arbeitsPaket);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProjekteExists(int id)
+        private bool ArbeitsPaketExists(int id)
         {
-            return _context.Projekte.Any(e => e.Id == id);
+            return _context.ArbeitsPaket.Any(e => e.ArbeitsPaketId == id);
         }
     }
 }
