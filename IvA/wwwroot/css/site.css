@@ -27,6 +27,10 @@ a {
 
 /* Sticky footer styles
 -------------------------------------------------- */
+html * {
+    /*font-family: 'Montserrat Light' !important;*/
+}
+
 html {
   font-size: 14px;
 }

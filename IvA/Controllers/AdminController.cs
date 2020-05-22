@@ -28,6 +28,27 @@ namespace IvA.Controllers
             return View(users);
         }
 
+        public IActionResult ListUserRoles()
+        {
+            var users = userManager.Users;
+            var roles = roleManager.Roles;
+            return View(users);
+        }
+
+        public async Task Delete()
+        {
+            var user = await userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var result = await userManager.DeleteAsync(user);
+                var userId = await userManager.GetUserIdAsync(user);
+                if (!result.Succeeded)
+                {
+                    throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
+                }
+            }
+        }
+
         public IActionResult Create()
         {
             return View();

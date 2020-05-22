@@ -4,56 +4,56 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Arbeitspakete</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Neues Paket erstellen</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PaketName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Beschreibung)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mitglieder)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Frist)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaketName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Beschreibung)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mitglieder)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Frist)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ArbeitsPaketId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ArbeitsPaketId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ArbeitsPaketId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="card-deck">
+
+    <div class="card bg-secondary">
+        <div class="card-body">
+            <h4 class="card-title">To Do</h4>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model)
+                {
+                    if (item.Status == "To do")
+                    {
+                        <li class="list-group-item"><a asp-action="Details" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="card bg-secondary">
+        <div class="card-body">
+            <h4 class="card-title">In Bearbeitung</h4>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model)
+                {
+                    if (item.Status == "In Bearbeitung")
+                    {
+                         <li class="list-group-item"><a asp-action="Details" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="card bg-secondary">
+        <div class="card-body">
+            <h4 class="card-title">Fertig</h4>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model)
+                {
+                    if (item.Status == "Fertig")
+                    {
+                        <li class="list-group-item"><a asp-action="Details" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+    <p></p>
+    <p></p>
+</div>

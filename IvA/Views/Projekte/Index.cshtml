@@ -12,6 +12,21 @@
     <a asp-action="Create">Neues Projekt erstellen</a>
     <button class="btn btn-primary" asp-action="Create">Neues Projekt erstellen</button>
 </p>
+<div class="card-columns">
+    @foreach (var item in Model)
+    {
+    <div class="card bg-secondary">
+        <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.Id">@item.Projektname</a></div>
+        <div class="card-body text-center">
+            <p class="card-text">@item.Beschreibung</p>
+        </div>
+        <div class="card-footer">
+            <div class="progress">
+                 <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                 </div></div></div>
+    </div>
+    }
+ </div>
 <table class="table">
     <thead>
         <tr>
