@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using IvA.Models;
 
 namespace IvA.Data
 {
@@ -12,5 +13,6 @@ namespace IvA.Data
             : base(options)
         {
         }
+        public DbSet<IvA.Models.Role> Role { get; set; }
     }
 }
