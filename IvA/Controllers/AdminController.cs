@@ -32,21 +32,24 @@ namespace IvA.Controllers
         {
             var users = userManager.Users;
             var roles = roleManager.Roles;
+            //var userRoles = users.Join(roles);
             return View(users);
         }
 
-        public async Task Delete()
+        public async Task<IActionResult> Delete(string? Id)
         {
-            var user = await userManager.GetUserAsync(User);
+            var user = await userManager.FindByIdAsync(Id);
             if (user != null)
             {
                 var result = await userManager.DeleteAsync(user);
-                var userId = await userManager.GetUserIdAsync(user);
+                var id = await userManager.GetUserIdAsync(user);
                 if (!result.Succeeded)
                 {
-                    throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
+                    throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{id}'.");
                 }
             }
+
+            return RedirectToAction("ListUsers");
         }
 
         public IActionResult Create()

@@ -1,0 +1,6 @@
+﻿- Login funktioniert teilweise nicht mehr mit definitiv richtigen Daten.
+
+- Nutzername lässt nur ein Wort und keine Leerzeichen zu. Entweder irgendwie ändern oder noch zweites Feld mich Nachnamen.
+
+- Im Frontend vom Adminpanel wird verhindert dass jemand sich selbst löschen kann (Das soll nur über die Accountverwaltung möglich sein).
+	Der Abgleich wird aber ahand des Namens gemacht dh man kann keine Nutzer mit gleichen Namen löschen.

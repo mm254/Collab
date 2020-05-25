@@ -43,7 +43,6 @@ html {
 #collab {
     margin: 0 auto;
     border: 0px solid #38761d;
-    padding: 0px;
 }
 
 #hallo{
@@ -63,7 +62,7 @@ html {
 .lab {
     color: #FFBD4A;
     margin: 0;
-    padding: 0px;
+    padding-right: 30px;
 }
 
 h1 {
@@ -94,11 +93,27 @@ p {
     color: white;
 }
 
+dd{
+    color: white;
+}
+
+dt {
+    color: white;
+}
+
 label {
     color: white;
 }
 
-.col-md-4{
+.col-sm-10 {
+    color: white;
+}
+
+.col-md-4 {
+    color: white;
+}
+
+.col-sm-2 {
     color: white;
 }
 
