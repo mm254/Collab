@@ -1,4 +1,4 @@
-﻿@model IvA.Models.Projekte
+﻿@model IvA.Models.ProjekteModel
 
 @{
     ViewData["Title"] = "Projektdetails ändern";
@@ -19,7 +19,7 @@
             <div style="padding-bottom:10px"> Erstellt am: @Model.ErstelltAm</div>
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ProjekteId" />
 
             <div class="form-group">
                 <input asp-for="Projektname" type="hidden" class="form-control" />

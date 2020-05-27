@@ -9,6 +9,7 @@ namespace IvA.Models
 {
     public class ArbeitsPaketModel
     {
+        [Key]
         public int ArbeitsPaketId { get; set; }
 
         public string PaketName { get; set; }

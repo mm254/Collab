@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IvA.Models.Projekte>
+﻿@model IEnumerable<IvA.Models.ProjekteModel>
 
 @{
     ViewData["Title"] = "Projektübersicht";
@@ -16,7 +16,7 @@
     @foreach (var item in Model)
     {
         <div class="card bg-secondary">
-            <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.Id">@item.Projektname</a></div>
+            <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.ProjekteId">@item.Projektname</a></div>
             <div class="card-body text-center">
                 <p class="card-text">@item.Beschreibung</p>
             </div>
@@ -63,7 +63,7 @@
         {
         <tr>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">@item.Projektname</a>
+                <a asp-action="Details" asp-route-id="@item.ProjekteId">@item.Projektname</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Projektersteller)

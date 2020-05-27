@@ -24,7 +24,7 @@ namespace IvA.Controllers
 
             var projektPaketeView = from _projekte in Projekte
                                     join _projektPakete in ProjektPakete 
-                                    on _projekte.Id equals _projektPakete.Id into table1
+                                    on _projekte.ProjekteId equals _projektPakete.ProjekteArbeitsPaketeViewModelId into table1
                                  from _projektPakete in table1.ToList()
                                  join _pakete in Pakete 
                                  on _projektPakete.ArbeitsPaketId equals _pakete.ArbeitsPaketId into table2
