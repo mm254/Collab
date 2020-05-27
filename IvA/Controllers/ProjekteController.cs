@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IvA.Data;
 using IvA.Models;
-using IvA.Migrations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+
 
 namespace IvA.Controllers
 {
     public class ProjekteController : Controller
     {
-        private readonly ProjekteContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ProjekteController(ProjekteContext context)
+        public ProjekteController(ApplicationDbContext context)
         {
             _context = context;
         }

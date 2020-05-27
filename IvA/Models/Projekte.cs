@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using IvA.Areas;
 using IvA.Validation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-
 
 namespace IvA.Models
 {
@@ -30,6 +26,8 @@ namespace IvA.Models
         public DateTime Deadline { get; set; } 
 
         public string Status { get; set; } = "To Do";
+
+
 
 
     }

@@ -7,22 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IvA.Data;
 using IvA.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace IvA.Controllers
 {
     public class ArbeitsPaketController : Controller
     {
-        private readonly ArbeitsPaketContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ArbeitsPaketController(ArbeitsPaketContext context)
+        public ArbeitsPaketController(ApplicationDbContext context)
         {
             _context = context;
         }
-
+       
         // GET: ArbeitsPaket
         public async Task<IActionResult> Index()
-        {
-            return View(await _context.ArbeitsPaket.ToListAsync());
+        {         
+            return View(await _context.ArbeitsPaket.ToListAsync());               
         }
 
         // GET: ArbeitsPaket/Details/5
