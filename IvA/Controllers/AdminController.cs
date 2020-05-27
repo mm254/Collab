@@ -6,6 +6,7 @@ using IvA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IvA.Controllers
 {
@@ -24,19 +25,38 @@ namespace IvA.Controllers
         public IActionResult ListUsers()
         {
             var users = userManager.Users;
-            var roles = roleManager.Roles;
             return View(users);
         }
 
+        /**
         public IActionResult ListUserRoles()
         {
-            var users = userManager.Users;
+            var users = userManager.Users.ToListAsync();
+            var roles = roleManager.Roles.ToListAsync();
+            
+            var userRoles = from _projekte in Projekte
+                                    join _projektPakete in ProjektPakete
+                                    on _projekte.Id equals _projektPakete.Id into table1
+                                    from _projektPakete in table1.ToList()
+                                    join _pakete in Pakete
+                                    on _projektPakete.ArbeitsPaketId equals _pakete.ArbeitsPaketId into table2
+                                    from _pakete in table2.ToList()
+                                    select new ProjektPaketeModel
+                                    {
+                                        Pakete = _pakete,
+                                        Projekte = _projekte,
+                                        ProjektPakete = _projektPakete
+                                    };
+            return View(userRoles);
+        } **/
+
+        public IActionResult ListRoles()
+        {
             var roles = roleManager.Roles;
-            //var userRoles = users.Join(roles);
-            return View(users);
+            return View(roles);
         }
 
-        public async Task<IActionResult> Delete(string? Id)
+            public async Task<IActionResult> Delete(string? Id)
         {
             var user = await userManager.FindByIdAsync(Id);
             if (user != null)
@@ -60,10 +80,10 @@ namespace IvA.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Role role)
         {
-            var existRole = await roleManager.RoleExistsAsync(role.RoleName);
+            var existRole = await roleManager.RoleExistsAsync(role.Name);
             if (!existRole)
             {
-                var result = await roleManager.CreateAsync(new IdentityRole(role.RoleName));
+                var result = await roleManager.CreateAsync(new IdentityRole(role.Name));
             }
             return View();
         }

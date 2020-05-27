@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using IvA.Validation;
 
 namespace IvA.Models
 {
     public class Role
     {
-        public int Id { get; set; }
-        public String RoleName { get; set; }
+        [Key]
+        public String Id { get; set; }
+        public String Name { get; set; }
     }
 }

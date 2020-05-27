@@ -30,10 +30,19 @@
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Admin" asp-action="ListUsers">Adminpanel</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="ArbeitsPaket" asp-action="Index">Pakete</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="ArbeitsPaket" asp-action="Index">Pakete</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="ProjektPakete" asp-action="Index">Projekt Pakete</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Adminpanel
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="ListUsers">Nutzerverwaltung</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Admin" asp-action="ListRoles">Rollenübersicht</a>
+                                </div>
                             </li>
                         }
                     </ul>
