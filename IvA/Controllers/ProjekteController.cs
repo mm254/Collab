@@ -57,7 +57,7 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Projektname,Projektersteller,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.Projekte projekte)
+        public async Task<IActionResult> Create([Bind("Id,Projektname,Projektersteller,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.ProjekteModel projekte)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            IvA.Models.Projekte projekte = await _context.Projekte.FindAsync(id);
+            IvA.Models.ProjekteModel projekte = await _context.Projekte.FindAsync(id);
             if (projekte == null)
             {
                 return NotFound();
@@ -94,7 +94,7 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Projektname,Projektersteller,ErstelltAm,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.Projekte projekte)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Projektname,Projektersteller,ErstelltAm,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.ProjekteModel projekte)
         {
           
             if (id != projekte.Id)

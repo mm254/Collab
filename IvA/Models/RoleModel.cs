@@ -7,7 +7,7 @@ using IvA.Validation;
 
 namespace IvA.Models
 {
-    public class Role
+    public class RoleModel
     {
         [Key]
         public String Id { get; set; }

@@ -78,7 +78,7 @@ namespace IvA.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Role role)
+        public async Task<IActionResult> Create(RoleModel role)
         {
             var existRole = await roleManager.RoleExistsAsync(role.Name);
             if (!existRole)

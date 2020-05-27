@@ -18,8 +18,8 @@ namespace IvA.Controllers
         }
         public IActionResult Index()
         {
-            List<ArbeitsPaket> Pakete = _context.ArbeitsPaket.ToList();
-            List<Projekte> Projekte = _context.Projekte.ToList();
+            List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
+            List<ProjekteModel> Projekte = _context.Projekte.ToList();
             List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
 
             var projektPaketeView = from _projekte in Projekte

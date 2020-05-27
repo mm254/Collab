@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IvA.Models
 {
-    public class ArbeitsPaket
+    public class ArbeitsPaketModel
     {
         public int ArbeitsPaketId { get; set; }
 

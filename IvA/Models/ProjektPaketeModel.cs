@@ -12,7 +12,7 @@ namespace IvA.Models
         [Key]
         public int id { get; set; }
         public ProjekteArbeitsPaketeViewModel ProjektPakete { get; set; }
-        public ArbeitsPaket Pakete { get; set; }
-        public Projekte Projekte { get; set; }
+        public ArbeitsPaketModel Pakete { get; set; }
+        public ProjekteModel Projekte { get; set; }
     }
 }

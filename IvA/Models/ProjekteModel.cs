@@ -7,7 +7,7 @@ using IvA.Validation;
 
 namespace IvA.Models
 {
-    public class Projekte {
+    public class ProjekteModel {
 
         public int Id { get; set; }
         public string Projektname { get; set; }
