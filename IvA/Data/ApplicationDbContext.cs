@@ -14,5 +14,10 @@ namespace IvA.Data
         {
         }
         public DbSet<IvA.Models.Role> Role { get; set; }
+
+        public DbSet<Projekte> Projekte { get; set; }
+        public DbSet<ArbeitsPaket> ArbeitsPaket { get; set; }
+
+        public DbSet<ProjekteArbeitsPaketeViewModel> ProjekteArbeitsPaketeViewModel { get; set; }
     }
 }
