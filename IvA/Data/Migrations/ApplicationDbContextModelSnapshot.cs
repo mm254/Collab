@@ -19,7 +19,7 @@ namespace IvA.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("IvA.Models.ArbeitsPaket", b =>
+            modelBuilder.Entity("IvA.Models.ArbeitsPaketModel", b =>
                 {
                     b.Property<int>("ArbeitsPaketId")
                         .ValueGeneratedOnAdd()
@@ -46,9 +46,54 @@ namespace IvA.Data.Migrations
                     b.ToTable("ArbeitsPaket");
                 });
 
-            modelBuilder.Entity("IvA.Models.Projekte", b =>
+            modelBuilder.Entity("IvA.Models.ProjektPaketeModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("PaketeArbeitsPaketId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProjektPaketeProjekteArbeitsPaketeViewModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProjekteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("PaketeArbeitsPaketId");
+
+                    b.HasIndex("ProjektPaketeProjekteArbeitsPaketeViewModelId");
+
+                    b.HasIndex("ProjekteId");
+
+                    b.ToTable("ProjektPaketeModel");
+                });
+
+            modelBuilder.Entity("IvA.Models.ProjekteArbeitsPaketeViewModel", b =>
+                {
+                    b.Property<int>("ProjekteArbeitsPaketeViewModelId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArbeitsPaketId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjekteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjekteArbeitsPaketeViewModelId");
+
+                    b.ToTable("ProjekteArbeitsPaketeViewModel");
+                });
+
+            modelBuilder.Entity("IvA.Models.ProjekteModel", b =>
+                {
+                    b.Property<int>("ProjekteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -65,6 +110,9 @@ namespace IvA.Data.Migrations
                     b.Property<string>("Mitglieder")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MitgliederId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Projektersteller")
                         .HasColumnType("nvarchar(max)");
 
@@ -74,34 +122,17 @@ namespace IvA.Data.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProjekteId");
 
                     b.ToTable("Projekte");
                 });
 
-            modelBuilder.Entity("IvA.Models.ProjekteArbeitsPaketeViewModel", b =>
+            modelBuilder.Entity("IvA.Models.RoleModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ArbeitsPaketId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ProjekteArbeitsPaketeViewModel");
-                });
-
-            modelBuilder.Entity("IvA.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("RoleName")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -307,6 +338,21 @@ namespace IvA.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("IvA.Models.ProjektPaketeModel", b =>
+                {
+                    b.HasOne("IvA.Models.ArbeitsPaketModel", "Pakete")
+                        .WithMany()
+                        .HasForeignKey("PaketeArbeitsPaketId");
+
+                    b.HasOne("IvA.Models.ProjekteArbeitsPaketeViewModel", "ProjektPakete")
+                        .WithMany()
+                        .HasForeignKey("ProjektPaketeProjekteArbeitsPaketeViewModelId");
+
+                    b.HasOne("IvA.Models.ProjekteModel", "Projekte")
+                        .WithMany()
+                        .HasForeignKey("ProjekteId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

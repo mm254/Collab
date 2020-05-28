@@ -37,7 +37,7 @@ namespace IvA.Controllers
             }
 
             var projekte = await _context.Projekte
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ProjekteId == id);
             if (projekte == null)
             {
                 return NotFound();
@@ -97,7 +97,7 @@ namespace IvA.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,Projektname,Projektersteller,ErstelltAm,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.ProjekteModel projekte)
         {
           
-            if (id != projekte.Id)
+            if (id != projekte.ProjekteId)
             {
                 return NotFound();
             }
@@ -111,7 +111,7 @@ namespace IvA.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjekteExists(projekte.Id))
+                    if (!ProjekteExists(projekte.ProjekteId))
                     {
                         return NotFound();
                     }
@@ -134,7 +134,7 @@ namespace IvA.Controllers
             }
 
             var projekte = await _context.Projekte
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.ProjekteId == id);
             if (projekte == null)
             {
                 return NotFound();
@@ -156,7 +156,7 @@ namespace IvA.Controllers
 
         private bool ProjekteExists(int id)
         {
-            return _context.Projekte.Any(e => e.Id == id);
+            return _context.Projekte.Any(e => e.ProjekteId == id);
         }
     }
 }

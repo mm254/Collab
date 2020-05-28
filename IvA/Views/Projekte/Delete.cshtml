@@ -1,4 +1,4 @@
-﻿@model IvA.Models.Projekte
+﻿@model IvA.Models.ProjekteModel
 
 @{
     ViewData["Title"] = "Projekt löschen";
@@ -50,7 +50,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ProjekteId" />
         <input type="submit" value="Projekt löschen" class="btn btn-danger" /> |
         <a asp-action="Index">Zurück zur Projektübersicht</a>
     </form>

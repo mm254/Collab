@@ -9,7 +9,10 @@ namespace IvA.Models
 {
     public class ProjekteModel {
 
-        public int Id { get; set; }
+        [Key]
+        public int ProjekteId { get; set; }
+
+        public int MitgliederId { get; set; }
         public string Projektname { get; set; }
         public string Projektersteller { get; set; }
 
