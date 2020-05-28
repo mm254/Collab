@@ -56,7 +56,8 @@ namespace IvA.Controllers
             return View(roles);
         }
 
-            public async Task<IActionResult> Delete(string? Id)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(string? Id)
         {
             var user = await userManager.FindByIdAsync(Id);
             if (user != null)
@@ -69,6 +70,32 @@ namespace IvA.Controllers
                 }
             }
 
+            return RedirectToAction("ListUsers");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Role(string? Id)
+        {
+            var user = await userManager.FindByIdAsync(Id);
+            if(user != null)
+            {
+                if (await userManager.IsInRoleAsync(user, "Nutzer"))
+                {
+                    await userManager.AddToRoleAsync(user, "Admin");
+                    if (await userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        await userManager.RemoveFromRoleAsync(user, "Nutzer");
+                    }
+                }
+                else
+                {
+                    await userManager.AddToRoleAsync(user, "Nutzer");
+                    if (await userManager.IsInRoleAsync(user, "Nutzer"))
+                    {
+                        await userManager.RemoveFromRoleAsync(user, "Admin");
+                    }
+                }
+            }
             return RedirectToAction("ListUsers");
         }
 

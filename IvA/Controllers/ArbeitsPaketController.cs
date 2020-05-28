@@ -55,11 +55,17 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Frist,Status")] ArbeitsPaketModel arbeitsPaket)
+        public async Task<IActionResult> Create([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Frist,Status")] ArbeitsPaketModel arbeitsPaket, int pId)
         {
             if (ModelState.IsValid)
             {
+                arbeitsPaket.Status = "To do";
                 _context.Add(arbeitsPaket);
+                await _context.SaveChangesAsync();
+                ProjekteArbeitsPaketeViewModel pp = new ProjekteArbeitsPaketeViewModel();
+                pp.ProjekteId = pId;
+                pp.ArbeitsPaketId = arbeitsPaket.ArbeitsPaketId;
+                _context.Add(pp);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

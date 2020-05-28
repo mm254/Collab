@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
 @inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> userManager
 
 @{
     ViewData["Title"] = "Nutzerverwaltung";
@@ -37,6 +38,9 @@
                 @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
+                Rolle
+            </th>
+            <th>
                 Optionen
             </th>
         </tr>
@@ -52,9 +56,16 @@
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
+                    @foreach (var role in await userManager.GetRolesAsync(item))
+                    {
+                        @role
+                    }
+                </td>
+                <td>
                     @if (!User.Identity.Name.Equals(item.UserName))
                     {
                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="item.Id">Löschen</a>
+                        <a class="btn btn-danger" asp-action="Role" asp-route-id="@item.Id">Rolle ändern</a>
                         <a href="#deleteModal" data-toggle="modal" data-whatever="@item.Id" user-id="@item.Id">Open Modal</a>
                     }
                 </td>

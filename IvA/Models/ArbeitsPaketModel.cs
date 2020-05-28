@@ -23,5 +23,6 @@ namespace IvA.Models
         public DateTime Frist { get; set; }
 
         public string Status { get; set; }
+
     }
 }

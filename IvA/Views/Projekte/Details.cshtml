@@ -1,4 +1,4 @@
-﻿@model IvA.Models.ProjekteModel
+﻿@model IEnumerable<IvA.Models.ProjektPaketeModel>
 
 @{
     ViewData["Title"] = "Projektdetails";
@@ -9,52 +9,107 @@
 <div>
     <h4>Projekte</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Projektname)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Projektname)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Projektersteller)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Projektersteller)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ErstelltAm)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ErstelltAm)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Mitglieder)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Mitglieder)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Beschreibung)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Beschreibung)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Deadline)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Deadline)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
+    @foreach (var item in Model)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Projektname)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Projektname)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Projektersteller)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Projektersteller)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.ErstelltAm)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.ErstelltAm)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Mitglieder)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Mitglieder)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Beschreibung)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Beschreibung)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Deadline)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Deadline)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Status)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Status)
+            </dd>
+        </dl>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Projekte.ProjekteId">Anpassen</a>
+        <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+    }
 </div>
 <div>
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.ProjekteId">Anpassen</a>
-    <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+    
+</div>
+<h2>Arbeitspakete</h2>
+<p>
+    <a asp-controller="ArbeitsPaket" asp-action="Create">Neues Paket erstellen</a>
+</p>
+<div class="card-deck">
+    <div class="card bg-secondary">
+        <div class="card-body">
+            <h4 class="card-title">To Do</h4>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model)
+                {
+                    if (item.Pakete.Status == "To do")
+                    {
+                        <li class="list-group-item list-group-item-light">
+                        <a asp-action="Details" asp-controller="ArbeitsPaket" asp-route-id="@item.Pakete.ArbeitsPaketId">@item.Pakete.PaketName</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="card bg-secondary">
+        <div class="card-body">
+            <h4 class="card-title">In Bearbeitung</h4>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model)
+                {
+                    if (item.Pakete.Status == "In Bearbeitung")
+                    {
+                        <li class="list-group-item list-group-item-light">
+                        <a asp-action="Details" asp-controller="ArbeitsPaket" asp-route-id="@item.Pakete.ArbeitsPaketId">@item.Pakete.PaketName</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="card bg-secondary">
+        <div class="card-body">
+            <h4 class="card-title">Fertig</h4>
+            <ul class="list-group list-group-flush">
+                @foreach (var item in Model)
+                {
+                    if (item.Pakete.Status == "Fertig")
+                    {
+                        <li class="list-group-item list-group-item-light">
+                        <a asp-action="Details" asp-controller="ArbeitsPaket" asp-route-id="@item.Pakete.ArbeitsPaketId">@item.Pakete.PaketName</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
 </div>

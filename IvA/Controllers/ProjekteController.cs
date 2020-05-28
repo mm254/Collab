@@ -16,10 +16,12 @@ namespace IvA.Controllers
     public class ProjekteController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private ProjektPaketeModel projektPaketeView;
 
         public ProjekteController(ApplicationDbContext context)
         {
             _context = context;
+            
         }
 
         // GET: Projekte
@@ -35,15 +37,28 @@ namespace IvA.Controllers
             {
                 return NotFound();
             }
-
-            var projekte = await _context.Projekte
-                .FirstOrDefaultAsync(m => m.ProjekteId == id);
-            if (projekte == null)
+            else
             {
-                return NotFound();
-            }
+                List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
+                List<ProjekteModel> Projekte = _context.Projekte.ToList();
+                List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
 
-            return View(projekte);
+                var projektDetails = from _projekte in Projekte
+                                        where _projekte.ProjekteId == id
+                                        join _projektPakete in ProjektPakete
+                                        on _projekte.ProjekteId equals _projektPakete.ProjekteId into table1
+                                        from _projektPakete in table1.ToList()
+                                        join _pakete in Pakete
+                                        on _projektPakete.ArbeitsPaketId equals _pakete.ArbeitsPaketId into table2
+                                        from _pakete in table2.ToList()
+                                        select new ProjektPaketeModel
+                                        {
+                                            Pakete = _pakete,
+                                            Projekte = _projekte,
+                                            ProjektPakete = _projektPakete
+                                        };
+                return View(projektDetails);
+            }
         }
 
         // GET: Projekte/Create
