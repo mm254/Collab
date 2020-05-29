@@ -17,6 +17,8 @@ namespace IvA.Controllers
     {
         private readonly ApplicationDbContext _context;
         private ProjektPaketeModel projektPaketeView;
+        private SignInManager<IdentityUser> signInManager;
+        private UserManager<IdentityUser> userManager;
 
         public ProjekteController(ApplicationDbContext context)
         {
@@ -80,9 +82,18 @@ namespace IvA.Controllers
 
                 projekte.ErstelltAm = DateTime.Now;
                 projekte.Status = "To Do";
+                projekte.Mitglieder = "";
                 projekte.Projektersteller = this.User.Identity.Name;
 
+                var newProject = await _context.SaveChangesAsync();
+                
+                // Dummy Paket verknüpfen
+                ProjekteArbeitsPaketeViewModel projectPakage = new ProjekteArbeitsPaketeViewModel();
+                projectPakage.ProjekteId = projekte.ProjekteId;
+                projectPakage.ArbeitsPaketId = 8;
+                _context.Add(projectPakage);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(projekte);

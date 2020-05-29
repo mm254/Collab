@@ -20,9 +20,8 @@
             </div>          
             <div class="form-group">
                 <label asp-for="Mitglieder" class="control-label"></label>
-                <select asp-for="Mitglieder" class="form-control">
-
-                    <option value="this.User.Identity.Name;">this.User.Identity.Name;</option>
+                <select asp-for="Mitglieder" disabled=""class="form-control">
+                    <option value=""></option>
                 </select>
                 <span asp-validation-for="Mitglieder" class="text-danger"></span>
             </div>

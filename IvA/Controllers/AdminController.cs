@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IvA.Data;
 using IvA.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,12 +16,15 @@ namespace IvA.Controllers
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly ApplicationDbContext _context;
 
         public AdminController(RoleManager<IdentityRole> roleManager, 
-                                UserManager<IdentityUser> userManager)
+                                UserManager<IdentityUser> userManager,
+                                ApplicationDbContext context)
         {
             this.roleManager = roleManager;
             this.userManager = userManager;
+            _context = context;
         }
         public IActionResult ListUsers()
         {
@@ -28,36 +32,13 @@ namespace IvA.Controllers
             return View(users);
         }
 
-        /**
-        public IActionResult ListUserRoles()
+        public async Task<IActionResult> ListProjects()
         {
-            var users = userManager.Users.ToListAsync();
-            var roles = roleManager.Roles.ToListAsync();
-            
-            var userRoles = from _projekte in Projekte
-                                    join _projektPakete in ProjektPakete
-                                    on _projekte.Id equals _projektPakete.Id into table1
-                                    from _projektPakete in table1.ToList()
-                                    join _pakete in Pakete
-                                    on _projektPakete.ArbeitsPaketId equals _pakete.ArbeitsPaketId into table2
-                                    from _pakete in table2.ToList()
-                                    select new ProjektPaketeModel
-                                    {
-                                        Pakete = _pakete,
-                                        Projekte = _projekte,
-                                        ProjektPakete = _projektPakete
-                                    };
-            return View(userRoles);
-        } **/
-
-        public IActionResult ListRoles()
-        {
-            var roles = roleManager.Roles;
-            return View(roles);
+            return View(await _context.Projekte.ToListAsync());
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(string? Id)
+        public async Task<IActionResult> DeleteUser(string? Id)
         {
             var user = await userManager.FindByIdAsync(Id);
             if (user != null)
@@ -74,25 +55,28 @@ namespace IvA.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Role(string? Id)
+        public async Task<IActionResult> ChangeRole(string? Id)
         {
-            var user = await userManager.FindByIdAsync(Id);
-            if(user != null)
+            if(Id != null)
             {
-                if (await userManager.IsInRoleAsync(user, "Nutzer"))
+                var user = await userManager.FindByIdAsync(Id);
+                if (user != null)
                 {
-                    await userManager.AddToRoleAsync(user, "Admin");
-                    if (await userManager.IsInRoleAsync(user, "Admin"))
-                    {
-                        await userManager.RemoveFromRoleAsync(user, "Nutzer");
-                    }
-                }
-                else
-                {
-                    await userManager.AddToRoleAsync(user, "Nutzer");
                     if (await userManager.IsInRoleAsync(user, "Nutzer"))
                     {
-                        await userManager.RemoveFromRoleAsync(user, "Admin");
+                        await userManager.AddToRoleAsync(user, "Admin");
+                        if (await userManager.IsInRoleAsync(user, "Admin"))
+                        {
+                            await userManager.RemoveFromRoleAsync(user, "Nutzer");
+                        }
+                    }
+                    else
+                    {
+                        await userManager.AddToRoleAsync(user, "Nutzer");
+                        if (await userManager.IsInRoleAsync(user, "Nutzer"))
+                        {
+                            await userManager.RemoveFromRoleAsync(user, "Admin");
+                        }
                     }
                 }
             }

@@ -64,8 +64,8 @@
                 <td>
                     @if (!User.Identity.Name.Equals(item.UserName))
                     {
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="item.Id">Löschen</a>
-                        <a class="btn btn-danger" asp-action="Role" asp-route-id="@item.Id">Rolle ändern</a>
+                        <a class="btn btn-danger" asp-action="DeleteUser" asp-route-id="item.Id">Löschen</a>
+                        <a class="btn btn-danger" asp-action="ChangeRole" asp-route-id="@item.Id">Rolle ändern</a>
                         <a href="#deleteModal" data-toggle="modal" data-whatever="@item.Id" user-id="@item.Id">Open Modal</a>
                     }
                 </td>
