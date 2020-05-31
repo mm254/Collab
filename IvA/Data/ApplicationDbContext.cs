@@ -21,5 +21,9 @@ namespace IvA.Data
         public DbSet<ProjekteArbeitsPaketeViewModel> ProjekteArbeitsPaketeViewModel { get; set; }
 
         public DbSet<IvA.Models.ProjektPaketeModel> ProjektPaketeModel { get; set; }
+
+        public DbSet<ProjekteUserViewModel> ProjekteUserViewModel { get; set; }
+
+        public DbSet<PaketeUserViewModel> PaketeUserViewModel { get; set; }
     }
 }
