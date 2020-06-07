@@ -37,5 +37,10 @@ namespace IvA.Controllers
                                  };
             return View(projektPaketeView);
         }
+
+        public IActionResult Chat()
+        {
+            return View();
+        }
     }
 }
