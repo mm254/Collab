@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IvA.Models.ProjekteUserViewModel>
+@{
+    ViewData["Title"] = "ProjectUserList";
+}
+
+<h1>ProjectUserList</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjekteId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                Rolle
+            </th>
+            <th>
+                Optionen
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjekteId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

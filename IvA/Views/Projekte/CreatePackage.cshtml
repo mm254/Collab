@@ -1,0 +1,53 @@
+﻿@model IvA.Models.ProjektPaketeModel
+
+@{
+    ViewData["Title"] = "CreatePackage";
+}
+
+<h1>Create</h1>
+
+<h4>ArbeitsPaket</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreatePackage" asp-route="">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Pakete.PaketName" class="control-label"></label>
+                <input asp-for="Pakete.PaketName" class="form-control" />
+                <span asp-validation-for="Pakete.PaketName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pakete.Beschreibung" class="control-label"></label>
+                <input asp-for="Pakete.Beschreibung" class="form-control" />
+                <span asp-validation-for="Pakete.Beschreibung" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pakete.Mitglieder" class="control-label"></label>
+                <input asp-for="Pakete.Mitglieder" class="form-control" />
+                <span asp-validation-for="Pakete.Mitglieder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pakete.Frist" class="control-label"></label>
+                <input asp-for="Pakete.Frist" class="form-control" />
+                <span asp-validation-for="Pakete.Frist" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pakete.Status" class="control-label"></label>
+                <input asp-for="Pakete.Status" class="form-control" placeholder="To do" disabled=""/>
+                <span asp-validation-for="Pakete.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="CreatePackage" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Zurück zur Projektübersicht</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -69,6 +69,33 @@ namespace IvA.Controllers
             return View();
         }
 
+        public IActionResult CreatePackage(int id)
+        {
+            return View(_context.Projekte.Find(id));
+        }
+
+        // POST: ArbeitsPaket/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePackage([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Frist,Status")] ArbeitsPaketModel arbeitsPaket, int pId)
+        {
+            if (ModelState.IsValid)
+            {
+                arbeitsPaket.Status = "To do";
+                _context.Add(arbeitsPaket);
+                await _context.SaveChangesAsync();
+                ProjekteArbeitsPaketeViewModel pp = new ProjekteArbeitsPaketeViewModel();
+                pp.ProjekteId = pId;
+                pp.ArbeitsPaketId = arbeitsPaket.ArbeitsPaketId;
+                _context.Add(pp);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(arbeitsPaket);
+        }
+
         // POST: Projekte/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -97,6 +124,22 @@ namespace IvA.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(projekte);
+        }
+
+        public async Task<IActionResult> AddUserToProject(String? nameInput)
+        {
+            if(nameInput != null)
+            {
+                IdentityUser newUser = await userManager.FindByNameAsync(nameInput);
+            }
+            
+            return NotFound();
+        }
+
+        public async Task<IActionResult> ProjectUserList()
+        {
+            List<ProjekteUserViewModel> projectUsers =  _context.ProjekteUserViewModel.ToList();
+            return View(projectUsers);
         }
 
         // GET: Projekte/Edit/5
@@ -175,9 +218,13 @@ namespace IvA.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var projekte = await _context.Projekte.FindAsync(id);
-            _context.Projekte.Remove(projekte);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if(projekte != null)
+            {
+                _context.Projekte.Remove(projekte);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return NotFound();
         }
 
         private bool ProjekteExists(int id)
