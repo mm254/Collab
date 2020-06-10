@@ -12,9 +12,6 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div style="padding-bottom:10px"> Projektname: @Model.Projektname</div>
-
-            <div style="padding-bottom:10px"> Projektersteller: @Model.Projektersteller</div>
 
             <div style="padding-bottom:10px"> Erstellt am: @Model.ErstelltAm</div>
 
@@ -22,21 +19,23 @@
             <input type="hidden" asp-for="ProjekteId" />
 
             <div class="form-group">
-                <input asp-for="Projektname" type="hidden" class="form-control" />
+                <label asp-for="Projektname" class="control-label"></label>
+                <input asp-for="Projektname" class="form-control" />
                 <span asp-validation-for="Projektname" class="text-danger"></span>
             </div>
 
-            <div class="form-group">              
-                <input asp-for="ErstelltAm" type ="hidden" class="form-control" />
+            <div class="form-group">
+                <input asp-for="ErstelltAm" type="hidden" class="form-control" />
                 <span asp-validation-for="ErstelltAm" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <input asp-for="Projektersteller" type="hidden" class="form-control" />
+                <label asp-for="Projektersteller" class="control-label">Projektowner</label>
+                <input asp-for="Projektersteller" class="form-control" />
                 <span asp-validation-for="Projektersteller" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" type="hidden">
                 <label asp-for="Mitglieder" class="control-label"></label>
                 <input asp-for="Mitglieder" class="form-control" />
                 <span asp-validation-for="Mitglieder" class="text-danger"></span>

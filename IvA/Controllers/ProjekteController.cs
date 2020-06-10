@@ -18,12 +18,12 @@ namespace IvA.Controllers
         private readonly ApplicationDbContext _context;
         private ProjektPaketeModel projektPaketeView;
         private SignInManager<IdentityUser> signInManager;
-        private UserManager<IdentityUser> userManager;
+        private UserManager<IdentityUser> _userManager;
 
-        public ProjekteController(ApplicationDbContext context)
+        public ProjekteController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
-            
+            _userManager = userManager;
         }
 
         // GET: Projekte
@@ -130,7 +130,7 @@ namespace IvA.Controllers
         {
             if(nameInput != null)
             {
-                IdentityUser newUser = await userManager.FindByNameAsync(nameInput);
+                IdentityUser newUser = await _userManager.FindByNameAsync(nameInput);
             }
             
             return NotFound();
@@ -163,7 +163,7 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Projektname,Projektersteller,ErstelltAm,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.ProjekteModel projekte)
+        public async Task<IActionResult> Edit(int id, [Bind("ProjekteId,Projektname,Projektersteller,ErstelltAm,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.ProjekteModel projekte)
         {
           
             if (id != projekte.ProjekteId)
@@ -171,25 +171,34 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && projekte.Projektersteller != null)
             {
-                try
+                var owner = await _userManager.FindByNameAsync(projekte.Projektersteller);
+                if (owner != null)
                 {
-                    _context.Update(projekte);                   
-                    await _context.SaveChangesAsync();
+                    try
+                    {
+                        _context.Update(projekte);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!ProjekteExists(projekte.ProjekteId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!ProjekteExists(projekte.ProjekteId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    // Hier gescheite Fehlermeldung einfügen wenn der User nicht existiert
+                    return NotFound();
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(projekte);
         }
