@@ -25,5 +25,11 @@ namespace IvA.Data
         public DbSet<ProjekteUserViewModel> ProjekteUserViewModel { get; set; }
 
         public DbSet<PaketeUserViewModel> PaketeUserViewModel { get; set; }
+
+        public DbSet<UserLogin> UserLogin { get; set; }
+
+        public DbSet<Message> Message { get; set; }
+
+        public DbSet<UserLoginMessageViewModel> UserLoginMessageViewModel { get; set; }
     }
 }
