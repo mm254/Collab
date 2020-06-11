@@ -10,8 +10,8 @@ namespace IvA.Models
     {
         [Key]
         public int MessageID {get; set;}
-        public int QuellID { get; set; }
-        public int ZielID { get; set; }
+        public string QuellID { get; set; }
+        public string ZielID { get; set; }
         public string Nachricht { get; set; }
         public bool Status { get; set; }
         [DataType(DataType.Date)]
