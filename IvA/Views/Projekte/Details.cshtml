@@ -59,6 +59,10 @@
         <a class="btn btn-primary" asp-action="ProjectUserList" asp-route-id="@item.Projekte.ProjekteId">Nutzer hinzufügen</a>
         <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Projekte.ProjekteId">Projekt löschen</a>
+       <div>
+           <br />
+           <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@item.Projekte.ProjekteId">PakERst</a>
+       </div>
    }
 </div>
 <div>

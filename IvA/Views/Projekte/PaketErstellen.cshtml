@@ -1,16 +1,14 @@
 ﻿@model IvA.Models.ProjektPaketeModel
 
-@{
-    ViewData["Title"] = "CreatePackage";
-}
+@{ ViewData["Title"] = "CreatePackage"; }
 
-<h1>Create</h1>
+<h1>Arbeitspakete erstellen</h1>
 
 <h4>ArbeitsPaket</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreatePackage"> <!--asp-route=""-->
+        <form asp-action="PaketErstellen">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Pakete.PaketName" class="control-label"></label>
@@ -33,10 +31,10 @@
                 <span asp-validation-for="Pakete.Frist" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Pakete.Status" class="control-label"></label>
-                <input asp-for="Pakete.Status" class="form-control" placeholder="To do" disabled=""/>
-                <span asp-validation-for="Pakete.Status" class="text-danger"></span>
-            </div>
+              <label asp-for="Pakete.Status" class="control-label"></label>
+              <input asp-for="Pakete.Status" class="form-control" placeholder="To do" disabled="" />
+              <span asp-validation-for="Pakete.Status" class="text-danger"></span>
+             </div>
             <div class="form-group">
                 <input type="submit" value="CreatePackage" class="btn btn-primary" />
             </div>
