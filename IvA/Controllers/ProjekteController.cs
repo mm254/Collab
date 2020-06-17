@@ -197,7 +197,8 @@ namespace IvA.Controllers
                 else
                 {
                     // Hier gescheite Fehlermeldung einfügen wenn der User nicht existiert
-                    return NotFound();
+                    //return NotFound();
+                    return View("~/Views/Projekte/Fehlermeldung.cshtml");
                 }
             }
             return View(projekte);
@@ -239,6 +240,30 @@ namespace IvA.Controllers
         private bool ProjekteExists(int id)
         {
             return _context.Projekte.Any(e => e.ProjekteId == id);
+        }
+
+
+        // Testmethode zum erstellen von Arbeitspaketen
+        public async Task<IActionResult> PaketErstellen ([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Frist,Status")]ProjektPaketeModel arbeitsPaket, int pId)
+        {
+            /*if (pId == null)
+            {
+                return NotFound();
+            }*/
+            
+            if (ModelState.IsValid)
+            {
+                arbeitsPaket.Pakete.Status = "To do";
+                _context.Add(arbeitsPaket);
+                await _context.SaveChangesAsync();
+                ProjekteArbeitsPaketeViewModel pp = new ProjekteArbeitsPaketeViewModel();
+                pp.ProjekteId = pId;
+                pp.ArbeitsPaketId = arbeitsPaket.Pakete.ArbeitsPaketId;
+                _context.Add(pp);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(arbeitsPaket);
         }
     }
 }
