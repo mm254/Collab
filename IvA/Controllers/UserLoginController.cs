@@ -54,6 +54,7 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Create([Bind("UserLoginID,UserName,UserID")] UserLogin userLogin)
         {
             if (ModelState.IsValid)
