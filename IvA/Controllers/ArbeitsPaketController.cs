@@ -34,8 +34,7 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            var arbeitsPaket = await _context.ArbeitsPaket
-                .FirstOrDefaultAsync(m => m.ArbeitsPaketId == id);
+            var arbeitsPaket = await _context.ArbeitsPaket.FirstOrDefaultAsync(m => m.ArbeitsPaketId == id);
             if (arbeitsPaket == null)
             {
                 return NotFound();
@@ -93,7 +92,7 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Frist,Status")] ArbeitsPaketModel arbeitsPaket)
+        public async Task<IActionResult> Edit(int id, [Bind("ArbeitsPaketId,ProjektId,PaketName,Beschreibung,Mitglieder,Frist,Status")] ArbeitsPaketModel arbeitsPaket)
         {
             if (id != arbeitsPaket.ArbeitsPaketId)
             {
@@ -122,6 +121,8 @@ namespace IvA.Controllers
             }
             return View(arbeitsPaket);
         }
+
+
 
         // GET: ArbeitsPaket/Delete/5
         public async Task<IActionResult> Delete(int? id)

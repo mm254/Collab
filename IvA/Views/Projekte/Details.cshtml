@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<IvA.Models.ProjektPaketeModel>
 
-@{
-    ViewData["Title"] = "Projektdetails";
-}
+@{ ViewData["Title"] = "Projektdetails"; }
 
 <h1>Übersicht über die Projektdetails</h1>
 
@@ -11,63 +9,60 @@
     <hr />
     @foreach (var item in Model)
     {
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Projekte.Projektname)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.Projekte.Projektname)
-            </dd>
-            <dt class="col-sm-2">
-                Projektowner
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.Projekte.Projektersteller)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Projekte.ErstelltAm)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.Projekte.ErstelltAm)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Projekte.Mitglieder)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.Projekte.Mitglieder)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Projekte.Beschreibung)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.Projekte.Beschreibung)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Projekte.Deadline)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.Projekte.Deadline)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Projekte.Status)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.Projekte.Status)
-            </dd>
-        </dl>
-        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Projekte.ProjekteId">Anpassen</a>
-        <a class="btn btn-primary" asp-action="ProjectUserList" asp-route-id="@item.Projekte.ProjekteId">Nutzer hinzufügen</a>
-        <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
-        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Projekte.ProjekteId">Projekt löschen</a>
-       <div>
-           <br />
-           <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@item.Projekte.ProjekteId">PakERst</a>
-       </div>
-   }
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Projekte.Projektname)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => item.Projekte.Projektname)
+    </dd>
+    <dt class="col-sm-2">
+        Projektowner
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => item.Projekte.Projektersteller)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Projekte.ErstelltAm)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => item.Projekte.ErstelltAm)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Projekte.Mitglieder)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => item.Projekte.Mitglieder)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Projekte.Beschreibung)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => item.Projekte.Beschreibung)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Projekte.Deadline)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => item.Projekte.Deadline)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Projekte.Status)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => item.Projekte.Status)
+    </dd>
+</dl>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Projekte.ProjekteId">Anpassen</a>
+    <a class="btn btn-primary" asp-action="ProjectUserList" asp-route-id="@item.Projekte.ProjekteId">Nutzer hinzufügen</a>
+    <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Projekte.ProjekteId">Projekt löschen</a>
+    <div>
+        <br />
+        <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@item.Projekte.ProjekteId">Arbeitspaket erstellen</a>
+    </div>}
 </div>
-<div>
-    
-</div>
+<!--
 <p>
     <h2>Arbeitspakete</h2>
 </p>
@@ -108,7 +103,7 @@
     <div class="form-group">
         <input type="submit" value="Änderungen speichern" class="btn btn-primary" />
     </div>
-</form>
+</form>-->
 <div class="card-deck">
     <div class="card bg-secondary">
         <div class="card-body">
@@ -118,9 +113,9 @@
                 {
                     if (item.Pakete.Status == "To do")
                     {
-                        <li class="list-group-item list-group-item-light">
-                        <a asp-action="Details" asp-controller="ArbeitsPaket" asp-route-id="@item.Pakete.ArbeitsPaketId">@item.Pakete.PaketName</a></li>
-                    }
+    <li class="list-group-item list-group-item-light">
+        <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.Pakete.ArbeitsPaketId">@item.Pakete.PaketName</a>
+    </li>}
                 }
             </ul>
         </div>
@@ -133,9 +128,9 @@
                 {
                     if (item.Pakete.Status == "In Bearbeitung")
                     {
-                        <li class="list-group-item list-group-item-light">
-                        <a asp-action="Details" asp-controller="ArbeitsPaket" asp-route-id="@item.Pakete.ArbeitsPaketId">@item.Pakete.PaketName</a></li>
-                    }
+    <li class="list-group-item list-group-item-light">
+        <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.Pakete.ArbeitsPaketId">@item.Pakete.PaketName</a>
+    </li>}
                 }
             </ul>
         </div>
@@ -148,9 +143,9 @@
                 {
                     if (item.Pakete.Status == "Fertig")
                     {
-                        <li class="list-group-item list-group-item-light">
-                        <a asp-action="Details" asp-controller="ArbeitsPaket" asp-route-id="@item.Pakete.ArbeitsPaketId">@item.Pakete.PaketName</a></li>
-                    }
+    <li class="list-group-item list-group-item-light">
+        <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.Pakete.ArbeitsPaketId">@item.Pakete.PaketName</a>
+    </li>}
                 }
             </ul>
         </div>
@@ -159,3 +154,6 @@
 <p>
     <h2>Mitglieder</h2>
 </p>
+
+
+
