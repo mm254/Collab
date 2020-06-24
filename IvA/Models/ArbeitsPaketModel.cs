@@ -12,6 +12,8 @@ namespace IvA.Models
         [Key]
         public int ArbeitsPaketId { get; set; }
 
+        public int ProjektId { get; set; }
+
         public string PaketName { get; set; }
 
         public string Beschreibung { get; set; }
