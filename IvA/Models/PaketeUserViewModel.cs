@@ -13,6 +13,6 @@ namespace IvA.Models
 
         public int ArbeitsPaketId { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }
