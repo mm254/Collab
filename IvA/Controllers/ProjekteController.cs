@@ -180,6 +180,36 @@ namespace IvA.Controllers
             return View(users);
         }
 
+        public async Task<IActionResult> PackageUserList()
+        {
+            List<PaketeUserViewModel> projectUsers = _context.PaketeUserViewModel.ToList();
+            List<IdentityUser> packageUsers = new List<IdentityUser>();
+            foreach(PaketeUserViewModel user in projectUsers)
+            {
+                var member = await _userManager.FindByIdAsync(user.UserId);
+                packageUsers.Add(member);
+            }
+            return View(packageUsers);
+        }
+
+        public async void AddUserToPackage(string nameInput, int packageId)
+        {
+            if (nameInput != null)
+            {
+                IdentityUser newUser = await _userManager.FindByNameAsync(nameInput);
+                if(newUser != null)
+                {
+                    PaketeUserViewModel newMember = new PaketeUserViewModel
+                    {
+                        ArbeitsPaketId = packageId,
+                        UserId = newUser.Id
+                    };
+                    _context.Add(newMember);
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
+
         ///------------------------------ Paket anpassen --------------------------------------
 
         // Gibt die Html-Datei Projekte/Edit anhand der übergebenen ProjektID zurück
@@ -306,6 +336,17 @@ namespace IvA.Controllers
                 papv.ProjekteId = Int32.Parse((string)ProId);
                 papv.ArbeitsPaketId = /*Int32.Parse(from p in Pakete select p.ArbeitsPaketId).ToString();*/ arbeitsPaket.ArbeitsPaketId;
                 _context.Add(papv);
+
+                // Ersteller des Pakets wird als erstes Mitglied eingetragen
+                var currentUser = this.User;
+                string currentUserId = _userManager.GetUserId(currentUser);
+                PaketeUserViewModel newMember = new PaketeUserViewModel
+                {
+                    ArbeitsPaketId = arbeitsPaket.ArbeitsPaketId,
+                    UserId = currentUserId
+                };
+                _context.Add(newMember);
+
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Details", "Projekte", new { id = ProId });

@@ -23,5 +23,56 @@
         <ul id="ulmessages"></ul>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="box box-solid box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Online Users <span id='UserCount'></span></h3>
+            </div>
+            <div class="box-footer box-comments" id="divusers">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="systemChat align-baseline transparente" id="user_head">
+    <div class="columna" id="user_content">
+        <div class="row" id="xxx">
+            <div id="user_title_bar">
+                <span class="col-sm-9 text-primary"><strong>Online Users</strong></span>
+                <div id="user_min_button"><i class="fa fa-plus-square"></i></div>
+                <div id="min_user" class="close_user"><strong>X</strong></div>
+            </div>             
+            <div class="userlog" id="list_clients">
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div class="columna" id="message_content">
+        <div class="row">
+            <div id="chat_title_bar">
+                <span class="col-sm-9 text-primary" id="textziel"><strong><small>CHAT</small></strong></span>
+                <div id="chat_min_button"><i class="fa fa-plus-square"></i></div>
+                <div id="min_message" class="close_message"><strong>x</strong></div>
+            </div>            
+            <div class="messages">
+            </div>
+            <div class="input-group mb-3">
+                <input id="messageInputChat" type="text" placeholder="Schreibe etw">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" id="sendButtonMessage">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
+
+
