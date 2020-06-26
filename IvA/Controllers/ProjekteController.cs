@@ -17,11 +17,14 @@ namespace IvA.Controllers
     {
         private readonly ApplicationDbContext _context;
         private ProjektPaketeModel projektPaketeView;
-        private SignInManager<IdentityUser> signInManager;
+        private SignInManager<IdentityUser> _signInManager;
         private UserManager<IdentityUser> _userManager;
 
-        public ProjekteController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public ProjekteController(ApplicationDbContext context, 
+                                  UserManager<IdentityUser> userManager, 
+                                  SignInManager<IdentityUser> signInManager)
         {
+            _signInManager = signInManager;
             _context = context;
             _userManager = userManager;
         }
@@ -126,7 +129,17 @@ namespace IvA.Controllers
                 projekte.Projektersteller = this.User.Identity.Name;
 
                 var newProject = await _context.SaveChangesAsync();
-                
+
+                // Projektersteller als Mitglied setzen
+                var userClaim = this.User;
+                var loggedUser = await _userManager.GetUserAsync(userClaim);
+                ProjekteUserViewModel firstMember = new ProjekteUserViewModel
+                {
+                    ProjekteId = projekte.ProjekteId,
+                    UserId = loggedUser.Id
+                };
+                _context.Add(firstMember);
+
                 // Dummy Paket verknüpfen
                 ProjekteArbeitsPaketeViewModel projectPakage = new ProjekteArbeitsPaketeViewModel();
                 projectPakage.ProjekteId = projekte.ProjekteId;
@@ -140,11 +153,15 @@ namespace IvA.Controllers
         }
 
         //Martin?
-        public async Task<IActionResult> AddUserToProject(String? nameInput)
+        public async Task<IActionResult> AddUserToProject(string? nameInput)
         {
             if(nameInput != null)
             {
                 IdentityUser newUser = await _userManager.FindByNameAsync(nameInput);
+                if(newUser != null)
+                {
+
+                }
             }
             
             return NotFound();
@@ -154,7 +171,13 @@ namespace IvA.Controllers
         public async Task<IActionResult> ProjectUserList()
         {
             List<ProjekteUserViewModel> projectUsers =  _context.ProjekteUserViewModel.ToList();
-            return View(projectUsers);
+            List<IdentityUser> users = new List<IdentityUser>();
+            foreach(ProjekteUserViewModel u in projectUsers)
+            {
+                string userId = u.UserId;
+                users.Add(await _userManager.FindByIdAsync(userId));
+            }
+            return View(users);
         }
 
         ///------------------------------ Paket anpassen --------------------------------------

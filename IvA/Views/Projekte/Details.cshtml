@@ -8,60 +8,61 @@
     <h4>Projekte</h4>
     <br />
 
-        @foreach (var item in Model.Take(1))
-        {
+    @foreach (var item in Model.Take(1))
+    {
         <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Projekte.Projektname)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => item.Projekte.Projektname)
-        </dd>
-        <dt class="col-sm-2">
-            Projektowner
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => item.Projekte.Projektersteller)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Projekte.ErstelltAm)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => item.Projekte.ErstelltAm)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Projekte.Mitglieder)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => item.Projekte.Mitglieder)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Projekte.Beschreibung)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => item.Projekte.Beschreibung)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Projekte.Deadline)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => item.Projekte.Deadline)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Projekte.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => item.Projekte.Status)
-        </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Projektname)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Projektname)
+            </dd>
+            <dt class="col-sm-2">
+                Projektowner
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Projektersteller)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.ErstelltAm)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.ErstelltAm)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Mitglieder)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Mitglieder)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Beschreibung)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Beschreibung)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Deadline)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Deadline)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Projekte.Status)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.Projekte.Status)
+            </dd>
         </dl>
 
         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Projekte.ProjekteId">Anpassen</a>
-        <a class="btn btn-primary" asp-action="ProjectUserList" asp-route-id="@item.Projekte.ProjekteId">Nutzer hinzufügen</a>
+        <a class="btn btn-primary" asp-action="ProjectUserList" asp-route-id="@item.Projekte.ProjekteId">Mitglieder</a>
         <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Projekte.ProjekteId">Projekt löschen</a>
+        <button onclick="ShowError("a","b")">Click me</button>
         <div>
             <br />
-                <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@item.Projekte.ProjekteId">Arbeitspaket erstellen</a>     
+            <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@item.Projekte.ProjekteId">Arbeitspaket erstellen</a>
             <br />
         </div>}
 

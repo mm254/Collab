@@ -1,5 +1,5 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model IEnumerable<IvA.Models.ProjekteUserViewModel>
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+
 @{
     ViewData["Title"] = "ProjectUserList";
 }
@@ -10,13 +10,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProjekteId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                Rolle
+                @Html.DisplayNameFor(model => model.UserName)
             </th>
             <th>
                 Optionen
@@ -28,15 +22,12 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProjekteId)
+                    @Html.DisplayFor(modelItem => item.UserName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
-                </td>
-                <td>
-                </td>
-                <td>
-                    
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
