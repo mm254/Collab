@@ -74,6 +74,24 @@ namespace IvA.Controllers
             }
         }
 
+        public async Task<IActionResult> Dashboard()
+        {
+            var loggedUser = await _userManager.GetUserAsync(this.User);
+            List<PaketeUserViewModel> UsersPackages = _context.PaketeUserViewModel.ToList();
+            //List<PaketeUserViewModel> UserPackages = UsersPackages.FindAll(UserId => UserId.Equals(loggedUser.Id));
+            var Packages = _context.ArbeitsPaket.ToList();
+            var dashboardList = from _userPackages in UsersPackages
+                                where _userPackages.UserId == loggedUser.Id
+                                join _packages in Packages
+                                on _userPackages.ArbeitsPaketId equals _packages.ArbeitsPaketId into table
+                                select new DashboardModel
+                                {
+                                    UserPackages = _userPackages,
+                                    Packages = null
+                                };
+            return View(dashboardList);
+        }
+
         //------------------------------ Projekt erstellen ---------------------------------
 
         // GET: Gibt die Html-Datei Projekte/Create zurück, welche die Eingabemaske für die Projekterstellung zur Verfügung stellt.
