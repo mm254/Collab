@@ -54,7 +54,16 @@ namespace IvA.Controllers
             return RedirectToAction("ListUsers");
         }
 
-        [Authorize(Roles = "Admin")]
+        public void newMessage(String hierParameterUebergeben)
+        {
+            Message newMessage = new Message();
+            newMessage.Nachricht = "Das ist die Nachricht";
+            newMessage.QuellID = "";
+            newMessage.ZielID = "sfdbjsdfbjsdfjnkdfsjn";
+            newMessage.Datum = DateTime.Now;
+        }
+
+        
         public async Task<IActionResult> ChangeRole(string? Id)
         {
             if(Id != null)

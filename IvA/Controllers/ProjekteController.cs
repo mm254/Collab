@@ -48,9 +48,9 @@ namespace IvA.Controllers
             }
             else
             {
-                   List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
-                   List<ProjekteModel> Projekte = _context.Projekte.ToList();
-                   List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
+                List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
+                List<ProjekteModel> Projekte = _context.Projekte.ToList();
+                List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
 
                 var projektDetails =    from _projekte in Projekte
                                         where _projekte.ProjekteId == id
@@ -168,31 +168,37 @@ namespace IvA.Controllers
         }
 
         //Martin??????
-        public async Task<IActionResult> ProjectUserList()
+        public async Task<IActionResult> ProjectUserList(int id)
         {
             List<ProjekteUserViewModel> projectUsers =  _context.ProjekteUserViewModel.ToList();
             List<IdentityUser> users = new List<IdentityUser>();
             foreach(ProjekteUserViewModel u in projectUsers)
             {
-                string userId = u.UserId;
-                users.Add(await _userManager.FindByIdAsync(userId));
+                if(u.ProjekteId == id)
+                {
+                    string userId = u.UserId;
+                    users.Add(await _userManager.FindByIdAsync(userId));
+                }
             }
             return View(users);
         }
 
-        public async Task<IActionResult> PackageUserList()
+        public async Task<IActionResult> PackageUserList(int id)
         {
             List<PaketeUserViewModel> projectUsers = _context.PaketeUserViewModel.ToList();
             List<IdentityUser> packageUsers = new List<IdentityUser>();
             foreach(PaketeUserViewModel user in projectUsers)
             {
-                var member = await _userManager.FindByIdAsync(user.UserId);
-                packageUsers.Add(member);
+                if (user.ArbeitsPaketId == id)
+                {
+                    var member = await _userManager.FindByIdAsync(user.UserId);
+                    packageUsers.Add(member);
+                }
             }
             return View(packageUsers);
         }
 
-        public async void AddUserToPackage(string nameInput, int packageId)
+        public async Task<IActionResult> AddUserToPackage(string nameInput, int id)
         {
             if (nameInput != null)
             {
@@ -201,13 +207,19 @@ namespace IvA.Controllers
                 {
                     PaketeUserViewModel newMember = new PaketeUserViewModel
                     {
-                        ArbeitsPaketId = packageId,
+                        ArbeitsPaketId = id,
                         UserId = newUser.Id
                     };
                     _context.Add(newMember);
                     await _context.SaveChangesAsync();
                 }
             }
+            return RedirectToAction(nameof(ProjectUserList));
+        }
+
+        public async Task<IActionResult> DeleteUserFromProject() 
+        {
+            return RedirectToAction(nameof(ProjectUserList));
         }
 
         ///------------------------------ Paket anpassen --------------------------------------
