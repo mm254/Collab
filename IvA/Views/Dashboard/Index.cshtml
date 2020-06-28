@@ -1,0 +1,154 @@
+﻿@model IEnumerable<IvA.Models.ArbeitsPaketModel>
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Mein Dashboard</h1>
+
+<h2>Demnächst zu erledigen</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PaketName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Beschreibung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frist)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            DateTime now = DateTime.Now;
+            if (item.Frist <= now.AddDays(3))
+            {
+                <tr>
+                    <td>
+                        <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Beschreibung)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Frist)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<h2>To do</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PaketName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Beschreibung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frist)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            DateTime now = DateTime.Now;
+            if (item.Status == "To do" && item.Frist >= now.AddDays(3))
+            {
+                <tr>
+                    <td>
+                        <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Beschreibung)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Frist)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<h2>In Bearbeitung</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PaketName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Beschreibung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frist)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            DateTime now = DateTime.Now;
+            if (item.Status == "In Bearbeitung" && item.Frist >= now.AddDays(3))
+            {
+                <tr>
+                    <td>
+                        <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Beschreibung)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Frist)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<h2>Abgeschlossene Aufgaben</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PaketName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Beschreibung)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frist)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.Status == "Fertig")
+            {
+                <tr>
+                    <td>
+                        <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Beschreibung)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Frist)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

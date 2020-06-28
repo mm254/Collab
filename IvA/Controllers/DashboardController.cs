@@ -2,15 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IvA.Data;
+using IvA.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IvA.Controllers
 {
     public class DashboardController : Controller
     {
-        public IActionResult Dashboard()
+        private readonly ApplicationDbContext _context;
+        private UserManager<IdentityUser> _userManager;
+
+        public DashboardController(ApplicationDbContext context, 
+                                    UserManager<IdentityUser> userManager)
         {
-            return View();
+            _userManager = userManager;
+            _context = context;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var loggedUser = await _userManager.GetUserAsync(this.User);
+            List<PaketeUserViewModel> UsersPackages = _context.PaketeUserViewModel.ToList();
+            var Packages = _context.ArbeitsPaket.ToList();
+            var dashboardList = from _packages in Packages
+                                join _userPackages in UsersPackages
+                                on _packages.ArbeitsPaketId equals _userPackages.ArbeitsPaketId
+                                where _userPackages.UserId == loggedUser.Id
+                                select new ArbeitsPaketModel
+                                {
+                                    ArbeitsPaketId = _packages.ArbeitsPaketId,
+                                    Beschreibung = _packages.Beschreibung,
+                                    Frist = _packages.Frist,
+                                    Mitglieder = _packages.Mitglieder,
+                                    PaketName = _packages.PaketName,
+                                    ProjektId = _packages.ProjektId,
+                                    Status = _packages.Status
+                                };
+            return View(dashboardList);
         }
     }
 }

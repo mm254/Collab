@@ -6,7 +6,6 @@
 
 <h1>Zugewiesene Mitarbeiter zum Arbeitspaket</h1>
 
-<p><a class="btn btn-primary" asp-action="AddUserToPackage" asp-controller="Projekte">Mitglied hinzufügen</a></p>
 <table class="table">
     <thead>
         <tr>
@@ -26,6 +25,7 @@
                     @Html.DisplayFor(modelItem => item.UserName)
                 </td>
                 <td>
+                    <a class="btn btn-primary" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte">Mitglied hinzufügen</a>
                 </td>
             </tr>
         }

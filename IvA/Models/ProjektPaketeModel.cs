@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,5 +15,6 @@ namespace IvA.Models
         public ProjekteArbeitsPaketeViewModel ProjektPakete { get; set; }
         public ArbeitsPaketModel Pakete { get; set; }
         public ProjekteModel Projekte { get; set; }
+        //public List<IdentityUser> Users { get; set; }
     }
 }
