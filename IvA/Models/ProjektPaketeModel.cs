@@ -15,6 +15,5 @@ namespace IvA.Models
         public ProjekteArbeitsPaketeViewModel ProjektPakete { get; set; }
         public ArbeitsPaketModel Pakete { get; set; }
         public ProjekteModel Projekte { get; set; }
-        //public List<IdentityUser> Users { get; set; }
     }
 }

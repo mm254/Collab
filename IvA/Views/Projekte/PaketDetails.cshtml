@@ -1,58 +1,108 @@
-﻿@model IvA.Models.ArbeitsPaketModel
+﻿@model IvA.Models.PackagesDetailModel
 
 @{ ViewData["Title"] = "Arbeitspaketdetails"; }
 
 <h1>Details</h1>
 <br />
 
-<h4> Arbeitspaket: @Html.DisplayFor(model => model.PaketName)</h4>
+<h4> Arbeitspaket: @Html.DisplayFor(model => model.Package.PaketName)</h4>
 
 <div>
-    
+
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PaketName)
+            @Html.DisplayNameFor(model => model.Package.PaketName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PaketName)
+            @Html.DisplayFor(model => model.Package.PaketName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjektId)
+            @Html.DisplayNameFor(model => model.Package.ProjektId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProjektId)
+            @Html.DisplayFor(model => model.Package.ProjektId)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Beschreibung)
+            @Html.DisplayNameFor(model => model.Package.Beschreibung)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Beschreibung)
+            @Html.DisplayFor(model => model.Package.Beschreibung)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Mitglieder)
+            @Html.DisplayNameFor(model => model.Package.Frist)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Mitglieder)
+            @Html.DisplayFor(model => model.Package.Frist)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Frist)
+            @Html.DisplayNameFor(model => model.Package.Status)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Frist)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+            @Html.DisplayFor(model => model.Package.Status)
         </dd>
     </dl>
 </div>
 
 <div>
-    <a class="btn btn-primary" asp-action="PaketAnpassen" asp-controller="Projekte" asp-route-id="@Model.ArbeitsPaketId">Bearbeiten</a> |
-    <a class="btn btn-primary" asp-action="PackageUserList" asp-controller="Projekte" asp-route-id="@Model.ArbeitsPaketId">Mitglieder</a> |
+    <a class="btn btn-primary" asp-action="PaketAnpassen" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Bearbeiten</a> |
+    <a class="btn btn-primary" asp-action="PackageUserList" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Mitglieder</a> |
     <a class="btn btn-primary" asp-action="Index" asp-controller="Projekte">Zurück zur Projektübersicht</a> |
-    <a class="btn btn-primary" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.ArbeitsPaketId">Arbeitspaket löschen</a>
+    <a class="btn btn-primary" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Arbeitspaket löschen</a>
 </div>
+
+<h2>Zugewiesene Mitarbeiter zum Arbeitspaket</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Optionen
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PackageUsers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte">Mitglied entfernen</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Mitarbeiter vom Projekt hinzufügen</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Optionen
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProjectUsers)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte">Mitglied hinzufügen</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

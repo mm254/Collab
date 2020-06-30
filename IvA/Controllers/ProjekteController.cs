@@ -10,6 +10,7 @@ using IvA.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
+using System.Dynamic;
 
 namespace IvA.Controllers
 {
@@ -68,16 +69,16 @@ namespace IvA.Controllers
                 List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
                 List<ProjekteModel> Projekte = _context.Projekte.ToList();
                 List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
-                List<ProjekteUserViewModel> users = _context.ProjekteUserViewModel.ToList();
+                List<ProjekteUserViewModel> Users = _context.ProjekteUserViewModel.ToList();
                 List<IdentityUser> userList = new List<IdentityUser>();
-                foreach (ProjekteUserViewModel user in users)
+                foreach (ProjekteUserViewModel user in Users)
                 {
                     if (user.ProjekteId == id)
                     {
                         userList.Add(await _userManager.FindByIdAsync(user.UserId));
                     }
                 }
-                var projektDetails = from _projekte in Projekte
+                var packages = from _projekte in Projekte
                                     where _projekte.ProjekteId == id
                                     join _projektPakete in ProjektPakete
                                     on _projekte.ProjekteId equals _projektPakete.ProjekteId into table1
@@ -87,15 +88,24 @@ namespace IvA.Controllers
                                     on _projektPakete.ArbeitsPaketId equals _pakete.ArbeitsPaketId into table2
 
                                     from _pakete in table2.ToList()
-                                    select new ProjektPaketeModel
+                                    select new ArbeitsPaketModel
                                     {
-                                        Pakete = _pakete,
-                                        Projekte = _projekte,
-                                        ProjektPakete = _projektPakete,
-                                        // Meh
+                                        ArbeitsPaketId = _pakete.ArbeitsPaketId,
+                                        ProjektId = _pakete.ProjektId,
+                                        PaketName = _pakete.PaketName,
+                                        Beschreibung = _pakete.Beschreibung,
+                                        Mitglieder = _pakete.Mitglieder,
+                                        Frist = _pakete.Frist,
+                                        Status = _pakete.Status
                                     };
-                
-                return View(projektDetails);
+                ProjekteModel project = Projekte.Find(m => m.ProjekteId == id);
+                ProjekteDetailModel pDetailModel = new ProjekteDetailModel
+                {
+                    Packages = packages.ToList(),
+                    Project = project,
+                    ProjectUsers = userList
+                };
+                return View(pDetailModel);
             }
         }
 
@@ -177,18 +187,26 @@ namespace IvA.Controllers
             return View(projekte);
         }
 
-        //Martin?
-        public async Task<IActionResult> AddUserToProject(string? nameInput)
+        public IActionResult AddUser()
         {
-            if(nameInput != null)
+            return View();
+        }
+        public async Task<IActionResult> AddUserToProject([Bind("id,name")]  IvA.Models.AddUserModel userToProject)
+        {
+            if (userToProject.name != null)
             {
-                IdentityUser newUser = await _userManager.FindByNameAsync(nameInput);
+                IdentityUser newUser = await _userManager.FindByNameAsync(userToProject.name);
                 if(newUser != null)
                 {
-
+                    ProjekteUserViewModel newUserInProject = new ProjekteUserViewModel() {
+                        ProjekteId = userToProject.id,
+                        UserId = newUser.Id
+                    };
+                    _context.Add(newUserInProject);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
             }
-            
             return NotFound();
         }
 
@@ -226,7 +244,7 @@ namespace IvA.Controllers
         public async Task<IActionResult> AddUserToPackage(int id, string name)
         {
             
-            if (name != null && id != null)
+            if (name != null)
             {
                 IdentityUser newUser = await _userManager.FindByNameAsync(name);
                 if(newUser != null)
@@ -240,7 +258,7 @@ namespace IvA.Controllers
                     await _context.SaveChangesAsync();
                 }
             } 
-            return RedirectToAction(nameof(PackageUserList));
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> DeleteUserFromProject() 
@@ -402,13 +420,38 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            var arbeitsPaket = await _context.ArbeitsPaket.FirstOrDefaultAsync(m => m.ArbeitsPaketId == id);
-            if (arbeitsPaket == null)
+            var package = await _context.ArbeitsPaket.FirstOrDefaultAsync(m => m.ArbeitsPaketId == id);
+            if (package == null)
             {
                 return NotFound();
             }
 
-            return View(arbeitsPaket);
+            List<IdentityUser> userList = new List<IdentityUser>();
+            var packageUsers =  _context.PaketeUserViewModel.ToList().FindAll(m => m.ArbeitsPaketId == package.ArbeitsPaketId);
+            foreach(PaketeUserViewModel user in packageUsers)
+            {
+                userList.Add(await _userManager.FindByIdAsync(user.UserId));
+            }
+
+            List<IdentityUser> projectUserList = new List<IdentityUser>();
+            var projectUsers = _context.ProjekteUserViewModel.ToList().FindAll(a => a.ProjekteId == package.ProjektId);
+            foreach (ProjekteUserViewModel users in projectUsers)
+            {
+                IdentityUser projectUser = await _userManager.FindByIdAsync(users.UserId);
+                if (!userList.Contains(projectUser))
+                {
+                    projectUserList.Add(projectUser);
+                }
+            }
+
+            PackagesDetailModel packagesDetails = new PackagesDetailModel
+            {
+                ProjectUsers = projectUserList,
+                Package = package,
+                PackageUsers = userList
+            };
+
+            return View(packagesDetails);
         }
 
         //------------------------------ Paket anpassen --------------------------------------
