@@ -390,7 +390,7 @@ namespace IvA.Controllers
 
                 List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
                 papv.ProjekteId = Int32.Parse((string)ProId);
-                papv.ArbeitsPaketId = /*Int32.Parse(from p in Pakete select p.ArbeitsPaketId).ToString();*/ arbeitsPaket.ArbeitsPaketId;
+                papv.ArbeitsPaketId = arbeitsPaket.ArbeitsPaketId;
                 _context.Add(papv);
 
                 // Ersteller des Pakets wird als erstes Mitglied eingetragen
@@ -536,8 +536,16 @@ namespace IvA.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PaketLöschenPost(int id)
         {
+            List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
+
             var arbeitsPaket = await _context.ArbeitsPaket.FindAsync(id);
             _context.ArbeitsPaket.Remove(arbeitsPaket);
+
+            int tableID = (from table in ProjektPakete where table.ArbeitsPaketId == id select table.ProjekteArbeitsPaketeViewModelId).FirstOrDefault();
+            var proPakViewModel = await _context.ProjekteArbeitsPaketeViewModel.FindAsync(tableID);
+
+            _context.ProjekteArbeitsPaketeViewModel.Remove(proPakViewModel);
+
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Projekte", new { id = arbeitsPaket.ProjektId });
         }
