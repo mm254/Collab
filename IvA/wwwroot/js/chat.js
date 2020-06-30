@@ -24,7 +24,6 @@ connection.start().then(function () {
 
 document.getElementById("sendButtonMessage").addEventListener("click", event => {
     let message = $("#messageInputChat").val()
-
     if (message.length > 0) {
         var fecha = new Date().toLocaleTimeString()
         console.log(destMessageName);
@@ -35,17 +34,32 @@ document.getElementById("sendButtonMessage").addEventListener("click", event => 
     event.preventDefault()
 })
 
+document.getElementById("messageInputChat").addEventListener("focus", function () {    
+    connection.invoke("readmessage", myuserLocal, destMessageName).catch(err => console.error(err.toString()))
 
-connection.on("ReceiveMessaggePrivate", (user, sender , message) => {
-    const fecha = new Date().toLocaleTimeString()
-    destMessage = sender;
-    destMessageName = user;
-    //
-    connection.invoke("MessageUpdate", destMessageName).catch(function (err) {
-    });
-    //
-    $("#textziel").html(destMessageName)
-    $(".messages").append(`<div class="message msg_ser"><strong>${user}</strong ><div> ${message}</div></div >`);
+})
+
+connection.on("readmessage", (destinatario,query) => {       
+    $(".noty").each(function () {
+        if ($(this).data("destinatarionombre") == destinatario) {
+            let elem = $(this)            
+            elem.html("")
+        }
+    })
+})
+
+
+connection.on("ReceiveMessaggePrivate", (user, sender, message) => {
+    console.log(destMessageName+"=="+user)    
+        const fecha = new Date().toLocaleTimeString()
+        destMessage = sender;
+        destMessageName = user;
+        connection.invoke("MessageUpdate", destMessageName).catch(function (err) {
+        });
+        $("#textziel").html(destMessageName)
+        //$(".messages").append(`<div class="message msg_ser"><strong>${user}</strong ><div> ${message}</div></div >`);
+        
+             
 })
 
 
@@ -56,20 +70,41 @@ connection.on("ReceiveMessage", function (user, message) {
 
 
 connection.on("ClientConnected", function (data) {   
-    console.log(data)
+    console.log("conectado"+data)
     $("#list_clients").html("")
     $.each(data, (ind, elem) => {
-        $("#list_clients").append(`<div class="user_chat_list" data-destinatario="${elem.UserID}" data-destinatarioNombre="${elem.userName}"><strong>${elem.UserName}</strong><small>Online </small></div>`);
+        $("#list_clients").append(`<div class="user_chat_list" data-destinatario="${elem.UserID}" data-destinatarioNombre="${elem.userName}"><strong>${elem.UserName}</strong><small>Online </small><div class="noty" data-destinatarionombre="${elem.userName}"></div></br></div>`);
     })
     selectClientMessage()
 })
 
 connection.on("ClientUpdate", (data) => {
+    console.log(myuserLocal+" actualizado " + data)
     $("#list_clients").html("")
+
     $.each(data, (ind, elem) => {
-        $("#list_clients").append(`<div class="user_chat_list" data-destinatario="${elem.userID}"  data-destinatarioNombre="${elem.userName}"><strong>${elem.userName}</strong><small>Online</small></br></div>`);
+        $("#list_clients").append(`<div class="user_chat_list" data-destinatario="${elem.userID}" data-destinatarioNombre="${elem.userName}"><strong>${elem.userName}</strong><small>Online </small><div class="noty" data-destinatarionombre="${elem.userName}"></div></br></div>`);
     })
     selectClientMessage()
+})
+
+connection.on("mensajesnoleidos", (data) => {
+    $(".noty").each(function () {
+        let elem=$(this)       
+        let cont = 0;
+        console.log("# mensajes: " + data.length)
+        for (let i = 0; i < data.length; i++) {           
+            //if (elem.data("destinatarionombre") == data[i].zielID && data[i].quellID == myuserLocal) {            
+            if (elem.data("destinatarionombre") == data[i].quellID && data[i].zielID == myuserLocal) {            
+                cont++;
+            }
+
+        }
+        console.log("mensajes " + myuserLocal +" : " + cont)
+        if (cont > 0) {
+            elem.html(cont)
+        }        
+    })
 })
 
 
@@ -111,18 +146,25 @@ connection.on("myUser", (data) => {
 })
 
 
-connection.on("MessageUpdate", (data) => {
-    console.log(data.length + ": " + myuserLocal)
-    console.log(data)   
+connection.on("MessageUpdate", (data) => {    
     $(".messages").empty()
-    for (var i = 0; i < data.length; i++){        
+    for (var i = data.length-1; i >= 0; i--){        
+    //for (var i = 0; i<data.length; i++) {        
         if (data[i].quellID == myuserLocal) {
             $(".messages").append(`<div class="message msg_cli"><strong>yo</strong><div> ${data[i].nachricht}</div></div >`)            
         }
         else {
             $(".messages").append(`<div class="message msg_cli"><strong>${data[i].quellID}</strong><div> ${data[i].nachricht}</div></div >`)        
         }
-    }   
+    }  
+
+    /*$(".noty").each(function () {
+        if ($(this).data("destinatarionombre") == user) {
+            let elem = $(this)
+            let x = parseInt(elem.html())
+            elem.html(x + 1)
+        }
+    })  */ 
 })
 
 document.getElementById("sendButtonMessage").addEventListener("click", function (event) {
