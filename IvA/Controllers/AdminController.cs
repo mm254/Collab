@@ -26,12 +26,15 @@ namespace IvA.Controllers
             this.userManager = userManager;
             _context = context;
         }
+
+        [Authorize(Roles = "Admin")]
         public IActionResult ListUsers()
         {
             var users = userManager.Users;
             return View(users);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListProjects()
         {
             return View(await _context.Projekte.ToListAsync());
@@ -53,16 +56,6 @@ namespace IvA.Controllers
 
             return RedirectToAction("ListUsers");
         }
-
-        public void newMessage(String hierParameterUebergeben)
-        {
-            Message newMessage = new Message();
-            newMessage.Nachricht = "Das ist die Nachricht";
-            newMessage.QuellID = "";
-            newMessage.ZielID = "sfdbjsdfbjsdfjnkdfsjn";
-            newMessage.Datum = DateTime.Now;
-        }
-
         
         public async Task<IActionResult> ChangeRole(string? Id)
         {

@@ -1,9 +1,4 @@
-﻿- Login funktioniert teilweise nicht mehr mit definitiv richtigen Daten.
+﻿- Löschen eines Projekts löscht nicht die zugehörigen Pakete aus der Datenbank
 
-- Nutzername lässt nur ein Wort und keine Leerzeichen zu. Entweder irgendwie ändern oder noch zweites Feld mich Nachnamen.
-	Oder wir nutzen es als eine Art Nutzername
+- Url Projekten sichern
 
-- Im Frontend vom Adminpanel wird verhindert dass jemand sich selbst löschen kann (Das soll nur über die Accountverwaltung möglich sein).
-	Der Abgleich wird aber ahand des Namens gemacht dh man kann keine Nutzer mit gleichen Namen löschen.
-
-- Löschen eines Projekts löscht nicht die zugehörigen Pakete aus der Datenbank
