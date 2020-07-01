@@ -385,6 +385,14 @@ namespace IvA.Controllers
 
                 arbeitsPaket.Status = "To do";
                 arbeitsPaket.ProjektId = Int32.Parse((string)ProId);
+
+                var Projects = _context.Projekte.ToList();
+                var Deadline = (from p in Projects where p.ProjekteId == Int32.Parse((string)ProId) select p.Deadline).FirstOrDefault();
+                if (arbeitsPaket.Frist >= Deadline)
+                {
+                    return View("~/Views/Projekte/DatumZuSpät.cshtml");
+                }
+
                 _context.Add(arbeitsPaket);
                 await _context.SaveChangesAsync();
 
