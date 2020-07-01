@@ -46,15 +46,14 @@
         </dd>
     </dl>
 
+    <div style="margin-bottom:50px">
         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Project.ProjekteId">Anpassen</a>
         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Project.ProjekteId">Projekt löschen</a>
-        <div>
-            <br />
-            <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@Model.Project.ProjekteId">Arbeitspaket erstellen</a>
-            <br />
-        </div>
+        <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@Model.Project.ProjekteId">Arbeitspaket erstellen</a>
+    </div>
+
 </div>
-<div class="card-deck">
+<div class="card-deck" style="margin-bottom:50px">
     <div class="card bg-secondary">
         <div class="card-body">
             <h4 class="card-title">To Do</h4>
