@@ -66,14 +66,14 @@ namespace IvA.Controllers
             }
             else
             {
+                // Laden aller nötigen Tabellen aus der Datenbank
                 List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
                 List<ProjekteModel> Projekte = _context.Projekte.ToList();
                 List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
                 List<ProjekteUserViewModel> Users = _context.ProjekteUserViewModel.ToList();
                 List<IdentityUser> userList = new List<IdentityUser>();
 
-                
-
+                // Liste an IdentityUser der Projektmitglieder wird erstellt
                 foreach (ProjekteUserViewModel user in Users)
                 {
                     if (user.ProjekteId == id)
@@ -81,6 +81,8 @@ namespace IvA.Controllers
                         userList.Add(await _userManager.FindByIdAsync(user.UserId));
                     }
                 }
+
+                // Schnitt aus drei Tabellen um alle zu einem Projekt zugehörigen Pakete zu erhalten
                 var packages = from _projekte in Projekte
                                     where _projekte.ProjekteId == id
                                     join _projektPakete in ProjektPakete
@@ -102,11 +104,41 @@ namespace IvA.Controllers
                                         Status = _pakete.Status
                                     };
                 ProjekteModel project = Projekte.Find(m => m.ProjekteId == id);
+
+                // Anhand der Liste der Pakete werden drei Prozentwerte ermittlt die den Projektfortschritt wiedergeben
+                string[] percentages = new string[3];
+                int packagesCount = packages.Count();
+                if(packagesCount != 0)
+                {
+                    int[] count = new int[3];
+                    foreach (ArbeitsPaketModel pack in packages)
+                    {
+                        switch (pack.Status)
+                        {
+                            case "To do": count[0]++; break;
+                            case "In Bearbeitung": count[1]++; break;
+                            case "Fertig": count[2]++; break;
+                        }
+                    }
+                    percentages[0] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[0], packagesCount), 100)).ToString() + "%";
+                    percentages[1] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[1], packagesCount), 100)).ToString() + "%";
+                    percentages[2] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[2], packagesCount), 100)).ToString() + "%";
+                }
+                else
+                {
+                    percentages[0] = "0%";
+                    percentages[1] = "0%";
+                    percentages[2] = "0%";
+                }
+                
+
+                // Erstellen des finalen Models
                 ProjekteDetailModel pDetailModel = new ProjekteDetailModel
                 {
                     Packages = packages.ToList(),
                     Project = project,
-                    ProjectUsers = userList
+                    ProjectUsers = userList,
+                    ProjectProgress = percentages
                 };
                 return View(pDetailModel);
             }
@@ -177,12 +209,6 @@ namespace IvA.Controllers
                     UserId = loggedUser.Id
                 };
                 _context.Add(firstMember);
-
-                // Dummy Paket verknüpfen
-                ProjekteArbeitsPaketeViewModel projectPakage = new ProjekteArbeitsPaketeViewModel();
-                projectPakage.ProjekteId = projekte.ProjekteId;
-                projectPakage.ArbeitsPaketId = 8;
-                _context.Add(projectPakage);
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
@@ -259,9 +285,10 @@ namespace IvA.Controllers
                     };
                     _context.Add(newMember);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction("Index");
                 }
-            } 
-            return RedirectToAction("Index");
+            }
+            return NotFound("Fehler beim Hinzufügen");
         }
 
         public async Task<IActionResult> DeleteUserFromProject() 
