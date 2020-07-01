@@ -21,7 +21,7 @@ namespace IvA.Models
         public string Mitglieder { get; set; }
 
         [DataType(DataType.Date)]
-        [CurrentDate(ErrorMessage = "Das Datum der Frist muss in der Zukunft liegen!")]
+        [CurrentDate(ErrorMessage = "Das Datum der Frist muss in der Zukunft und vor Ablauf der Projektdeadline liegen!")]
         public DateTime Frist { get; set; }
 
         public string Status { get; set; }
