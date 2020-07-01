@@ -71,6 +71,9 @@ namespace IvA.Controllers
                 List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
                 List<ProjekteUserViewModel> Users = _context.ProjekteUserViewModel.ToList();
                 List<IdentityUser> userList = new List<IdentityUser>();
+
+                
+
                 foreach (ProjekteUserViewModel user in Users)
                 {
                     if (user.ProjekteId == id)
@@ -266,7 +269,7 @@ namespace IvA.Controllers
             return RedirectToAction(nameof(ProjectUserList));
         }
 
-        ///------------------------------ Paket anpassen --------------------------------------
+        ///------------------------------ Projekt anpassen --------------------------------------
 
         // Gibt die Html-Datei Projekte/Edit anhand der übergebenen ProjektID zurück
         public async Task<IActionResult> Edit(int? id)
@@ -274,6 +277,13 @@ namespace IvA.Controllers
             if (id == null)
             {
                 return NotFound();
+            }
+
+            List<ProjekteModel> Projekte = _context.Projekte.ToList();
+            var EditValid = (from p in Projekte where p.ProjekteId == id select p.Projektersteller).FirstOrDefault();
+            if (EditValid != this.User.Identity.Name)
+            {
+                return View("~/Views/Projekte/ZugriffProjektÄndern.cshtml");
             }
 
             IvA.Models.ProjekteModel projekte = await _context.Projekte.FindAsync(id);
@@ -336,6 +346,13 @@ namespace IvA.Controllers
             if (id == null)
             {
                 return NotFound();
+            }
+
+            List<ProjekteModel> Projekte = _context.Projekte.ToList();
+            var EditValid = (from p in Projekte where p.ProjekteId == id select p.Projektersteller).FirstOrDefault();
+            if (EditValid != this.User.Identity.Name)
+            {
+                return View("~/Views/Projekte/ZugriffProjektÄndern.cshtml");
             }
 
             var projekte = await _context.Projekte
