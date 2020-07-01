@@ -12,9 +12,38 @@
 <p style="padding-top:25px ; padding-bottom: 25px">
     <a class="btn btn-primary" asp-action="Create">Neues Projekt erstellen</a>
 </p>
+
 <div class="card-columns">
+
     @foreach (var item in Model)
     {
+        @if (item.Deadline <= DateTime.Now) 
+        {
+        <div style=          
+        "background-color: crimson; 
+        position: relative; 
+        display: -ms-flexbox; 
+        display: flex; 
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 0.25rem;">
+            <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.ProjekteId">@item.Projektname</a></div>
+            <div class="card-body text-center">
+                <p class="card-text">@item.Beschreibung</p>
+            </div>
+            <div class="card-footer">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        else {
         <div class="card bg-secondary">
             <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.ProjekteId">@item.Projektname</a></div>
             <div class="card-body text-center">
@@ -27,64 +56,7 @@
                 </div>
             </div>
         </div>
+        };
     }
 </div>
-<!-- Eventuell kann man diese Ansicht noch zum Debuggen verwenden 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Projektname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Projektersteller)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ErstelltAm)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mitglieder)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Beschreibung)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Deadline)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.ProjekteId">@item.Projektname</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Projektersteller)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ErstelltAm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mitglieder)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Beschreibung)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Deadline)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
-    -->

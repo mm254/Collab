@@ -30,7 +30,7 @@ namespace IvA.Controllers
         }
 
         //--------------------------------------------------------------------------------------------------------------------
-        //Der folgende Abschnitt beinhaltet alle Methoden, die für das Erstellen und BEarbeiten von Projekten benötigt werden.
+        //Der folgende Abschnitt beinhaltet alle Methoden, die für das Erstellen und Bearbeiten von Projekten benötigt werden.
         //--------------------------------------------------------------------------------------------------------------------
 
         // Listet alle Projekte des Nutzers auf
@@ -385,12 +385,20 @@ namespace IvA.Controllers
 
                 arbeitsPaket.Status = "To do";
                 arbeitsPaket.ProjektId = Int32.Parse((string)ProId);
+
+                var Projects = _context.Projekte.ToList();
+                var Deadline = (from p in Projects where p.ProjekteId == Int32.Parse((string)ProId) select p.Deadline).FirstOrDefault();
+                if (arbeitsPaket.Frist >= Deadline)
+                {
+                    return View("~/Views/Projekte/DatumZuSpät.cshtml");
+                }
+
                 _context.Add(arbeitsPaket);
                 await _context.SaveChangesAsync();
 
                 List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
                 papv.ProjekteId = Int32.Parse((string)ProId);
-                papv.ArbeitsPaketId = /*Int32.Parse(from p in Pakete select p.ArbeitsPaketId).ToString();*/ arbeitsPaket.ArbeitsPaketId;
+                papv.ArbeitsPaketId = arbeitsPaket.ArbeitsPaketId;
                 _context.Add(papv);
 
                 // Ersteller des Pakets wird als erstes Mitglied eingetragen
@@ -536,8 +544,16 @@ namespace IvA.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PaketLöschenPost(int id)
         {
+            List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
+
             var arbeitsPaket = await _context.ArbeitsPaket.FindAsync(id);
             _context.ArbeitsPaket.Remove(arbeitsPaket);
+
+            int tableID = (from table in ProjektPakete where table.ArbeitsPaketId == id select table.ProjekteArbeitsPaketeViewModelId).FirstOrDefault();
+            var proPakViewModel = await _context.ProjekteArbeitsPaketeViewModel.FindAsync(tableID);
+
+            _context.ProjekteArbeitsPaketeViewModel.Remove(proPakViewModel);
+
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Projekte", new { id = arbeitsPaket.ProjektId });
         }
