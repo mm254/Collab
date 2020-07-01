@@ -6,7 +6,8 @@ let myuserLocal = null
 var connection = new signalR.HubConnectionBuilder().withUrl("/Chat").build();
 var sw=0
 //Disable send button until connection is established
-document.getElementById("sendBtn").disabled = true;
+
+document.getElementById("sendButtonMessage").disabled = true;
 
 connection.on("ReceiveMessage", function (user, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -16,10 +17,11 @@ connection.on("ReceiveMessage", function (user, message) {
     document.getElementById("ulmessages").appendChild(li);
 });
 
-connection.start().then(function () {
-    document.getElementById("sendBtn").disabled = false;
+connection.start().then(function () {   
+    document.getElementById("sendButtonMessage").disabled = false;
 }).catch(function (err) {
-    return console.error(err.toString());
+    return console.error(err.toString());    
+
 });
 
 document.getElementById("sendButtonMessage").addEventListener("click", event => {
@@ -56,10 +58,7 @@ connection.on("ReceiveMessaggePrivate", (user, sender, message) => {
         destMessageName = user;
         connection.invoke("MessageUpdate", destMessageName).catch(function (err) {
         });
-        $("#textziel").html(destMessageName)
-        //$(".messages").append(`<div class="message msg_ser"><strong>${user}</strong ><div> ${message}</div></div >`);
-        
-             
+        $("#textziel").html(destMessageName)                             
 })
 
 
@@ -93,12 +92,10 @@ connection.on("mensajesnoleidos", (data) => {
         let elem=$(this)       
         let cont = 0;
         console.log("# mensajes: " + data.length)
-        for (let i = 0; i < data.length; i++) {           
-            //if (elem.data("destinatarionombre") == data[i].zielID && data[i].quellID == myuserLocal) {            
+        for (let i = 0; i < data.length; i++) {                                
             if (elem.data("destinatarionombre") == data[i].quellID && data[i].zielID == myuserLocal) {            
                 cont++;
             }
-
         }
         console.log("mensajes " + myuserLocal +" : " + cont)
         if (cont > 0) {

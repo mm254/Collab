@@ -174,8 +174,8 @@ body {
     height: 50%;
     float: right;
     position: absolute;
-    bottom: 2px;
-    left: 1px;
+    bottom: 2px;    
+    right: 1px;
     clear: right;
     z-index: 99;
 }
