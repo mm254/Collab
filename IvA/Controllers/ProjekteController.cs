@@ -30,7 +30,7 @@ namespace IvA.Controllers
         }
 
         //--------------------------------------------------------------------------------------------------------------------
-        //Der folgende Abschnitt beinhaltet alle Methoden, die für das Erstellen und BEarbeiten von Projekten benötigt werden.
+        //Der folgende Abschnitt beinhaltet alle Methoden, die für das Erstellen und Bearbeiten von Projekten benötigt werden.
         //--------------------------------------------------------------------------------------------------------------------
 
         // Listet alle Projekte des Nutzers auf

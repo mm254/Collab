@@ -4563,6 +4563,21 @@ input[type="button"].btn-block {
   border-radius: 0.25rem;
 }
 
+.card2 {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    
+}
+
 .card > hr {
   margin-right: 0;
   margin-left: 0;
@@ -4610,6 +4625,13 @@ input[type="button"].btn-block {
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-headerNegative {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: red;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .card-header:first-child {
@@ -6519,6 +6541,10 @@ button.bg-primary:focus {
 
 .bg-secondary {
   background-color: #6c757d !important;
+}
+
+.bg-third {
+  background-color: #dc3545 !important;
 }
 
 a.bg-secondary:hover, a.bg-secondary:focus,
