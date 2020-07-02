@@ -310,7 +310,8 @@ namespace IvA.Controllers
             var EditValid = (from p in Projekte where p.ProjekteId == id select p.Projektersteller).FirstOrDefault();
             if (EditValid != this.User.Identity.Name)
             {
-                return View("~/Views/Projekte/ZugriffProjektÄndern.cshtml");
+                int ErrorID = 1;
+                return (RedirectToAction("ErrorMessage", new {ID = ErrorID }));
             }
 
             IvA.Models.ProjekteModel projekte = await _context.Projekte.FindAsync(id);
@@ -358,8 +359,9 @@ namespace IvA.Controllers
                     return RedirectToAction(nameof(Index));
                 }
                 else
-                {               
-                    return View("~/Views/Projekte/Fehlermeldung.cshtml");
+                {
+                    int ErrorID = 4;
+                    return (RedirectToAction("ErrorMessage", new { ID = ErrorID })); ;
                 }
             }
             return View(projekte);
@@ -379,7 +381,8 @@ namespace IvA.Controllers
             var EditValid = (from p in Projekte where p.ProjekteId == id select p.Projektersteller).FirstOrDefault();
             if (EditValid != this.User.Identity.Name)
             {
-                return View("~/Views/Projekte/ZugriffProjektÄndern.cshtml");
+                int ErrorID = 2;
+                return (RedirectToAction("ErrorMessage", new { ID = ErrorID })); ;
             }
 
             var projekte = await _context.Projekte
@@ -434,7 +437,8 @@ namespace IvA.Controllers
                 var Deadline = (from p in Projects where p.ProjekteId == Int32.Parse((string)ProId) select p.Deadline).FirstOrDefault();
                 if (arbeitsPaket.Frist >= Deadline)
                 {
-                    return View("~/Views/Projekte/DatumZuSpät.cshtml");
+                    int ErrorID = 3;
+                    return (RedirectToAction("ErrorMessage", new { ID = ErrorID })); ;
                 }
 
                 _context.Add(arbeitsPaket);
@@ -600,6 +604,22 @@ namespace IvA.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Projekte", new { id = arbeitsPaket.ProjektId });
+        }
+
+        /* 
+        Action-Methode, welche per Redirect von einer anderen Methode im entsprechenden Fehlerfall aufgerufen wird. Es wird ein spezifische Zahl als Fehlercode übergeben.
+        Abhängig vom Fehlercode wird eine spezifische Fehlermeldung ausgegeben 
+        Fehlercode 1: Versuch, Projektdetails anzupassen, obwohl man nicht der Project-Owner ist.
+        Fehlercode 2: Versuch, ein Projekt zu löschen, obwohl man nicht der Project-Owner ist.
+        Fehlercode 3: Versuch, ein Arbeitspaket zu erstellen, dessen Frist nach Ablauf der Projektdeadline liegt.
+        Fehlercode 4: Ein nicht existierender Projectowner wird einem Projekt zugewiesen.
+        */
+        public async Task<IActionResult> ErrorMessage(int id) 
+        {
+            ErrorMessage message = new ErrorMessage();
+            message.DynamicErrorMessage = Int32.Parse((string)RouteData.Values["id"]);
+
+            return View(message);
         }
 
     }
