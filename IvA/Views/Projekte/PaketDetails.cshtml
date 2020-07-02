@@ -72,7 +72,7 @@
                     @Html.DisplayFor(modelItem => item.UserName)
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte">Mitglied entfernen</a>
+                    <a class="btn btn-primary" asp-action="DeleteUserFromPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte">Mitglied entfernen</a>
                 </td>
             </tr>
         }

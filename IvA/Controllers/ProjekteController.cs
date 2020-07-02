@@ -220,6 +220,7 @@ namespace IvA.Controllers
         {
             return View();
         }
+
         public async Task<IActionResult> AddUserToProject([Bind("id,name")]  IvA.Models.AddUserModel userToProject)
         {
             if (userToProject.name != null)
@@ -233,10 +234,10 @@ namespace IvA.Controllers
                     };
                     _context.Add(newUserInProject);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Details", "Projekte", new { id = userToProject.id });
                 }
             }
-            return NotFound();
+            return NotFound("Error beim Hinzufügen eines Projekts");
         }
 
         //Martin??????
@@ -285,15 +286,50 @@ namespace IvA.Controllers
                     };
                     _context.Add(newMember);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("PaketDetails", "Projekte", new { id = id });
                 }
             }
             return NotFound("Fehler beim Hinzufügen");
         }
 
-        public async Task<IActionResult> DeleteUserFromProject() 
+        public async Task<IActionResult> DeleteUserFromProject(string name, int id)
         {
-            return RedirectToAction(nameof(ProjectUserList));
+            if (name != null)
+            {
+                IdentityUser user = await _userManager.FindByNameAsync(name);
+                if (user != null)
+                {
+                    List<ProjekteUserViewModel> userList = _context.ProjekteUserViewModel.ToList().FindAll(i => i.ProjekteId == id);
+                    ProjekteUserViewModel projectUser = userList.Find(n => n.UserId == user.Id);
+                    if(projectUser != null)
+                    {
+                        _context.ProjekteUserViewModel.Remove(projectUser);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Details", "Projekte", new { id = id });
+                    }
+                }
+            }
+            return NotFound("Error beim entfernen eines Nutzers");
+        }
+
+        public async Task<IActionResult> DeleteUserFromPackage(string name, int id)
+        {
+            if (name != null)
+            {
+                IdentityUser user = await _userManager.FindByNameAsync(name);
+                if (user != null)
+                {
+                    List<PaketeUserViewModel> userList = _context.PaketeUserViewModel.ToList().FindAll(i => i.ArbeitsPaketId == id);
+                    PaketeUserViewModel packageUser = userList.Find(n => n.UserId == user.Id);
+                    if (packageUser != null)
+                    {
+                        _context.PaketeUserViewModel.Remove(packageUser);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("PaketDetails", "Projekte", new { id = id });
+                    }
+                }
+            }
+            return NotFound("Error beim entfernen eines Nutzers");
         }
 
         ///------------------------------ Projekt anpassen --------------------------------------
@@ -523,6 +559,7 @@ namespace IvA.Controllers
             }
             return View(arbeitsPaket);
         }
+
         // Speichert die in der Html-Datei PaketAnpassen übergebenen Werte in die Tabelle "ArbeitsPaket" und leitet den Nutzer danach autoamtisch auf die Projektdetailseite zurück
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
