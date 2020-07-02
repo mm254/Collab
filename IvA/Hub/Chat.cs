@@ -35,8 +35,7 @@ namespace IvA
             await Clients.Client(Context.ConnectionId).SendAsync("MessageUpdate", query);
             var query2 = _context.Message
                     .AsQueryable()
-                    .Where(m =>
-                    // (m.QuellID == Context.User.Identity.Name) &&                   
+                    .Where(m =>                                
                     (m.Status == false)
                     )
                     .ToList();
@@ -50,8 +49,7 @@ namespace IvA
             var DataMensaje = new Message();
             DataMensaje.QuellID = Context.User.Identity.Name;
             DataMensaje.ZielID = destinatarioNombre;
-            DataMensaje.Nachricht = mensaje;
-            //DataMensaje.Status = false;
+            DataMensaje.Nachricht = mensaje;            
             DataMensaje.Datum = DateTime.Now;
             _context.Message.Add(DataMensaje);
             _context.SaveChanges();
@@ -60,16 +58,7 @@ namespace IvA
 
         public async Task readmessage(string remitente, string destinatario)
         {
-            //var status = _context.Message.First(a => a.QuellID == remitente && a.ZielID == destinatario);
-            //status.Status = true;
-
-
-            //var res = _context.Message.Where(r => r.Status == false && r.QuellID == remitente && r.ZielID == destinatario).ToList(); 
-            //update 
-            //foreach (r in res) { r.Status = true; } // save context.SaveChanges();
-            
-            //_context.Message.Where(r => r.Status == false && r.QuellID == remitente && r.ZielID == destinatario).ToList().ForEach(x =>
-            _context.Message.Where(r => r.Status == false && r.QuellID == destinatario && r.ZielID == remitente).ToList().ForEach(x =>
+             _context.Message.Where(r => r.Status == false && r.QuellID == destinatario && r.ZielID == remitente).ToList().ForEach(x =>
             {
                 x.Status = true; 
             });
@@ -78,8 +67,7 @@ namespace IvA
 
             var query = _context.Message
                     .AsQueryable()
-                    .Where(m =>
-                    //(m.QuellID == remitente && m.ZielID == destinatario));
+                    .Where(m =>                    
                     (m.QuellID == destinatario && m.ZielID == remitente));
             await Clients.Client(Context.ConnectionId).SendAsync("readmessage", destinatario,query);
         }
@@ -107,15 +95,13 @@ namespace IvA
             await Clients.All.SendAsync("ClientUpdate", usuariosconectados);            
             var query = _context.Message
                     .AsQueryable()
-                    .Where(m =>
-                   // (m.QuellID == Context.User.Identity.Name) &&                   
+                    .Where(m =>                                  
                     (m.Status == false )
                     )
                     .ToList();
             await Clients.Client(Context.ConnectionId).SendAsync("myUser", Context.User.Identity.Name);
             await Clients.All.SendAsync("mensajesnoleidos", query);            
-            await Clients.Client(Context.ConnectionId).SendAsync("mensajesnoleidos", query);
-            //await Clients.Client(Context.ConnectionId).SendAsync("myUser", Context.User.Identity.Name);
+            await Clients.Client(Context.ConnectionId).SendAsync("mensajesnoleidos", query);           
             await base.OnConnectedAsync();
         }
 
@@ -130,15 +116,13 @@ namespace IvA
             await Clients.All.SendAsync("ClientUpdate", usuariosconectados);
             var query = _context.Message
                     .AsQueryable()
-                    .Where(m =>
-                    // (m.QuellID == Context.User.Identity.Name) &&                   
+                    .Where(m =>                                     
                     (m.Status == false)
                     )
                     .ToList();
             await Clients.Client(Context.ConnectionId).SendAsync("myUser", Context.User.Identity.Name);
             await Clients.All.SendAsync("mensajesnoleidos", query);
-            await Clients.Client(Context.ConnectionId).SendAsync("mensajesnoleidos", query);
-            //await Clients.Client(Context.ConnectionId).SendAsync("myUser", Context.User.Identity.Name);
+            await Clients.Client(Context.ConnectionId).SendAsync("mensajesnoleidos", query);            
             await base.OnDisconnectedAsync(exception);
         }
 
