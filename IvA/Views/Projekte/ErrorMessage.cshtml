@@ -1,0 +1,38 @@
+﻿@model IvA.Models.ErrorMessage
+
+@{ ViewData["Title"] = "Es ist ein Fehler aufgetreten"; }
+
+<h1>
+    Es ist ein Fehler aufgetreten!
+</h1>
+
+<h2>
+    @if (Model.DynamicErrorMessage == 1)
+    {
+<div>
+    <p>Nur der Projekt-Owner darf Projektdetails anpassen. Finger weg!</p>
+    <br />
+    <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+</div>}
+    @if (Model.DynamicErrorMessage == 2)
+    {
+<div>
+    <p>Nur der Projekt-Owner darf Projekte löschen. Finger weg!</p>
+    <br />
+    <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+</div>}
+    @if (Model.DynamicErrorMessage == 3)
+    {
+<div>
+    <p> Die angegebene Frist für ein Arbeitspaket darf nicht später sein als die Deadline des Projektes. Bitte passen sie die Frist an!</p>
+    <br />
+    <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+</div>}
+    @if (Model.DynamicErrorMessage == 4)
+    {
+<div>
+    <p> Der Der angegebene ProjectOwner existiert nicht. Bitte wählen sie einen anderen aus!</p>
+    <br />
+    <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+</div>}
+</h2>
