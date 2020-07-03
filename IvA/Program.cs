@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace IvA
 {
+    // Programmstart
     public class Program
     {
         public static void Main(string[] args)
@@ -16,6 +17,7 @@ namespace IvA
             CreateHostBuilder(args).Build().Run();
         }
 
+        // Lädt die Standardkonfigurationen aus der Datei Startup.cs
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
