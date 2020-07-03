@@ -4,9 +4,8 @@ let destMessage = null
 let destMessageName = null
 let myuserLocal = null
 var connection = new signalR.HubConnectionBuilder().withUrl("/Chat").build();
-var sw=0
+var sw=1
 //Disable send button until connection is established
-
 document.getElementById("sendButtonMessage").disabled = true;
 
 connection.on("ReceiveMessage", function (user, message) {
@@ -50,7 +49,8 @@ connection.on("readmessage", (destinatario,query) => {
     })
 })
 
-
+// #007bff 
+// text-primary
 connection.on("ReceiveMessaggePrivate", (user, sender, message) => {
     console.log(destMessageName+"=="+user)    
         const fecha = new Date().toLocaleTimeString()
@@ -58,7 +58,22 @@ connection.on("ReceiveMessaggePrivate", (user, sender, message) => {
         destMessageName = user;
         connection.invoke("MessageUpdate", destMessageName).catch(function (err) {
         });
-        $("#textziel").html(destMessageName)                             
+    $("#textziel").html(destMessageName) 
+    let id = document.getElementById("min_user")
+    
+    if (id.innerText == "Open") {
+        var usuarionoty = document.getElementById('user_content');
+        usuarionoty.style.background = "#FFBD4A"
+        var farbe = document.getElementById("farbe")
+        farbe.style.color="#000000"
+        id.innerText = "Message"
+        setTimeout(function () {
+            usuarionoty.style.background = "#FFFFFF"
+            id.innerText = "Open"
+            farbe.style.color = "#007bff"
+        }, 8000)
+    }
+    
 })
 
 
@@ -102,6 +117,9 @@ connection.on("mensajesnoleidos", (data) => {
             elem.html(cont)
         }        
     })
+    var chatBox = document.getElementById('scrolldown');
+    chatBox.scrollTop = chatBox.scrollHeight;
+    
 })
 
 
@@ -145,8 +163,7 @@ connection.on("myUser", (data) => {
 
 connection.on("MessageUpdate", (data) => {    
     $(".messages").empty()
-    for (var i = data.length-1; i >= 0; i--){        
-    //for (var i = 0; i<data.length; i++) {        
+    for (var i = data.length-1; i >= 0; i--){                  
         if (data[i].quellID == myuserLocal) {
             $(".messages").append(`<div class="message msg_cli"><strong>yo</strong><div> ${data[i].nachricht}</div></div >`)            
         }
@@ -154,14 +171,8 @@ connection.on("MessageUpdate", (data) => {
             $(".messages").append(`<div class="message msg_cli"><strong>${data[i].quellID}</strong><div> ${data[i].nachricht}</div></div >`)        
         }
     }  
-
-    /*$(".noty").each(function () {
-        if ($(this).data("destinatarionombre") == user) {
-            let elem = $(this)
-            let x = parseInt(elem.html())
-            elem.html(x + 1)
-        }
-    })  */ 
+    var chatBox = document.getElementById('scrolldown');
+    chatBox.scrollTop = chatBox.scrollHeight;
 })
 
 document.getElementById("sendButtonMessage").addEventListener("click", function (event) {
@@ -191,4 +202,6 @@ function selectClientMessage() {
             id.classList.add("close_user")  
         })
     });
+    var chatBox = document.getElementById('scrolldown');
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
