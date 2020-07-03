@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace IvA.Models
 {
+    /*
+     Datenmodell für Arbeitspakete, welche innerhalb eines Projektes erstellt werden können.
+     */
     public class ArbeitsPaketModel
     {
         [Key]

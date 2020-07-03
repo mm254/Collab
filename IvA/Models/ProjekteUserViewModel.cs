@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace IvA.Models
 {
+    /*
+     ViewModel, um gleichzeitg Daten von Projekten und Usern an eine View zu übergeben.
+     */
     public class ProjekteUserViewModel
     {
         [Key]

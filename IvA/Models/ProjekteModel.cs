@@ -7,6 +7,9 @@ using IvA.Validation;
 
 namespace IvA.Models
 {
+    /*
+     Datenmodell für ein Projekt
+     */
     public class ProjekteModel {
 
         [Key]

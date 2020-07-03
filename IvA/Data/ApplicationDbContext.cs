@@ -7,6 +7,12 @@ using IvA.Models;
 
 namespace IvA.Data
 {
+
+    /*
+    Die Datenbankkontextklasse stellt Entitiy-Framwork Funktionen für ein Datenmodell bereit. Da nur eine Datenbank eingesetzt wird, verwenden wir für alle Datenmodelle
+    eine zentrale Kontexklassse. DbSet<> erstellt eine Instanz von DbSet und stellt die Entity-Operationen zur Verfügung.
+    Der Unterordner Migrationen enthält alle Datenbankmigrationen, mit deren Hilfe Tabellen generiert und verändert wurden.
+     */
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
