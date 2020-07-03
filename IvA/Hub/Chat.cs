@@ -54,6 +54,7 @@ namespace IvA
             _context.Message.Add(DataMensaje);
             _context.SaveChanges();
             await Clients.Client(destinatario).SendAsync("ReceiveMessaggePrivate", Context.User.Identity.Name,Context.ConnectionId , mensaje);
+
         }
 
         public async Task readmessage(string remitente, string destinatario)

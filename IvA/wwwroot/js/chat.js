@@ -27,7 +27,7 @@ document.getElementById("sendButtonMessage").addEventListener("click", event => 
     let message = $("#messageInputChat").val()
     if (message.length > 0) {
         var fecha = new Date().toLocaleTimeString()
-        console.log(destMessageName);
+        
         connection.invoke("SendMessagePrivate", destMessage, destMessageName, message).catch(err => console.error(err.toString()))           
         $(".messages").append(`<div class="message msg_cli"><strong>yo</strong ><div> ${message}</div></div >`);
         $("#messageInputChat").val("")
@@ -52,7 +52,8 @@ connection.on("readmessage", (destinatario,query) => {
 // #007bff 
 // text-primary
 connection.on("ReceiveMessaggePrivate", (user, sender, message) => {
-    console.log(destMessageName+"=="+user)    
+    
+    document.getElementById("audio").play();
         const fecha = new Date().toLocaleTimeString()
         destMessage = sender;
         destMessageName = user;
@@ -93,7 +94,7 @@ connection.on("ClientConnected", function (data) {
 })
 
 connection.on("ClientUpdate", (data) => {
-    console.log(myuserLocal+" actualizado " + data)
+    //console.log(myuserLocal+" actualizado " + data)
     $("#list_clients").html("")
 
     $.each(data, (ind, elem) => {
@@ -106,13 +107,13 @@ connection.on("mensajesnoleidos", (data) => {
     $(".noty").each(function () {
         let elem=$(this)       
         let cont = 0;
-        console.log("# mensajes: " + data.length)
+        //console.log("# mensajes: " + data.length)
         for (let i = 0; i < data.length; i++) {                                
             if (elem.data("destinatarionombre") == data[i].quellID && data[i].zielID == myuserLocal) {            
                 cont++;
             }
         }
-        console.log("mensajes " + myuserLocal +" : " + cont)
+        //console.log("mensajes " + myuserLocal +" : " + cont)
         if (cont > 0) {
             elem.html(cont)
         }        
@@ -157,7 +158,7 @@ document.getElementById("min_user").addEventListener("click", function () {
 
 connection.on("myUser", (data) => {    
     myuserLocal=data
-    console.log('myUser: ' + myuserLocal)
+    //console.log('myUser: ' + myuserLocal)
 })
 
 
