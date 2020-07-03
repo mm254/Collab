@@ -39,5 +39,7 @@ namespace IvA.Data
         public DbSet<UserLoginMessageViewModel> UserLoginMessageViewModel { get; set; }
 
         public DbSet<IvA.Models.AddUserModel> AddUserModel { get; set; }
+
+        public DbSet<ProjectRoles> ProjectRoles { get; set; }
     }
 }
