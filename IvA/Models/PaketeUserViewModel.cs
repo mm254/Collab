@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace IvA.Models
 {
+    /*
+     ViewModel, um gleichzeitig Daten von Arbeitspaketen und Usern an eine View zu übermitteln
+     */
     public class PaketeUserViewModel
     {
         [Key]

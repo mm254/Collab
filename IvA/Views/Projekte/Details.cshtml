@@ -1,4 +1,6 @@
-﻿@model ProjekteDetailModel
+﻿@using Microsoft.AspNetCore.Identity
+@model ProjekteDetailModel
+@inject SignInManager<IdentityUser> SignInManager
 
 @{ ViewData["Title"] = "Projektdetails"; }
 
@@ -106,7 +108,7 @@
 <p>
     <h2>Mitglieder</h2>
 </p>
-<a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte" >Nutzer hinzufügen</a>
+<a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte">Nutzer hinzufügen</a>
 <table class="table">
     <thead>
         <tr>
@@ -126,6 +128,10 @@
                     @item.UserName
                 </td>
                 <td>
+                    @if (item.UserName != Model.Project.Projektersteller)
+                    {
+                        <a class="btn btn-primary" asp-action="DeleteUserFromProject" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.UserName">Nutzer entfernen</a>
+                    }
                 </td>
             </tr>
         }

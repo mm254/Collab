@@ -28,15 +28,9 @@
                         }
                         <!-- Nur fürs debugging ansonsten diese Abfrage: (this.User.IsInRole("Admin")) -->
                         @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="UserLogin" asp-action="Index">Chatkontrolle</a>
-                            </li>
+                        {                  
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Chat" asp-action="Chat">Chatfunktion</a>
                             </li>
 
                             <li class="nav-item dropdown">
