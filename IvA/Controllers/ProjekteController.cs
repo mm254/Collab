@@ -259,13 +259,7 @@ namespace IvA.Controllers
                     };
                     _context.Add(newUserInProject);
 
-                    ProjectRoles role = new ProjectRoles()
-                    {
-                        ProjectId = userToProject.id,
-                        ProjectRole = "Nutzer",
-                        UserId = newUser.Id
-                    };
-                    _context.Add(role);
+                    ChangeUserProjectRole(newUser.Id, userToProject.id, "Nutzer");
 
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Details", "Projekte", new { id = userToProject.id });
@@ -338,8 +332,8 @@ namespace IvA.Controllers
                     if(projectUser != null)
                     {
                         _context.ProjekteUserViewModel.Remove(projectUser);
-                        await _context.SaveChangesAsync();
                         DeleteUserFromProjectRoles(name, id);
+                        await _context.SaveChangesAsync();
                         return RedirectToAction("Details", "Projekte", new { id = id });
                     }
                 }
@@ -365,6 +359,22 @@ namespace IvA.Controllers
                 }
             }
             return NotFound("Error beim entfernen eines Nutzers");
+        }
+
+        public async Task<IActionResult> ChangeProjectRole(string name, int id, string role)
+        {
+            ChangeUserProjectRole(name, id, role);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "Projekte", new { id = id });
+        }
+
+        public async Task<IActionResult> ChangeOwnership(string newOwner, int id)
+        {
+            var loggedUser = await _userManager.GetUserAsync(this.User);
+            ChangeUserProjectRole(loggedUser.Id, id, "Nutzer");
+            ChangeUserProjectRole(newOwner, id, "Owner");
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "Projekte", new { id = id });
         }
 
         ///------------------------------ Projekt anpassen --------------------------------------
@@ -694,31 +704,28 @@ namespace IvA.Controllers
             return View(message);
         }
 
-        public async void ChangeUserProjectRole(string userName, int projectId, string role)
+        public async void ChangeUserProjectRole(string userId, int projectId, string role)
         {
-            IdentityUser user = await _userManager.FindByNameAsync(userName);
-            DeleteUserFromProjectRoles(userName, projectId);
+            DeleteUserFromProjectRoles(userId, projectId);
             ProjectRoles newRole = new ProjectRoles()
             {
                 ProjectId = projectId,
                 ProjectRole = role,
-                UserId = user.Id
+                UserId = userId
             };
-            _context.ProjectRoles.Add(newRole);
-            await _context.SaveChangesAsync();
+            _context.Add(newRole);
         }
 
         // Entfernt alle Rollen die einem User in einem Projekt zugewiesen sind
-        public async void DeleteUserFromProjectRoles(string userName, int projectId)
+        public async void DeleteUserFromProjectRoles(string userId, int projectId)
         {
-            IdentityUser user = await _userManager.FindByNameAsync(userName);
-            List<ProjectRoles> activeRoles = _context.ProjectRoles.ToList().FindAll(n => n.UserId == user.Id);
+            List<ProjectRoles> activeRoles = _context.ProjectRoles.ToList().FindAll(n => n.UserId == userId);
             activeRoles = activeRoles.FindAll(i => i.ProjectId == projectId);
             foreach(ProjectRoles role in activeRoles)
             {
                 _context.ProjectRoles.Remove(role);
             }
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
         }
     }
 }
