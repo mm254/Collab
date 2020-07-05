@@ -123,9 +123,15 @@
     <tbody>
         @foreach (var item in Model.ProjectUsers)
         {
+            string role = getRole(item);
             <tr>
                 <td>
-                    @item.UserName
+                    @switch (role)
+                    {
+                        case "Owner":<h3>@item.UserName <span class="badge badge-warning">@role</span></h3> break;
+                        case "Moderator": <h3>@item.UserName <span class="badge badge-primary">@role</span></h3>break;
+                        case "Nutzer": <h3>@item.UserName <span class="badge badge-secondary">@role</span></h3>break;
+                    }
                 </td>
                 <td>
                     @if (item.UserName != Model.Project.Projektersteller)
@@ -139,3 +145,16 @@
 </table>
 
 <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+
+@functions{
+    public string getRole(IdentityUser user)
+    {
+        var rolesInProject = Model.Roles.FindAll(i => i.ProjectId == Model.Project.ProjekteId);
+        var userRole = rolesInProject.Find(u => u.UserId == user.Id);
+        if(userRole != null)
+        {
+            return userRole.ProjectRole;
+        }
+        return "ErrorRole";
+    }
+}
