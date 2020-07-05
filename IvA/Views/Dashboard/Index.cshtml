@@ -5,7 +5,33 @@
 }
 
 <h1>Mein Dashboard</h1>
-
+<h2>Demnächst zu erledigen<h2>
+<div class="card-columns">
+    @foreach (var item in Model)
+    {
+        DateTime now = DateTime.Now;
+        @if (item.Frist <= now.AddDays(3)) 
+        {
+        <div class="card bg-danger">
+            <div class="card-header text-center"><a asp-action="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
+            <div class="card-body text-center">
+                <p class="card-text">@item.Beschreibung</p>
+                <p class="card-text">@item.Frist</p>
+            </div>
+        </div>
+        }
+        else {
+        <div class="card bg-secondary">
+            <div class="card-header text-center"><a asp-action="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
+            <div class="card-body text-center">
+                <p class="card-text">@item.Beschreibung</p>
+                <p class="card-text">@item.Frist</p>
+            </div>
+        </div>
+        };
+    }
+</div>
+<!--
 <h2>Demnächst zu erledigen</h2>
 <table class="table">
     <thead>
@@ -42,7 +68,7 @@
         }
     </tbody>
 </table>
-
+-->
 <h2>To do</h2>
 <table class="table">
     <thead>
@@ -152,3 +178,5 @@
         }
     </tbody>
 </table>
+
+
