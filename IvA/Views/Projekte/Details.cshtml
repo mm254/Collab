@@ -123,13 +123,29 @@
     <tbody>
         @foreach (var item in Model.ProjectUsers)
         {
+            string role = getRole(item);
             <tr>
                 <td>
-                    @item.UserName
+                    @switch (role)
+                    {
+                        case "Owner":<h4>@item.UserName <span class="badge badge-warning">@role</span></h4> break;
+                        case "Moderator": <h4>@item.UserName <span class="badge badge-primary">@role</span></h4>break;
+                        case "Nutzer": <h4>@item.UserName <span class="badge badge-secondary">@role</span></h4>break;
+                    }
                 </td>
                 <td>
                     @if (item.UserName != Model.Project.Projektersteller)
                     {
+                        <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-newOwner="@item.Id" asp-route-role="">Owner ernennen</a>
+                        if (role == "Moderator")
+                        {
+                            <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Nutzer">Moderator wegnehmen</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Moderator">Moderator ernennen</a>
+                        }
+
                         <a class="btn btn-primary" asp-action="DeleteUserFromProject" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.UserName">Nutzer entfernen</a>
                     }
                 </td>
@@ -139,3 +155,16 @@
 </table>
 
 <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+
+@functions{
+    public string getRole(IdentityUser user)
+    {
+        var rolesInProject = Model.Roles.FindAll(i => i.ProjectId == Model.Project.ProjekteId);
+        var userRole = rolesInProject.Find(u => u.UserId == user.Id);
+        if(userRole != null)
+        {
+            return userRole.ProjectRole;
+        }
+        return "ErrorRole";
+    }
+}

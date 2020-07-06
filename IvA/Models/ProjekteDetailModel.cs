@@ -12,5 +12,6 @@ namespace IvA.Models
         public List<ArbeitsPaketModel> Packages { get; set; }
         public List<IdentityUser> ProjectUsers { get; set; }
         public string[] ProjectProgress { get; set; }
+        public List<ProjectRoles> Roles { get; set; }
     }
 }

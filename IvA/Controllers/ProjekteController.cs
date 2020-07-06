@@ -71,15 +71,23 @@ namespace IvA.Controllers
                 List<ProjekteModel> Projekte = _context.Projekte.ToList();
                 List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
                 List<ProjekteUserViewModel> Users = _context.ProjekteUserViewModel.ToList();
-                List<IdentityUser> userList = new List<IdentityUser>();
+                List<ProjectRoles> UserRoles = _context.ProjectRoles.ToList();
 
                 // Liste an IdentityUser der Projektmitglieder wird erstellt
+                List<IdentityUser> userList = new List<IdentityUser>();
                 foreach (ProjekteUserViewModel user in Users)
                 {
                     if (user.ProjekteId == id)
                     {
                         userList.Add(await _userManager.FindByIdAsync(user.UserId));
                     }
+                }
+
+                // Überprüfen ob Nutzer Teil des Projektes ist und die Detailansicht sehen darf
+                var loggedInUser = await _userManager.GetUserAsync(this.User);
+                if (!userList.Contains(loggedInUser))
+                {
+                    return (RedirectToAction("ErrorMessage", new { ID = 1 }));
                 }
 
                 // Schnitt aus drei Tabellen um alle zu einem Projekt zugehörigen Pakete zu erhalten
@@ -106,31 +114,8 @@ namespace IvA.Controllers
                 ProjekteModel project = Projekte.Find(m => m.ProjekteId == id);
 
                 // Anhand der Liste der Pakete werden drei Prozentwerte ermittlt die den Projektfortschritt wiedergeben
-                string[] percentages = new string[3];
-                int packagesCount = packages.Count();
-                if(packagesCount != 0)
-                {
-                    int[] count = new int[3];
-                    foreach (ArbeitsPaketModel pack in packages)
-                    {
-                        switch (pack.Status)
-                        {
-                            case "To do": count[0]++; break;
-                            case "In Bearbeitung": count[1]++; break;
-                            case "Fertig": count[2]++; break;
-                        }
-                    }
-                    percentages[0] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[0], packagesCount), 100)).ToString() + "%";
-                    percentages[1] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[1], packagesCount), 100)).ToString() + "%";
-                    percentages[2] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[2], packagesCount), 100)).ToString() + "%";
-                }
-                else
-                {
-                    percentages[0] = "0%";
-                    percentages[1] = "0%";
-                    percentages[2] = "0%";
-                }
-                
+                var percentages = CalculatePercentages(packages.ToList());
+
 
                 // Erstellen des finalen Models
                 ProjekteDetailModel pDetailModel = new ProjekteDetailModel
@@ -138,10 +123,40 @@ namespace IvA.Controllers
                     Packages = packages.ToList(),
                     Project = project,
                     ProjectUsers = userList,
-                    ProjectProgress = percentages
+                    ProjectProgress = percentages,
+                    Roles = UserRoles
                 };
                 return View(pDetailModel);
             }
+        }
+
+        public string[] CalculatePercentages(List<ArbeitsPaketModel> packages)
+        {
+            string[] percentages = new string[3];
+            int packagesCount = packages.Count();
+            if (packagesCount != 0)
+            {
+                int[] count = new int[3];
+                foreach (ArbeitsPaketModel pack in packages)
+                {
+                    switch (pack.Status)
+                    {
+                        case "To do": count[0]++; break;
+                        case "In Bearbeitung": count[1]++; break;
+                        case "Fertig": count[2]++; break;
+                    }
+                }
+                percentages[0] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[0], packagesCount), 100)).ToString() + "%";
+                percentages[1] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[1], packagesCount), 100)).ToString() + "%";
+                percentages[2] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[2], packagesCount), 100)).ToString() + "%";
+            }
+            else
+            {
+                percentages[0] = "0%";
+                percentages[1] = "0%";
+                percentages[2] = "0%";
+            }
+            return percentages;
         }
 
         //------------------------------ Projekt erstellen ---------------------------------
@@ -209,9 +224,19 @@ namespace IvA.Controllers
                     UserId = loggedUser.Id
                 };
                 _context.Add(firstMember);
+
+                // Projektersteller zum Owner ernnen
+                ProjectRoles owner = new ProjectRoles()
+                {
+                    ProjectId = projekte.ProjekteId,
+                    ProjectRole = "Owner",
+                    UserId = loggedUser.Id
+                };
+                _context.Add(owner);
+
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Projekte", new { id = projekte.ProjekteId });
             }
             return View(projekte);
         }
@@ -233,6 +258,9 @@ namespace IvA.Controllers
                         UserId = newUser.Id
                     };
                     _context.Add(newUserInProject);
+
+                    ChangeUserProjectRole(newUser.Id, userToProject.id, "Nutzer");
+
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Details", "Projekte", new { id = userToProject.id });
                 }
@@ -304,6 +332,7 @@ namespace IvA.Controllers
                     if(projectUser != null)
                     {
                         _context.ProjekteUserViewModel.Remove(projectUser);
+                        DeleteUserFromProjectRoles(name, id);
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Details", "Projekte", new { id = id });
                     }
@@ -330,6 +359,22 @@ namespace IvA.Controllers
                 }
             }
             return NotFound("Error beim entfernen eines Nutzers");
+        }
+
+        public async Task<IActionResult> ChangeProjectRole(string name, int id, string role)
+        {
+            ChangeUserProjectRole(name, id, role);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "Projekte", new { id = id });
+        }
+
+        public async Task<IActionResult> ChangeOwnership(string newOwner, int id)
+        {
+            var loggedUser = await _userManager.GetUserAsync(this.User);
+            ChangeUserProjectRole(loggedUser.Id, id, "Nutzer");
+            ChangeUserProjectRole(newOwner, id, "Owner");
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "Projekte", new { id = id });
         }
 
         ///------------------------------ Projekt anpassen --------------------------------------
@@ -659,5 +704,28 @@ namespace IvA.Controllers
             return View(message);
         }
 
+        public async void ChangeUserProjectRole(string userId, int projectId, string role)
+        {
+            DeleteUserFromProjectRoles(userId, projectId);
+            ProjectRoles newRole = new ProjectRoles()
+            {
+                ProjectId = projectId,
+                ProjectRole = role,
+                UserId = userId
+            };
+            _context.Add(newRole);
+        }
+
+        // Entfernt alle Rollen die einem User in einem Projekt zugewiesen sind
+        public async void DeleteUserFromProjectRoles(string userId, int projectId)
+        {
+            List<ProjectRoles> activeRoles = _context.ProjectRoles.ToList().FindAll(n => n.UserId == userId);
+            activeRoles = activeRoles.FindAll(i => i.ProjectId == projectId);
+            foreach(ProjectRoles role in activeRoles)
+            {
+                _context.ProjectRoles.Remove(role);
+            }
+            //await _context.SaveChangesAsync();
+        }
     }
 }
