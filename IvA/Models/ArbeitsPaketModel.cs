@@ -29,5 +29,11 @@ namespace IvA.Models
 
         public string Status { get; set; }
 
+        //[RegularExpression("([1-9][0-9]*)", ErrorMessage = "Geben sie eine Ganzzahl ein")]
+        public int Zeitbudget { get; set; }
+
+        //[RegularExpression("([1-9][0-9]*)", ErrorMessage = "Geben sie eine Ganzzahl ein")]
+        public int VerbrauchteZeit { get; set; }
+
     }
 }

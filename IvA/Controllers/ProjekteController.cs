@@ -505,7 +505,7 @@ namespace IvA.Controllers
         //---------------------------- Paket erstellen ----------------------
 
         // Die Methode erstellt ein Arbeitspaket und ordnet dieses autoomatisch dem richtig Projekt zu. Nach erfolgreicher Erstellung wird der Nutzer auf die entsprechende Detailansicht des Projektes zurückgeleitet.
-        public async Task<IActionResult> PaketErstellen ([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Frist,Status")]ArbeitsPaketModel arbeitsPaket, ProjekteArbeitsPaketeViewModel papv, int pId)
+        public async Task<IActionResult> PaketErstellen ([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Zeitbudget,Frist,Status")]ArbeitsPaketModel arbeitsPaket, ProjekteArbeitsPaketeViewModel papv, int pId)
         {
             if (ModelState.IsValid)
             {
@@ -614,7 +614,7 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PaketAnpassen(int id, [Bind("ArbeitsPaketId,ProjektId,PaketName,Beschreibung,Mitglieder,Frist,Status")] ArbeitsPaketModel arbeitsPaket)
+        public async Task<IActionResult> PaketAnpassen(int id, [Bind("ArbeitsPaketId,ProjektId,PaketName,Beschreibung,Mitglieder,Zeitbudget,VerbrauchteZeit,Frist,Status")] ArbeitsPaketModel arbeitsPaket)
         {
             if (id != arbeitsPaket.ArbeitsPaketId)
             {
@@ -702,6 +702,53 @@ namespace IvA.Controllers
             message.DynamicErrorMessage = Int32.Parse((string)RouteData.Values["id"]);
 
             return View(message);
+        }
+
+        // Mit Hilfe der Methode wird für ein spezifisches Arbeitspaket die verbrauchte Arbeitszeit eingetragen
+        public async Task<IActionResult> PaketZeit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var arbeitsPaket = await _context.ArbeitsPaket.FindAsync(id);
+            if (arbeitsPaket == null)
+            {
+                return NotFound();
+            }
+            return View(arbeitsPaket);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PaketZeit(int id, [Bind("ArbeitsPaketId,ProjektId,PaketName,Beschreibung,Mitglieder,Zeitbudget,VerbrauchteZeit,Frist,Status")] ArbeitsPaketModel arbeitsPaket)
+        {
+            if (id != arbeitsPaket.ArbeitsPaketId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(arbeitsPaket);                
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ArbeitsPaketExists(arbeitsPaket.ArbeitsPaketId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("Details", "Projekte", new { id = arbeitsPaket.ProjektId });
+            }
+            return View(arbeitsPaket);          
         }
 
         public async void ChangeUserProjectRole(string userId, int projectId, string role)

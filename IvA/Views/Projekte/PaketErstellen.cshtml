@@ -20,19 +20,24 @@
                 <span asp-validation-for="Beschreibung" class="text-danger"></span>
             </div>
             <div class="form-group">
-                
-                <input asp-for="Mitglieder" type ="hidden" class="form-control" />
+
+                <input asp-for="Mitglieder" type="hidden" class="form-control" />
                 <span asp-validation-for="Mitglieder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Zeitbudget" class="control-label">Geplantes Zeitbudget in Stunden</label>
+                <input asp-for="Zeitbudget" class="form-control" />
+                <span asp-validation-for="Zeitbudget" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Frist" class="control-label"></label>
                 <input asp-for="Frist" value="@DateTime.Now" class="form-control" />
                 <span asp-validation-for="Frist" class="text-danger"></span>
             </div>
-            <div class="form-group">          
-              <input asp-for="Status" type="hidden"class="form-control" placeholder="To do" disabled="" />
-              <span asp-validation-for="Status" class="text-danger"></span>
-             </div>
+            <div class="form-group">
+                <input asp-for="Status" type="hidden" class="form-control" placeholder="To do" disabled="" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Arbeitspaket erstellen" class="btn btn-primary" />
             </div>
