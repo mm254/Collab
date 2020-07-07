@@ -1,63 +1,53 @@
 ﻿@model IvA.Models.ArbeitsPaketModel
 
-@{ 
-    ViewData["Title"] = "Arbeitspaket anpassen";
- }
+@{ ViewData["Title"] = "Verbrauchte Zeit Eintragen"; }
 
-<h1>Passen sie die Details des Arbeitspaketes an</h1>
-
-
+<h1>Tragen sie hier die eingesetzte Zeit für das Arbeitspaket ein</h1>
 <br />
-
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="PaketAnpassen">
+        <form asp-action="PaketZeit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ArbeitsPaketId" />
             <div class="form-group">
                 <input asp-for="ProjektId" type="hidden" class="form-control" />
                 <span asp-validation-for="ProjektId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PaketName" class="control-label"></label>
-                <input asp-for="PaketName" class="form-control" />
+            <div class="form-group">           
+                <input asp-for="PaketName" type="hidden" class="form-control" />
                 <span asp-validation-for="PaketName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Beschreibung" class="control-label"></label>
-                <input asp-for="Beschreibung" class="form-control" />
+            </div>    
+            <div class="form-group">               
+                <input asp-for="Beschreibung" type="hidden" class="form-control" />
                 <span asp-validation-for="Beschreibung" class="text-danger"></span>
             </div>
             <div class="form-group">
-
                 <input asp-for="Mitglieder" type="hidden" class="form-control" />
                 <span asp-validation-for="Mitglieder" class="text-danger"></span>
             </div>
-            <div class="form-group">          
+            <div class="form-group">
                 <input asp-for="Zeitbudget" type="hidden" class="form-control" />
                 <span asp-validation-for="Zeitbudget" class="text-danger"></span>
             </div>
-            <div class="form-group">           
-                <input asp-for="VerbrauchteZeit" type="hidden" class="form-control" />
+            <div class="form-group">
+                <label asp-for="VerbrauchteZeit" class="control-label">Eingesetzte Arbeitszeit für das Paket in Stunden</label>
+                <input asp-for="VerbrauchteZeit" class="form-control" />
                 <span asp-validation-for="VerbrauchteZeit" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Frist" class="control-label"></label>
-                <input asp-for="Frist" class="form-control" />
+            <div class="form-group">             
+                <input asp-for="Frist" type="hidden" class="form-control" />
                 <span asp-validation-for="Frist" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    <option value="To do">To Do</option>
+                <select asp-for="Status" class="form-control">                
                     <option value="In Bearbeitung">In Bearbeitung</option>
-                    <option value="Fertig">Fertig</option>
                 </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Änderungen speichern" class="btn btn-primary" />
+                <input type="submit" value="Zeit eintragen" class="btn btn-primary" />
             </div>
         </form>
     </div>
