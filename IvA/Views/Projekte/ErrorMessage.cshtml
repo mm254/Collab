@@ -30,16 +30,16 @@
         </div>}
     @if (Model.DynamicErrorMessage == 4)
     {
-        <div>
-            <p> Der Der angegebene ProjectOwner existiert nicht. Bitte wählen sie einen anderen aus!</p>
-            <br />
-            <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
-        </div>}
+<div>
+    <p> Der Der angegebene ProjectOwner existiert nicht. Bitte wählen sie einen anderen aus!</p>
+    <br />
+    <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+</div>}
     @if (Model.DynamicErrorMessage == 5)
     {
-        <div>
-            <p> Nur Mitglieder eines Projektes oder Admins dürden auf Projekte zugreifen.</p>
-            <br />
-            <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
-        </div>}
+<div>
+    <p> Das Zeitbudget für ein Arbeitspaket darf nicht negativ sein</p>
+    <br />
+    <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+</div>}
 </h2>

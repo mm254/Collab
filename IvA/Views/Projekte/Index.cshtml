@@ -9,7 +9,7 @@
 </h2>
 
 <p style="padding-top:25px ; padding-bottom: 25px">
-    <a class="btn btn-primary" asp-action="Create">Neues Projekt erstellen</a>
+    <a class="btn btn-orange" asp-action="Create"><b>Neues Projekt erstellen</b></a>
 </p>
 
 <div class="card-columns" style="margin-top:15px">
@@ -18,16 +18,15 @@
     {
         @if (item.Deadline <= DateTime.Now)
         {
-            <div class="card bg-danger">
-                <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.ProjekteId" class="btn btn-dark">@item.Projektname</a></div>
-                <div class="card-body text-center">
-                    <p class="card-text">@item.Beschreibung</p>
-                </div>
-                <!--
-                <div class="card-footer">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
-                            </div>
+        <div class="card bg-danger">
+            <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.ProjekteId" class="btn btn-dark" style="color: #ffa400">@item.Projektname</a></div>
+            <div class="card-body text-center">
+                <p class="card-text">@item.Beschreibung</p>
+            </div>
+            <!--
+            <div class="card-footer">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
                         </div>
                 </div>
                  -->
@@ -35,16 +34,15 @@
         }
         else
         {
-            <div class="card bg-secondary">
-                <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.ProjekteId" class="btn btn-dark">@item.Projektname</a></div>
-                <div class="card-body text-center">
-                    <p class="card-text">@item.Beschreibung</p>
-                </div>
-                <!--
-                <div class="card-footer">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
-                            </div>
+        <div class="card bg-secondary">
+            <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.ProjekteId" class="btn btn-dark" style="color: #ffa400">@item.Projektname</a></div>
+            <div class="card-body text-center">
+                <p class="card-text">@item.Beschreibung</p>
+            </div>
+            <!--
+            <div class="card-footer">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
                         </div>
                 </div>
                  -->
