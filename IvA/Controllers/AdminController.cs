@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IvA.Controllers
 {
-    //[Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin")]
     public class AdminController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
@@ -56,7 +56,8 @@ namespace IvA.Controllers
 
             return RedirectToAction("ListUsers");
         }
-        
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeRole(string? Id)
         {
             if(Id != null)
@@ -83,22 +84,6 @@ namespace IvA.Controllers
                 }
             }
             return RedirectToAction("ListUsers");
-        }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(RoleModel role)
-        {
-            var existRole = await roleManager.RoleExistsAsync(role.Name);
-            if (!existRole)
-            {
-                var result = await roleManager.CreateAsync(new IdentityRole(role.Name));
-            }
-            return View();
         }
     }
 }

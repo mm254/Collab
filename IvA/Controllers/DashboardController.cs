@@ -25,7 +25,7 @@ namespace IvA.Controllers
             var loggedUser = await _userManager.GetUserAsync(this.User);
             List<PaketeUserViewModel> UsersPackages = _context.PaketeUserViewModel.ToList();
             var Packages = _context.ArbeitsPaket.ToList();
-            var dashboardList = from _packages in Packages
+            var dashboard = from _packages in Packages
                                 join _userPackages in UsersPackages
                                 on _packages.ArbeitsPaketId equals _userPackages.ArbeitsPaketId
                                 where _userPackages.UserId == loggedUser.Id
@@ -39,7 +39,33 @@ namespace IvA.Controllers
                                     ProjektId = _packages.ProjektId,
                                     Status = _packages.Status
                                 };
-            return View(dashboardList);
+            List<ArbeitsPaketModel> sortedDashboard = dashboard.ToList();
+            sortedDashboard.Sort((x, y) => DateTime.Compare(x.Frist, y.Frist));
+            return View(sortedDashboard);
+        }
+
+        public async Task<IActionResult> List()
+        {
+            var loggedUser = await _userManager.GetUserAsync(this.User);
+            List<PaketeUserViewModel> UsersPackages = _context.PaketeUserViewModel.ToList();
+            var Packages = _context.ArbeitsPaket.ToList();
+            var dashboard = from _packages in Packages
+                            join _userPackages in UsersPackages
+                            on _packages.ArbeitsPaketId equals _userPackages.ArbeitsPaketId
+                            where _userPackages.UserId == loggedUser.Id
+                            select new ArbeitsPaketModel
+                            {
+                                ArbeitsPaketId = _packages.ArbeitsPaketId,
+                                Beschreibung = _packages.Beschreibung,
+                                Frist = _packages.Frist,
+                                Mitglieder = _packages.Mitglieder,
+                                PaketName = _packages.PaketName,
+                                ProjektId = _packages.ProjektId,
+                                Status = _packages.Status
+                            };
+            List<ArbeitsPaketModel> sortedDashboard = dashboard.ToList();
+            sortedDashboard.Sort((x, y) => DateTime.Compare(x.Frist, y.Frist));
+            return View(sortedDashboard);
         }
     }
 }

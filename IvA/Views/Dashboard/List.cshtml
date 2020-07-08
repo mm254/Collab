@@ -1,0 +1,68 @@
+﻿@model IEnumerable<IvA.Models.ArbeitsPaketModel>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>Mein Dashboard</h1>
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Ansicht wählen
+    </button>
+    <div class="dropdown-menu" aria-labelledby="Ansicht">
+        <a class="dropdown-item" asp-controller="Dashboard" asp-action="Index">Cards</a>
+        <a class="dropdown-item active" asp-controller="Dashboard" asp-action="List">Liste</a>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.Status != "Fertig") 
+            {
+        <tr>
+            @if (item.Frist <= DateTime.Now.AddDays(3))
+            {
+                <td class="table-danger">
+                    @Html.DisplayFor(modelItem => item.PaketName)
+                </td>
+                <td class="table-danger">
+                    @Html.DisplayFor(modelItem => item.Frist)
+                </td>
+                <td class="table-danger">
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaketName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Frist)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            }
+
+        </tr>
+            }
+        }
+    </tbody>
+</table>

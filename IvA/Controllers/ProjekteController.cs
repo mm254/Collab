@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
 using System.Dynamic;
+using IvA.Validation;
 
 namespace IvA.Controllers
 {
@@ -19,6 +20,7 @@ namespace IvA.Controllers
         private readonly ApplicationDbContext _context;
         private SignInManager<IdentityUser> _signInManager;
         private UserManager<IdentityUser> _userManager;
+        private Helper helper;
 
         public ProjekteController(ApplicationDbContext context, 
                                   UserManager<IdentityUser> userManager, 
@@ -27,6 +29,7 @@ namespace IvA.Controllers
             _signInManager = signInManager;
             _context = context;
             _userManager = userManager;
+            helper = new Helper();
         }
 
         //--------------------------------------------------------------------------------------------------------------------
@@ -83,11 +86,12 @@ namespace IvA.Controllers
                     }
                 }
 
-                // Überprüfen ob Nutzer Teil des Projektes ist und die Detailansicht sehen darf
+                // Überprüfen ob Nutzer Teil des Projektes oder Admin ist und die Detailansicht sehen darf
                 var loggedInUser = await _userManager.GetUserAsync(this.User);
-                if (!userList.Contains(loggedInUser))
+                bool isAdmin = await _userManager.IsInRoleAsync(loggedInUser, "Admin");
+                if (!userList.Contains(loggedInUser) && !isAdmin)
                 {
-                    return (RedirectToAction("ErrorMessage", new { ID = 1 }));
+                    return (RedirectToAction("ErrorMessage", new { ID = 5 }));
                 }
 
                 // Schnitt aus drei Tabellen um alle zu einem Projekt zugehörigen Pakete zu erhalten
@@ -114,7 +118,7 @@ namespace IvA.Controllers
                 ProjekteModel project = Projekte.Find(m => m.ProjekteId == id);
 
                 // Anhand der Liste der Pakete werden drei Prozentwerte ermittelt die den Projektfortschritt wiedergeben
-                var percentages = CalculatePercentages(packages.ToList());
+                var percentages = helper.CalculatePercentages(packages.ToList());
 
 
                 // Erstellen des finalen Models
@@ -128,35 +132,6 @@ namespace IvA.Controllers
                 };
                 return View(pDetailModel);
             }
-        }
-
-        public string[] CalculatePercentages(List<ArbeitsPaketModel> packages)
-        {
-            string[] percentages = new string[3];
-            int packagesCount = packages.Count();
-            if (packagesCount != 0)
-            {
-                int[] count = new int[3];
-                foreach (ArbeitsPaketModel pack in packages)
-                {
-                    switch (pack.Status)
-                    {
-                        case "To do": count[0]++; break;
-                        case "In Bearbeitung": count[1]++; break;
-                        case "Fertig": count[2]++; break;
-                    }
-                }
-                percentages[0] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[0], packagesCount), 100)).ToString() + "%";
-                percentages[1] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[1], packagesCount), 100)).ToString() + "%";
-                percentages[2] = Decimal.Round(Decimal.Multiply(Decimal.Divide(count[2], packagesCount), 100)).ToString() + "%";
-            }
-            else
-            {
-                percentages[0] = "0%";
-                percentages[1] = "0%";
-                percentages[2] = "0%";
-            }
-            return percentages;
         }
 
         //------------------------------ Projekt erstellen ---------------------------------
@@ -213,7 +188,7 @@ namespace IvA.Controllers
                 projekte.Mitglieder = "";
                 projekte.Projektersteller = this.User.Identity.Name;
 
-                var newProject = await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
                 // Projektersteller als Mitglied setzen
                 var userClaim = this.User;
@@ -248,6 +223,14 @@ namespace IvA.Controllers
 
         public async Task<IActionResult> AddUserToProject([Bind("id,name")] AddUserModel userToProject)
         {
+            var roles = _context.ProjectRoles.ToList().FindAll(i => i.ProjectId == userToProject.id);
+            ProjectRoles owner = roles.Find(o => o.ProjectRole == "Owner");
+            IdentityUser user = await _userManager.FindByIdAsync(owner.UserId);
+            if (user.UserName != this.User.Identity.Name)
+            {
+                return (RedirectToAction("ErrorMessage", new { ID = 1 }));
+            }
+
             if (userToProject.name != null)
             {
                 IdentityUser newUser = await _userManager.FindByNameAsync(userToProject.name);
@@ -388,12 +371,12 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            List<ProjekteModel> Projekte = _context.Projekte.ToList();
-            var EditValid = (from p in Projekte where p.ProjekteId == id select p.Projektersteller).FirstOrDefault();
-            if (EditValid != this.User.Identity.Name)
+            var roles = _context.ProjectRoles.ToList().FindAll(i => i.ProjectId == id);
+            ProjectRoles owner = roles.Find(o => o.ProjectRole == "Owner");
+            IdentityUser user = await _userManager.FindByIdAsync(owner.UserId);
+            if (user.UserName != this.User.Identity.Name)
             {
-                int ErrorID = 1;
-                return (RedirectToAction("ErrorMessage", new {ID = ErrorID }));
+                return (RedirectToAction("ErrorMessage", new {ID = 1 }));
             }
 
             IvA.Models.ProjekteModel projekte = await _context.Projekte.FindAsync(id);
@@ -442,8 +425,7 @@ namespace IvA.Controllers
                 }
                 else
                 {
-                    int ErrorID = 4;
-                    return (RedirectToAction("ErrorMessage", new { ID = ErrorID })); ;
+                    return (RedirectToAction("ErrorMessage", new { ID = 4 })); ;
                 }
             }
             return View(projekte);
@@ -463,8 +445,7 @@ namespace IvA.Controllers
             var EditValid = (from p in Projekte where p.ProjekteId == id select p.Projektersteller).FirstOrDefault();
             if (EditValid != this.User.Identity.Name)
             {
-                int ErrorID = 2;
-                return (RedirectToAction("ErrorMessage", new { ID = ErrorID })); ;
+                return (RedirectToAction("ErrorMessage", new { ID = 2 })); ;
             }
 
             var projekte = await _context.Projekte
@@ -519,8 +500,7 @@ namespace IvA.Controllers
                 var Deadline = (from p in Projects where p.ProjekteId == Int32.Parse((string)ProId) select p.Deadline).FirstOrDefault();
                 if (arbeitsPaket.Frist >= Deadline)
                 {
-                    int ErrorID = 3;
-                    return (RedirectToAction("ErrorMessage", new { ID = ErrorID })); ;
+                    return (RedirectToAction("ErrorMessage", new { ID = 3 })); ;
                 }
 
                 _context.Add(arbeitsPaket);
