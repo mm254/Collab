@@ -4,10 +4,10 @@
 
 @{ ViewData["Title"] = "Projektdetails"; }
 
-<h1>Projekt: @Model.Project.Projektname</h1>
+<h1 style="margin-bottom:20px">Projekt: @Model.Project.Projektname</h1>
 
 <div>
-    <h4>Übersicht über die Projektdetails</h4>
+    <h4 style="margin-bottom:25px">Übersicht über die Projektdetails</h4>
     <dl class="row">
         <dt class="col-sm-2">
             Projektowner
@@ -42,17 +42,19 @@
 
     </dl>
 
-    <div style="margin-bottom:20px; margin-top:20px">
+    <div style="margin-bottom:20px; margin-top:25px"> 
         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Project.ProjekteId">Anpassen</a>
         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Project.ProjekteId">Projekt löschen</a>
         <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@Model.Project.ProjekteId">Arbeitspaket erstellen</a>
     </div>
 
-    <div class="progress" style="margin-bottom:20px">
-        <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.ProjectProgress[0]" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-        <div class="progress-bar bg-warning" role="progressbar" style="width: @Model.ProjectProgress[1]" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-        <div class="progress-bar bg-info" role="progressbar" style="width: @Model.ProjectProgress[2]" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
+    <p style="margin-bottom:25px ; margin-top:75px"> Fortschritt der Arbeitspakete:
+        <div class="progress" style="margin-bottom:25px">
+            <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.ProjectProgress[0]" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-warning" role="progressbar" style="width: @Model.ProjectProgress[1]" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-info" role="progressbar" style="width: @Model.ProjectProgress[2]" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </p>
 
 </div>
 <div class="card-deck" style="margin-bottom:50px">
@@ -65,7 +67,7 @@
                     if (item.Status == "To do")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a>
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary">@item.PaketName</a>
                         </li>
                     }
                 }
@@ -81,7 +83,7 @@
                     if (item.Status == "In Bearbeitung")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a>
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary">@item.PaketName</a>
                         </li>
                     }
                 }
@@ -97,7 +99,7 @@
                     if (item.Status == "Fertig")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a>
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary">@item.PaketName</a>
                         </li>
                     }
                 }
@@ -108,7 +110,7 @@
 <p>
     <h2>Mitglieder</h2>
 </p>
-<a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte">Nutzer hinzufügen</a>
+<a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte" class="btn btn-info">Nutzer hinzufügen</a>
 <table class="table">
     <thead>
         <tr>
@@ -146,7 +148,7 @@
                             <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Moderator">Moderator ernennen</a>
                         }
 
-                        <a class="btn btn-primary" asp-action="DeleteUserFromProject" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.UserName">Nutzer entfernen</a>
+                        <a class="btn btn-danger" asp-action="DeleteUserFromProject" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.UserName">Nutzer entfernen</a>
                     }
                 </td>
             </tr>
@@ -154,7 +156,7 @@
     </tbody>
 </table>
 
-<a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+<a class="btn btn-dark" asp-action="Index">Zurück zur Projektübersicht</a>
 
 @functions{
     public string getRole(IdentityUser user)
