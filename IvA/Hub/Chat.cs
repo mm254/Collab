@@ -75,24 +75,35 @@ namespace IvA
 
         
         public override async Task OnConnectedAsync()
-        {            
-            var usuario = new UserLogin();
-            usuario.UserName = Context.User.Identity.Name;
-            usuario.UserID = Context.ConnectionId;
-            _context.UserLogin.Add(usuario);
-            _context.SaveChanges();
-            var usuariosconectados = from d in _context.UserLogin select d;
-            await Clients.All.SendAsync("ClientUpdate", usuariosconectados);            
-            var query = _context.Message
-                    .AsQueryable()
-                    .Where(m =>                                  
-                    (m.Status == false )
-                    )
-                    .ToList();
-            await Clients.Client(Context.ConnectionId).SendAsync("myUser", Context.User.Identity.Name);
-            await Clients.All.SendAsync("mensajesnoleidos", query);            
-            await Clients.Client(Context.ConnectionId).SendAsync("mensajesnoleidos", query);           
-            await base.OnConnectedAsync();
+        {
+            
+            
+            if (_context.UserLogin.Where(x => x.UserName == Context.User.Identity.Name).FirstOrDefault() != null)
+            {
+                var usuario1 = new UserLogin();
+                usuario1 = _context.UserLogin.Where(x => x.UserName == Context.User.Identity.Name).FirstOrDefault();
+                _context.UserLogin.Remove(usuario1);
+                _context.SaveChanges();
+            }
+            
+                var usuario = new UserLogin();
+                usuario.UserName = Context.User.Identity.Name;
+                usuario.UserID = Context.ConnectionId;
+                _context.UserLogin.Add(usuario);
+                _context.SaveChanges();
+                var usuariosconectados = from d in _context.UserLogin select d;
+                await Clients.All.SendAsync("ClientUpdate", usuariosconectados);
+                var query = _context.Message
+                        .AsQueryable()
+                        .Where(m =>
+                        (m.Status == false)
+                        )
+                        .ToList();
+                await Clients.Client(Context.ConnectionId).SendAsync("myUser", Context.User.Identity.Name);
+                await Clients.All.SendAsync("mensajesnoleidos", query);
+                await Clients.Client(Context.ConnectionId).SendAsync("mensajesnoleidos", query);
+                await base.OnConnectedAsync();
+            
         }
 
 

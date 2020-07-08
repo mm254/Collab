@@ -317,7 +317,7 @@ body {
 
 #list_clients {
     display: none;
-    
+    overflow-y: auto;
 }
 
 #user_head{
