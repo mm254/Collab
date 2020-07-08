@@ -242,7 +242,11 @@ namespace IvA.Controllers
         }
 
         public IActionResult AddUser()
+<<<<<<< Updated upstream
         {          
+=======
+        {        
+>>>>>>> Stashed changes
             return View();
         }
 
