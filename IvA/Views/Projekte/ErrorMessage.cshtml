@@ -35,4 +35,11 @@
     <br />
     <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
 </div>}
+    @if (Model.DynamicErrorMessage == 5)
+    {
+<div>
+    <p> Das Zeitbudget für ein Arbeitspaket darf nicht negativ sein</p>
+    <br />
+    <a class="btn btn-primary" asp-action="Index">Zurück zur Projektübersicht</a>
+</div>}
 </h2>
