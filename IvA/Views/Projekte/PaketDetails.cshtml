@@ -74,11 +74,12 @@
 </div>
 
 <div>
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="PaketAnpassen" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Bearbeiten</a> 
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="PaketZeit" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Zeit eintragen</a> 
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="PackageUserList" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Mitglieder</a> 
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="Index" asp-controller="Projekte">Zurück zur Projektübersicht</a> 
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Arbeitspaket löschen</a>
+    <a class="btn btn-orange" style="margin-right:10px" asp-action="PaketAnpassen" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId"><b>Bearbeiten</b></a>
+    <a class="btn btn-orange" style="margin-right:10px" asp-action="PaketZeit" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId"><b>Zeit eintragen</b></a>
+    <!--<a class="btn btn-primary" style="margin-right:10px" asp-action="PackageUserList" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Mitglieder</a>-->
+<a class="btn btn-danger" style="margin-right:10px" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId"><b>Arbeitspaket löschen</b></a>
+<a class="btn btn-dark" style="color: #ffa400 ; margin-right:10px" asp-action="Index" asp-controller="Projekte">Zurück zur Projektübersicht</a>
+
 </div>
 
 <h2 style="margin-top:75px">Zugewiesene Mitarbeiter zum Arbeitspaket</h2>

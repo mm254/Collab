@@ -2459,6 +2459,12 @@ fieldset:disabled a.btn {
   border-color: #6c757d;
 }
 
+.btn-orange {
+    color: #343a40;
+    background-color: #ffc107;
+    border-color: #6c757d;
+}
+
 .btn-secondary:hover {
   color: #fff;
   background-color: #5a6268;
@@ -6547,6 +6553,12 @@ button.bg-primary:focus {
   background-color: #dc3545 !important;
 }
 
+.bg-table {
+    background-color: #6c757d !important;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+
 a.bg-secondary:hover, a.bg-secondary:focus,
 button.bg-secondary:hover,
 button.bg-secondary:focus {
@@ -6565,6 +6577,10 @@ button.bg-success:focus {
 
 .bg-info {
   background-color: #17a2b8 !important;
+}
+
+.bg-green{
+    background-color: #28a745 !important;
 }
 
 a.bg-info:hover, a.bg-info:focus,

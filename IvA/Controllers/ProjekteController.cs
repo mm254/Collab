@@ -522,6 +522,11 @@ namespace IvA.Controllers
                     int ErrorID = 3;
                     return (RedirectToAction("ErrorMessage", new { ID = ErrorID })); ;
                 }
+                if (arbeitsPaket.Zeitbudget < 0)
+                {
+                    int ErrorID = 5;
+                    return (RedirectToAction("ErrorMessage", new { ID = ErrorID })); ;
+                }
 
                 _context.Add(arbeitsPaket);
                 await _context.SaveChangesAsync();

@@ -42,32 +42,32 @@
 
     </dl>
 
-    <div style="margin-bottom:20px; margin-top:25px"> 
-        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Project.ProjekteId">Anpassen</a>
-        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Project.ProjekteId">Projekt löschen</a>
-        <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@Model.Project.ProjekteId">Arbeitspaket erstellen</a>
+    <div style="margin-bottom:20px; margin-top:25px">
+        <a class="btn btn-orange" asp-action="Edit" asp-route-id="@Model.Project.ProjekteId"><b>Anpassen</b></a>
+        <a class="btn btn-orange" asp-action="PaketErstellen" asp-route-id="@Model.Project.ProjekteId"><b>Arbeitspaket erstellen</b></a>
+        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Project.ProjekteId"><b>Projekt löschen</b></a>
     </div>
 
-    <p style="margin-bottom:25px ; margin-top:75px"> Fortschritt der Arbeitspakete:
+    <p style="margin-top:75px ; color: #ffa400"> Fortschritt der Arbeitspakete:
         <div class="progress" style="margin-bottom:25px">
             <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.ProjectProgress[0]" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
             <div class="progress-bar bg-warning" role="progressbar" style="width: @Model.ProjectProgress[1]" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-            <div class="progress-bar bg-info" role="progressbar" style="width: @Model.ProjectProgress[2]" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-green" role="progressbar" style="width: @Model.ProjectProgress[2]" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
     </p>
 
 </div>
-<div class="card-deck" style="margin-bottom:50px">
+<div class="card-deck" style="margin-bottom:100px">
     <div class="card bg-secondary">
         <div class="card-body">
-            <h4 class="card-title">To Do</h4>
+            <h4 class="card-title" style="color: #ffa400">To Do</h4>
             <ul class="list-group list-group-flush">
                 @foreach (var item in Model.Packages)
                 {
                     if (item.Status == "To do")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary">@item.PaketName</a>
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400">@item.PaketName</a>
                         </li>
                     }
                 }
@@ -76,14 +76,14 @@
     </div>
     <div class="card bg-secondary">
         <div class="card-body">
-            <h4 class="card-title">In Bearbeitung</h4>
+            <h4 class="card-title" style="color: #ffa400">In Bearbeitung</h4>
             <ul class="list-group list-group-flush">
                 @foreach (var item in Model.Packages)
                 {
                     if (item.Status == "In Bearbeitung")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary">@item.PaketName</a>
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400">@item.PaketName</a>
                         </li>
                     }
                 }
@@ -92,14 +92,14 @@
     </div>
     <div class="card bg-secondary">
         <div class="card-body">
-            <h4 class="card-title">Fertig</h4>
+            <h4 class="card-title" style="color: #ffa400">Fertig</h4>
             <ul class="list-group list-group-flush">
                 @foreach (var item in Model.Packages)
                 {
                     if (item.Status == "Fertig")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary">@item.PaketName</a>
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400">@item.PaketName</a>
                         </li>
                     }
                 }
@@ -110,16 +110,13 @@
 <p>
     <h2>Mitglieder</h2>
 </p>
-<a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte" class="btn btn-info">Nutzer hinzufügen</a>
-<table class="table">
-    <thead>
+<a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte" class="btn btn-secondary" style="color: #ffa400 ; margin-bottom:25px ; margin-top:25px">Nutzer hinzufügen</a>
+
+<table class="table bg-table ">
+    <thead class="bg-table thead-dark">
         <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Optionen
-            </th>
+            <th scope="col">Name</th>
+            <th scope="col">Optionen</th>
         </tr>
     </thead>
     <tbody>
@@ -127,25 +124,25 @@
         {
             string role = getRole(item);
             <tr>
-                <td>
+                <td scope="col">
                     @switch (role)
                     {
-                        case "Owner":<h4>@item.UserName <span class="badge badge-warning">@role</span></h4> break;
-                        case "Moderator": <h4>@item.UserName <span class="badge badge-primary">@role</span></h4>break;
-                        case "Nutzer": <h4>@item.UserName <span class="badge badge-secondary">@role</span></h4>break;
+                        case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
+                        case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                        case "Nutzer": <h4>@item.UserName <span class="badge badge-secondary" style="margin-left:10px">@role</span></h4>break;
                     }
                 </td>
-                <td>
+                <td scope="col">
                     @if (item.UserName != Model.Project.Projektersteller)
                     {
-                        <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-newOwner="@item.Id" asp-route-role="">Owner ernennen</a>
+                        <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-newOwner="@item.Id" asp-route-role="">Owner ernennen</a>
                         if (role == "Moderator")
                         {
-                            <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Nutzer">Moderator wegnehmen</a>
+                            <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Nutzer">Moderator wegnehmen</a>
                         }
                         else
                         {
-                            <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Moderator">Moderator ernennen</a>
+                            <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Moderator">Moderator ernennen</a>
                         }
 
                         <a class="btn btn-danger" asp-action="DeleteUserFromProject" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.UserName">Nutzer entfernen</a>
@@ -156,7 +153,7 @@
     </tbody>
 </table>
 
-<a class="btn btn-dark" asp-action="Index">Zurück zur Projektübersicht</a>
+<a class="btn btn-dark" style="color: #ffa400" asp-action="Index">Zurück zur Projektübersicht</a>
 
 @functions{
     public string getRole(IdentityUser user)
