@@ -12,7 +12,7 @@
         DateTime now = DateTime.Now;
         @if (item.Frist <= now.AddDays(3)) 
         {
-        <div class="card bg-secondary" style="width: 15rem">
+        <div class="card bg-secondary">
             <div class="card-header text-center" style="font-size: 20px;"><a asp-action="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
             <div class="card-body text-center">
                 <p class ="card-text" style="font-size: 15px;">@item.Beschreibung</p>

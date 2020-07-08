@@ -113,7 +113,7 @@ namespace IvA.Controllers
                                     };
                 ProjekteModel project = Projekte.Find(m => m.ProjekteId == id);
 
-                // Anhand der Liste der Pakete werden drei Prozentwerte ermittlt die den Projektfortschritt wiedergeben
+                // Anhand der Liste der Pakete werden drei Prozentwerte ermittelt die den Projektfortschritt wiedergeben
                 var percentages = CalculatePercentages(packages.ToList());
 
 
@@ -242,16 +242,20 @@ namespace IvA.Controllers
         }
 
         public IActionResult AddUser()
-        {
+<<<<<<< Updated upstream
+        {          
+=======
+        {        
+>>>>>>> Stashed changes
             return View();
         }
 
-        public async Task<IActionResult> AddUserToProject([Bind("id,name")]  IvA.Models.AddUserModel userToProject)
+        public async Task<IActionResult> AddUserToProject([Bind("id,name")] AddUserModel userToProject)
         {
             if (userToProject.name != null)
             {
                 IdentityUser newUser = await _userManager.FindByNameAsync(userToProject.name);
-                if(newUser != null)
+                if (newUser != null)
                 {
                     ProjekteUserViewModel newUserInProject = new ProjekteUserViewModel() {
                         ProjekteId = userToProject.id,
@@ -263,6 +267,7 @@ namespace IvA.Controllers
 
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Details", "Projekte", new { id = userToProject.id });
+                   
                 }
             }
             return NotFound("Error beim Hinzufügen eines Projekts");
