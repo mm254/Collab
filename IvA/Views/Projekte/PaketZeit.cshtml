@@ -31,8 +31,8 @@
                 <span asp-validation-for="Zeitbudget" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VerbrauchteZeit" class="control-label">Eingesetzte Arbeitszeit für das Paket in Stunden</label>
-                <input asp-for="VerbrauchteZeit" class="form-control" />
+                <label asp-for="VerbrauchteZeit" class="control-label">Eingesetzte Arbeitszeit für das Paket in Stunden</label>             
+                <input asp-for="VerbrauchteZeit" id="zeit" class="form-control" />
                 <span asp-validation-for="VerbrauchteZeit" class="text-danger"></span>
             </div>
             <div class="form-group">             
@@ -53,8 +53,8 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Zurück zur Projektübersicht</a>
+<div>  
+    <a asp-action="PaketDetails" asp-route-id="@Model.ArbeitsPaketId" class="btn btn-info" >Zurück zu den Paketdetails</a>
 </div>
 
 @section Scripts {

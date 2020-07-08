@@ -601,7 +601,7 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            var arbeitsPaket = await _context.ArbeitsPaket.FindAsync(id);
+            var arbeitsPaket = _context.ArbeitsPaket.AsNoTracking().Where(p => p.ArbeitsPaketId == id).FirstOrDefault();
             if (arbeitsPaket == null)
             {
                 return NotFound();
@@ -712,11 +712,12 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
-            var arbeitsPaket = await _context.ArbeitsPaket.FindAsync(id);
+            var arbeitsPaket = _context.ArbeitsPaket.AsNoTracking().Where(p => p.ArbeitsPaketId == id).FirstOrDefault();
             if (arbeitsPaket == null)
             {
                 return NotFound();
             }
+            arbeitsPaket.VerbrauchteZeit = 0;
             return View(arbeitsPaket);
         }
         [HttpPost]
@@ -732,6 +733,10 @@ namespace IvA.Controllers
             {
                 try
                 {
+                   
+                    var zeit = _context.ArbeitsPaket.AsNoTracking().Where(p => p.ArbeitsPaketId == id).FirstOrDefault();
+                    arbeitsPaket.VerbrauchteZeit = arbeitsPaket.VerbrauchteZeit + zeit.VerbrauchteZeit;
+                    
                     _context.Update(arbeitsPaket);                
                     await _context.SaveChangesAsync();
                 }
@@ -746,8 +751,10 @@ namespace IvA.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Details", "Projekte", new { id = arbeitsPaket.ProjektId });
+                
+                return RedirectToAction("PaketDetails", "Projekte", new { id });               
             }
+           
             return View(arbeitsPaket);          
         }
 
