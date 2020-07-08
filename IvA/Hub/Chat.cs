@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IvA
 {
-    /**/
+   
       public class Chat : Hub
     {
         private readonly ApplicationDbContext _context;
