@@ -8,15 +8,15 @@
 /*Curstom Klassen*/
 
 .PaketInfo {
-    background-color: rgb(108, 117, 125 );
+    background-color: rgb(52, 58, 64);
     width: 75%;
     border: medium;
-    border-color: black ;
-    border-radius: 5px ;
+    border-color: black;
+    border-radius: 5px;
 }
 
 .FirstLetter::first-letter {
-    color: #ffa400
+    color: rgb(255, 193, 7)
 }
 
 
