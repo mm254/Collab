@@ -4,6 +4,24 @@
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+
+/*Curstom Klassen*/
+
+.PaketInfo {
+    background-color: rgb(108, 117, 125 );
+    width: 75%;
+    border: medium;
+    border-color: black ;
+    border-radius: 5px ;
+}
+
+.FirstLetter::first-letter {
+    color: #ffa400
+}
+
+
+
+/*Curstom Klassen*/
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
