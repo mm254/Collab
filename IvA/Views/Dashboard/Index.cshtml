@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
-
 <h1>Mein Dashboard</h1>
 
 <div class="dropdown">
@@ -12,19 +11,8 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="Ansicht">
         <a class="dropdown-item active" asp-controller="Dashboard" asp-action="Index">Cards</a>
-        <a class="dropdown-item" asp-controller="Dashboard" asp-action="List" >Liste</a>
-    </div>
-</div>
-
-<h1>Mein Dashboard</h1>
-
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Ansicht wählen
-    </button>
-    <div class="dropdown-menu" aria-labelledby="Ansicht">
-        <a class="dropdown-item active" asp-controller="Dashboard" asp-action="Index">Cards</a>
-        <a class="dropdown-item" asp-controller="Dashboard" asp-action="List" >Liste</a>
+        <a class="dropdown-item" asp-controller="Dashboard" asp-action="List">Liste</a>
+        <a class="dropdown-item" asp-controller="Dashboard" asp-action="Done">Erledigte To Do</a>
     </div>
 </div>
 
@@ -57,7 +45,6 @@
         @if (item.Frist >= now.AddDays(7)) 
         {
         <div class="card bg-secondary" style="width: 15rem">
-            <div class="card-header text-center" style="font-size: 20px;"><a asp-action="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
             <div class="card-header text-center" style="font-size: 20px;"><a style="color: white;" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
             <div class="card-body text-center">
                 <p class ="card-text" style="font-size: 15px;">@item.Beschreibung</p>
