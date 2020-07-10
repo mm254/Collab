@@ -12,7 +12,7 @@
     <div class="dropdown-menu" aria-labelledby="Ansicht">
         <a class="dropdown-item active" asp-controller="Dashboard" asp-action="Index">Cards</a>
         <a class="dropdown-item" asp-controller="Dashboard" asp-action="List">Liste</a>
-        <a class="dropdown-item" asp-controller="Dashboard" asp-action="Done">Erledigte To Do</a>
+        <!--<a class="dropdown-item" asp-controller="Dashboard" asp-action="done">Erledigte To Do</a>-->
     </div>
 </div>
 
@@ -55,9 +55,19 @@
     }
 </div>
 
-<h2>Erledigte To Do</h2>
-<div>
-@foreach (var item in Model)
+<div id="accordion">
+  <div class="card bg-secondary">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-warning" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Erldigte To Do
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        @foreach (var item in Model)
     {
         
         @if (item.Status == "Fertig") 
@@ -71,8 +81,10 @@
         </div>
         }
     }
- </div>
-
+        </div>
+    </div>
+  </div>
+</div>
 <!--
 <h2>Demnächst zu erledigen</h2>
 <table class="table">
