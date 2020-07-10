@@ -7,69 +7,71 @@
     ViewData["Title"] = "Nutzerverwaltung";
 }
 
-<h1>Nutzerverwaltung</h1>
+    <h1 style="color: #ffa400 ; margin-bottom:20px"><b>Nutzerverwaltung</b></h1>
 
-<div class="modal" id="deleteModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Warnung</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <p>Wollen Sie den Nutzer wirklich löschen? Dieser Vorgang ist nicht umkehrbar.</p>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="item.Id">Löschen</a>
-                <button type="button" id="deleteButn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<div class="PaketInfo">
+    <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content btn-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title">Warnung</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <p>Wollen Sie den Nutzer wirklich löschen? Dieser Vorgang ist nicht umkehrbar.</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="item.Id">Löschen</a>
+                    <button type="button" id="deleteButn" class="btn btn-dark" style="color: #ffa400" data-dismiss="modal">Schließen</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                Rolle
-            </th>
-            <th>
-                Optionen
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table bg-table">
+        <thead class="bg-table thead-dark">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @foreach (var role in await userManager.GetRolesAsync(item))
-                    {
-                        @role
-                    }
-                </td>
-                <td>
-                    @if (!User.Identity.Name.Equals(item.UserName))
-                    {
-                        <a class="btn btn-danger" asp-action="DeleteUser" asp-route-id="@item.Id">Löschen</a>
-                        <a class="btn btn-danger" asp-action="ChangeRole" asp-route-id="@item.Id">Rolle ändern</a>
-                        <a href="#deleteModal" data-toggle="modal" data-whatever="@item.Id" user-id="@item.Id">Open Modal</a>
-                    }
-                </td>
+                <th scope="col" class="FirstLetter">
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th scope="col" class="FirstLetter">
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th scope="col" class="FirstLetter">
+                    Rolle
+                </th>
+                <th scope="col" class="FirstLetter">
+                    Optionen
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @foreach (var role in await userManager.GetRolesAsync(item))
+                        {
+                            @role
+                        }
+                    </td>
+                    <td>
+                        @if (!User.Identity.Name.Equals(item.UserName))
+                        {
+                            <a class="btn btn-danger" asp-action="DeleteUser" asp-route-id="@item.Id">Löschen</a>
+                            <a class="btn btn-orange" asp-action="ChangeRole" asp-route-id="@item.Id">Rolle ändern</a>
+                            <a class="btn btn-dark" style="color: #ffa400" href="#deleteModal" data-toggle="modal" data-whatever="@item.Id" user-id="@item.Id">Open Modal</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
