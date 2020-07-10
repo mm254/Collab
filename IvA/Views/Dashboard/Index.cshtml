@@ -3,17 +3,49 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
-
 <h1>Mein Dashboard</h1>
-<h2>Demnächst zu erledigen<h2>
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Ansicht wählen
+    </button>
+    <div class="dropdown-menu" aria-labelledby="Ansicht">
+        <a class="dropdown-item active" asp-controller="Dashboard" asp-action="Index">Cards</a>
+        <a class="dropdown-item" asp-controller="Dashboard" asp-action="List">Liste</a>
+        <!--<a class="dropdown-item" asp-controller="Dashboard" asp-action="done">Erledigte To Do</a>-->
+    </div>
+</div>
+
+<h2>To Do<h2>
 <div class="card-columns">
     @foreach (var item in Model)
     {
         DateTime now = DateTime.Now;
         @if (item.Frist <= now.AddDays(3)) 
+        @if (item.Frist < now && item.Status!="fertig") 
         {
-        <div class="card bg-secondary">
-            <div class="card-header text-center" style="font-size: 20px;"><a asp-action="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
+        <div class="card bg-danger" style="width: 15rem">
+            <div class="card-header text-center" style="font-size: 20px; color: black;"><a style="color: white;" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
+            <div class="card-body text-center">
+                <p class ="card-text" style="font-size: 15px;">@item.Beschreibung</p>
+                <p class="card-text" style="font-size: 20px;">@item.Frist</p>
+            </div>
+        </div>
+        }
+        @if (item.Frist <= now.AddDays(7) && item.Frist > now) 
+        {
+        <div class="card bg-warning" style="width: 15rem">
+            <div class="card-header text-center" style="font-size: 20px;"><a  style="color: white;" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
+            <div class="card-body text-center">
+                <p class ="card-text" style="font-size: 15px;">@item.Beschreibung</p>
+                <p class="card-text" style="font-size: 20px;">@item.Frist</p>
+            </div>
+        </div>
+        }
+        @if (item.Frist >= now.AddDays(7)) 
+        {
+        <div class="card bg-secondary" style="width: 15rem">
+            <div class="card-header text-center" style="font-size: 20px;"><a style="color: white;" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
             <div class="card-body text-center">
                 <p class ="card-text" style="font-size: 15px;">@item.Beschreibung</p>
                 <p class="card-text" style="font-size: 20px;">@item.Frist</p>
@@ -21,6 +53,37 @@
         </div>
         }
     }
+</div>
+
+<div id="accordion">
+  <div class="card bg-secondary">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-warning" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Erldigte To Do
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        @foreach (var item in Model)
+    {
+        
+        @if (item.Status == "Fertig") 
+        {
+        <div class="card bg-success" style="width: 15rem">
+            <div class="card-header text-center" style="font-size: 20px; color: black;"><a style="color: white;" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
+            <div class="card-body text-center">
+                <p class ="card-text" style="font-size: 15px;">@item.Beschreibung</p>
+                <p class="card-text" style="font-size: 20px;">@item.Frist</p>
+            </div>
+        </div>
+        }
+    }
+        </div>
+    </div>
+  </div>
 </div>
 <!--
 <h2>Demnächst zu erledigen</h2>
@@ -60,6 +123,7 @@
     </tbody>
 </table>
 -->
+<!--
 <h2>To do</h2>
 <table class="table">
     <thead>
@@ -169,5 +233,8 @@
         }
     </tbody>
 </table>
+-->
 
-
+@functions{
+    
+}

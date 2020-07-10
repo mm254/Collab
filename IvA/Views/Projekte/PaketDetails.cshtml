@@ -2,96 +2,98 @@
 
 @{ ViewData["Title"] = "Arbeitspaketdetails"; }
 
-<h1>Details</h1>
+<h1 style="color: #ffa400"><b>Details für das Arbeitspaket</b></h1>
 <br />
 
-<h4> Arbeitspaket: @Html.DisplayFor(model => model.Package.PaketName)</h4>
-
-<div>
-
-    <hr />
-    <dl class="row" style="padding-bottom:15px">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.PaketName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.PaketName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.ProjektId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.ProjektId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.Beschreibung)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.Beschreibung)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.Zeitbudget)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.Zeitbudget) Stunden
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.VerbrauchteZeit)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.VerbrauchteZeit) Stunden
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.Frist)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.Frist)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Package.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Package.Status)
-        </dd>
-    </dl>
+<div class="PaketInfo">
+    <h4 class="FirstLetter" style="padding-top:10px ; padding-left:10px"> Arbeitspaket: @Html.DisplayFor(model => model.Package.PaketName)</h4>
+    <div>
+        <dl class="row" style="padding-bottom:15px ; padding-top:10px ; padding-left: 10px">
+            <dt class="col-sm-2 FirstLetter">
+                @Html.DisplayNameFor(model => model.Package.PaketName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Package.PaketName)
+            </dd>
+            <dt class="col-sm-2 FirstLetter">
+                @Html.DisplayNameFor(model => model.Package.ProjektId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Package.ProjektId)
+            </dd>
+            <dt class="col-sm-2 FirstLetter">
+                @Html.DisplayNameFor(model => model.Package.Beschreibung)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Package.Beschreibung)
+            </dd>
+            <dt class="col-sm-2 FirstLetter" style="padding-top:10px">
+                @Html.DisplayNameFor(model => model.Package.Zeitbudget)
+            </dt>
+            <dd class="col-sm-10" style="padding-top:10px">
+                @Html.DisplayFor(model => model.Package.Zeitbudget) Stunden
+            </dd>
+            <dt class="col-sm-2 FirstLetter">
+                @Html.DisplayNameFor(model => model.Package.VerbrauchteZeit)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Package.VerbrauchteZeit) Stunden
+            </dd>
+            <dt class="col-sm-2 FirstLetter">
+                @Html.DisplayNameFor(model => model.Package.Frist)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Package.Frist)
+            </dd>
+            <dt style="padding-top:15px" class="col-sm-2 FirstLetter">
+                @Html.DisplayNameFor(model => model.Package.Status)
+            </dt>
+            <dd style="padding-top:15px" class="col-sm-10">
+                @Html.DisplayFor(model => model.Package.Status)
+            </dd>
+        </dl>
+    </div>
+    <div style="color:#ffa400 ; padding-left:10px ; padding-bottom: 10px ; padding-bottom:10px" align="left">
+        <svg style="margin-right:25px" width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-alarm" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M8 15A6 6 0 1 0 8 3a6 6 0 0 0 0 12zm0 1A7 7 0 1 0 8 2a7 7 0 0 0 0 14z" />
+            <path fill-rule="evenodd" d="M8 4.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.053.224l-1.5 3a.5.5 0 1 1-.894-.448L7.5 8.882V5a.5.5 0 0 1 .5-.5z" />
+            <path d="M.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.035 8.035 0 0 0 .86 5.387zM11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.035 8.035 0 0 0-3.527-3.527z" />
+            <path fill-rule="evenodd" d="M11.646 14.146a.5.5 0 0 1 .708 0l1 1a.5.5 0 0 1-.708.708l-1-1a.5.5 0 0 1 0-.708zm-7.292 0a.5.5 0 0 0-.708 0l-1 1a.5.5 0 0 0 .708.708l1-1a.5.5 0 0 0 0-.708zM5.5.5A.5.5 0 0 1 6 0h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
+            <path d="M7 1h2v2H7V1z" />
+        </svg>
+        @if (Model.Package.Zeitbudget - Model.Package.VerbrauchteZeit > 0)
+        {
+        <span class="btn btn-info">Verfügbare Zeit: @(Model.Package.Zeitbudget - Model.Package.VerbrauchteZeit) Stunden</span> 
+        }
+        else
+        {
+        <span class="btn btn-danger">Die verfügbare Arbeitszeit für dieses Paket ist überschritten!</span>
+        }
+    </div>
 </div>
-<div style="margin-bottom:50px ; color:white" align="left">
-    <svg style="margin-right:25px" width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-alarm" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M8 15A6 6 0 1 0 8 3a6 6 0 0 0 0 12zm0 1A7 7 0 1 0 8 2a7 7 0 0 0 0 14z" />
-        <path fill-rule="evenodd" d="M8 4.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.053.224l-1.5 3a.5.5 0 1 1-.894-.448L7.5 8.882V5a.5.5 0 0 1 .5-.5z" />
-        <path d="M.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.035 8.035 0 0 0 .86 5.387zM11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.035 8.035 0 0 0-3.527-3.527z" />
-        <path fill-rule="evenodd" d="M11.646 14.146a.5.5 0 0 1 .708 0l1 1a.5.5 0 0 1-.708.708l-1-1a.5.5 0 0 1 0-.708zm-7.292 0a.5.5 0 0 0-.708 0l-1 1a.5.5 0 0 0 .708.708l1-1a.5.5 0 0 0 0-.708zM5.5.5A.5.5 0 0 1 6 0h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z" />
-        <path d="M7 1h2v2H7V1z" />
-    </svg>
-    @if (Model.Package.Zeitbudget - Model.Package.VerbrauchteZeit > 0)
-    {
-    <span class="btn btn-info">Verfügbare Zeit: @(Model.Package.Zeitbudget - Model.Package.VerbrauchteZeit) Stunden</span> 
-    }
-    else
-    {
-    <span class="btn btn-danger">Die verfügbare Arbeitszeit für dieses Paket ist aufgebraucht!</span>
-    }
-</div>
 
-<div>
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="PaketAnpassen" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Bearbeiten</a> 
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="PaketZeit" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Zeit eintragen</a> 
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="PackageUserList" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Mitglieder</a> 
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="Index" asp-controller="Projekte">Zurück zur Projektübersicht</a> 
-    <a class="btn btn-primary" style="margin-right:10px" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Arbeitspaket löschen</a>
+
+<div style="margin-top:15px">
+    <a class="btn btn-orange" style="margin-right:10px" asp-action="PaketAnpassen" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">
+        <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-wrench" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" />
+        </svg><b>Bearbeiten</b></a>
+    <a class="btn btn-orange" style="margin-right:10px" asp-action="PaketZeit" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">
+        <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-clock-fill" fill=""#343a40" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+        </svg><b>Zeit eintragen</b></a>
+    <!--<a class="btn btn-primary" style="margin-right:10px" asp-action="PackageUserList" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Mitglieder</a>-->
+    <a class="btn btn-danger" style="margin-right:10px" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId"><b>Arbeitspaket löschen</b></a>
+    <a class="btn btn-dark" style="color: #ffa400 ; margin-right:10px" asp-action="Index" asp-controller="Projekte">Zurück zur Projektübersicht</a>
 </div>
 
 <h2 style="margin-top:75px">Zugewiesene Mitarbeiter zum Arbeitspaket</h2>
 
-<table class="table">
-    <thead>
+<table class="table bg-table">
+    <thead class="bg-table thead-dark">
         <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Optionen
-            </th>
+            <th scope="col" style="color: #ffa400">Name</th>
+            <th scope="col" style="color: #ffa400">Optionen</th>
         </tr>
     </thead>
     <tbody>
@@ -102,7 +104,7 @@
                     @Html.DisplayFor(modelItem => item.UserName)
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="DeleteUserFromPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte">Mitglied entfernen</a>
+                    <a class="btn btn-danger" asp-action="DeleteUserFromPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte"><b>Mitglied entfernen</b></a>
                 </td>
             </tr>
         }
@@ -111,15 +113,11 @@
 
 <h2>Mitarbeiter vom Projekt hinzufügen</h2>
 
-<table class="table">
-    <thead>
+<table class="table bg-table">
+    <thead class="bg-table thead-dark">
         <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Optionen
-            </th>
+            <th scope="col" style="color: #ffa400">Name</th>
+            <th scope="col" style="color: #ffa400">Optionen</th>
         </tr>
     </thead>
     <tbody>
@@ -130,7 +128,7 @@
                     @Html.DisplayFor(modelItem => item.UserName)
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte">Mitglied hinzufügen</a>
+                    <a class="btn btn-orange" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte"><b>Mitglied hinzufügen</b></a>
                 </td>
             </tr>
         }

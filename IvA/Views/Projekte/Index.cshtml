@@ -1,26 +1,39 @@
 ﻿@model IEnumerable<IvA.Models.ProjekteModel>
-
 @{
     ViewData["Title"] = "Projektübersicht";
 }
-<h2 align="center" class="display-4">Projektübersicht</h2>
+<h2 align="center" class="display-4" style="color: #ffa400"><b>Projektübersicht</b></h2>
 <h2 style="padding-top:25px">
     Behalten sie die Übersicht über ihre Projekte. <br />
     Erstellen und Verwalten sie flexibel Projekte und Arbeitspakete.
 </h2>
 
 <p style="padding-top:25px ; padding-bottom: 25px">
-    <a class="btn btn-primary" asp-action="Create">Neues Projekt erstellen</a>
+    <a class="btn btn-orange" asp-action="Create">
+            <svg width="25px" height="25px" style="margin-right:8px ; margin-bottom:4px"viewBox="0 0 16 16" class="bi bi-clipboard-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3zM8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z" />
+            </svg>
+         <b>Neues Projekt erstellen</b>
+    </a>
 </p>
 
-<div class="card-columns" style="margin-top:15px"> 
+<div class="card-columns" style="margin-top:15px">
 
     @foreach (var item in Model)
     {
-        @if (item.Deadline <= DateTime.Now) 
+        @if (item.Deadline <= DateTime.Now)
         {
         <div class="card bg-danger">
-            <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.ProjekteId" class="btn btn-dark">@item.Projektname</a></div>
+            <div class="card-header text-center">
+                <a asp-action="Details" asp-route-id="@item.ProjekteId" class="btn btn-dark" style="color: #ffa400">
+                    <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-x-square" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                        <path fill-rule="evenodd" d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z" />
+                        <path fill-rule="evenodd" d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z" />
+                    </svg>@item.Projektname
+                </a>
+            </div>
             <div class="card-body text-center">
                 <p class="card-text">@item.Beschreibung</p>
             </div>
@@ -29,15 +42,21 @@
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
                         </div>
-                    </div>
+                </div>
+                 -->
             </div>
-             -->
-        </div>
         }
-        else 
+        else
         {
         <div class="card bg-secondary">
-            <div class="card-header text-center"><a asp-action="Details" asp-route-id="@item.ProjekteId" class="btn btn-dark">@item.Projektname</a></div>
+            <div class="card-header text-center">
+                <a asp-action="Details" asp-route-id="@item.ProjekteId" class="btn btn-dark" style="color: #ffa400">
+                    <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-clipboard" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+                        <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+                    </svg>@item.Projektname
+                    </a>
+            </div>
             <div class="card-body text-center">
                 <p class="card-text">@item.Beschreibung</p>
             </div>
@@ -46,10 +65,9 @@
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
                         </div>
-                    </div>
+                </div>
+                 -->
             </div>
-             -->
-        </div>
         }
     }
 </div>

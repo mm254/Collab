@@ -4,102 +4,130 @@
 
 @{ ViewData["Title"] = "Projektdetails"; }
 
-<h1 style="margin-bottom:20px">Projekt: @Model.Project.Projektname</h1>
+<h1 style="margin-bottom:20px ; color: #ffa400"><b>Projekt: @Model.Project.Projektname</b></h1>
 
+<div  class="PaketInfo">
+    <h4 style="margin-bottom:25px ; padding-bottom:15px ; padding-top:10px ; padding-left: 10px" class="FirstLetter">Übersicht über die Projektdetails</h4>
+    <div style="padding-left:10px">
+        <dl class="row">
+            <dt class="col-sm-2 FirstLetter">
+                Projektowner
+            </dt>
+            <dd class="col-sm-4">
+                @Model.Project.Projektersteller
+            </dd>
+            <dt class="col-sm-2 FirstLetter">
+                Erstellt am
+            </dt>
+            <dd class="col-sm-4">
+                @Model.Project.ErstelltAm
+            </dd>
+            <dt class="col-sm-2 FirstLetter">
+                Status
+            </dt>
+            <dd class="col-sm-4">
+                @Model.Project.Status
+            </dd>
+            <dt class="col-sm-2 FirstLetter">
+                Deadline
+            </dt>
+            <dd class="col-sm-4">
+                @Model.Project.Deadline
+            </dd>
+            <dt class="col-sm-2 FirstLetter">
+                Beschreibung
+            </dt>
+            <dd class="col-sm-4">
+                @Model.Project.Beschreibung
+            </dd>
+        </dl>
+    </div>
+</div>
 <div>
-    <h4 style="margin-bottom:25px">Übersicht über die Projektdetails</h4>
-    <dl class="row">
-        <dt class="col-sm-2">
-            Projektowner
-        </dt>
-        <dd class="col-sm-4">
-            @Model.Project.Projektersteller
-        </dd>
-        <dt class="col-sm-2">
-            Erstellt am
-        </dt>
-        <dd class="col-sm-4">
-            @Model.Project.ErstelltAm
-        </dd>
-        <dt class="col-sm-2">
-            Status
-        </dt>
-        <dd class="col-sm-4">
-            @Model.Project.Status
-        </dd>
-        <dt class="col-sm-2">
-            Deadline
-        </dt>
-        <dd class="col-sm-4">
-            @Model.Project.Deadline
-        </dd>
-        <dt class="col-sm-2">
-            Beschreibung
-        </dt>
-        <dd class="col-sm-4">
-            @Model.Project.Beschreibung
-        </dd>
-
-    </dl>
-
-    <div style="margin-bottom:20px; margin-top:25px"> 
-        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Project.ProjekteId">Anpassen</a>
-        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Project.ProjekteId">Projekt löschen</a>
-        <a class="btn btn-primary" asp-action="PaketErstellen" asp-route-id="@Model.Project.ProjekteId">Arbeitspaket erstellen</a>
+    <div style="margin-bottom:20px; margin-top:25px">
+        <div>  
+            <a class="btn btn-orange" asp-action="Edit" asp-route-id="@Model.Project.ProjekteId">
+                 <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-wrench" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
+                     <path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" />
+                 </svg>
+                    <b>Anpassen</b>
+            </a>
+            <a class="btn btn-orange" asp-action="PaketErstellen" asp-route-id="@Model.Project.ProjekteId">
+                 <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-archive-fill" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
+                     <path fill-rule="evenodd" d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM6 7a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6zM.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z" />
+                 </svg>
+                    <b>Arbeitspaket erstellen</b>
+            </a>
+            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Project.ProjekteId"><b>Projekt löschen</b></a>
+        </div>
+     
     </div>
 
-    <p style="margin-bottom:25px ; margin-top:75px"> Fortschritt der Arbeitspakete:
+    <p style="margin-top:75px ; color: #ffa400">
+        Fortschritt der Arbeitspakete:
         <div class="progress" style="margin-bottom:25px">
             <div class="progress-bar bg-danger" role="progressbar" style="width: @Model.ProjectProgress[0]" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
             <div class="progress-bar bg-warning" role="progressbar" style="width: @Model.ProjectProgress[1]" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-            <div class="progress-bar bg-info" role="progressbar" style="width: @Model.ProjectProgress[2]" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-green" role="progressbar" style="width: @Model.ProjectProgress[2]" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
     </p>
 
 </div>
-<div class="card-deck" style="margin-bottom:50px">
-    <div class="card bg-secondary">
+<div class="card-deck" style="margin-bottom:100px">
+    <div class="card" style="background-color:rgb(52, 58, 64)">
         <div class="card-body">
-            <h4 class="card-title">To Do</h4>
-            <ul class="list-group list-group-flush">
+            <h4 class="card-title" style="color: #ffa400"><b>To Do</b></h4>
+            <ul class="list-group list-group-flush" style="background-color:#808080">
                 @foreach (var item in Model.Packages)
                 {
                     if (item.Status == "To do")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary">@item.PaketName</a>
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400">
+                              <svg width="1em" height="1em" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
+                                 <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                              </svg>@item.PaketName
+                            </a>
                         </li>
                     }
                 }
             </ul>
         </div>
     </div>
-    <div class="card bg-secondary">
+    <div class="card" style="background-color:rgb(52, 58, 64)">
         <div class="card-body">
-            <h4 class="card-title">In Bearbeitung</h4>
-            <ul class="list-group list-group-flush">
+            <h4 class="card-title" style="color: #ffa400"><b>In Bearbeitung</b></h4>
+            <ul class="list-group list-group-flush" style="background-color:#808080">
                 @foreach (var item in Model.Packages)
                 {
                     if (item.Status == "In Bearbeitung")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary">@item.PaketName</a>
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400">   
+                                <svg width="1em" height="1em" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
+                                   <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                </svg>@item.PaketName
+                            </a>
                         </li>
                     }
                 }
             </ul>
         </div>
     </div>
-    <div class="card bg-secondary">
+    <div class="card" style="background-color:rgb(52, 58, 64)">
         <div class="card-body">
-            <h4 class="card-title">Fertig</h4>
-            <ul class="list-group list-group-flush">
+            <h4 class="card-title" style="color: #ffa400"><b>Fertig</b></h4>
+            <ul class="list-group list-group-flush" style="background-color:#808080">
                 @foreach (var item in Model.Packages)
                 {
                     if (item.Status == "Fertig")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary">@item.PaketName</a>
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400">
+                                <svg width="1em" height="1em" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                </svg>@item.PaketName
+                            </a>
                         </li>
                     }
                 }
@@ -110,16 +138,18 @@
 <p>
     <h2>Mitglieder</h2>
 </p>
-<a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte" class="btn btn-info">Nutzer hinzufügen</a>
-<table class="table">
-    <thead>
+<a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte" class="btn btn-secondary" style="color: #ffa400 ; margin-bottom:25px ; margin-top:25px">
+    <svg width="25px" height="25px" style="margin-right:8px ; margin-bottom:4px" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill=" #ffa400" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7.5-3a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+        <path fill-rule="evenodd" d="M13 7.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z" />
+    </svg>Nutzer hinzufügen
+</a>
+
+<table class="table bg-table">
+    <thead class="bg-table thead-dark">
         <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Optionen
-            </th>
+            <th scope="col">Name</th>
+            <th scope="col">Optionen</th>
         </tr>
     </thead>
     <tbody>
@@ -127,25 +157,25 @@
         {
             string role = getRole(item);
             <tr>
-                <td>
+                <td scope="col">
                     @switch (role)
                     {
-                        case "Owner":<h4>@item.UserName <span class="badge badge-warning">@role</span></h4> break;
-                        case "Moderator": <h4>@item.UserName <span class="badge badge-primary">@role</span></h4>break;
-                        case "Nutzer": <h4>@item.UserName <span class="badge badge-secondary">@role</span></h4>break;
+                        case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
+                        case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                        case "Nutzer": <h4>@item.UserName <span class="badge badge-secondary" style="margin-left:10px">@role</span></h4>break;
                     }
                 </td>
-                <td>
+                <td scope="col">
                     @if (item.UserName != Model.Project.Projektersteller)
                     {
-                        <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-newOwner="@item.Id" asp-route-role="">Owner ernennen</a>
+                        <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-newOwner="@item.Id" asp-route-role="">Owner ernennen</a>
                         if (role == "Moderator")
                         {
-                            <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Nutzer">Moderator wegnehmen</a>
+                            <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Nutzer">Moderator wegnehmen</a>
                         }
                         else
                         {
-                            <a class="btn btn-primary" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Moderator">Moderator ernennen</a>
+                            <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Moderator">Moderator ernennen</a>
                         }
 
                         <a class="btn btn-danger" asp-action="DeleteUserFromProject" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.UserName">Nutzer entfernen</a>
@@ -156,7 +186,13 @@
     </tbody>
 </table>
 
-<a class="btn btn-dark" asp-action="Index">Zurück zur Projektübersicht</a>
+<a class="btn btn-dark" style="color: #ffa400" asp-action="Index">
+    <svg width="25px" height="25px" style="margin-right:10px" viewBox="0 0 16 16" class="bi bi-box-arrow-left" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M4.354 11.354a.5.5 0 0 0 0-.708L1.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z" />
+        <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H2a.5.5 0 0 0 0 1h9a.5.5 0 0 0 .5-.5z" />
+        <path fill-rule="evenodd" d="M14 13.5a1.5 1.5 0 0 0 1.5-1.5V4A1.5 1.5 0 0 0 14 2.5H7A1.5 1.5 0 0 0 5.5 4v1.5a.5.5 0 0 0 1 0V4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5v-1.5a.5.5 0 0 0-1 0V12A1.5 1.5 0 0 0 7 13.5h7z" />
+    </svg>Zurück zur Projektübersicht
+</a>
 
 @functions{
     public string getRole(IdentityUser user)

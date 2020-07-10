@@ -4,6 +4,24 @@
  * Copyright 2011-2019 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+
+/*Curstom Klassen*/
+
+.PaketInfo {
+    background-color: rgb(52, 58, 64);
+    width: 75%;
+    border: medium;
+    border-color: black;
+    border-radius: 5px;
+}
+
+.FirstLetter::first-letter {
+    color: rgb(255, 193, 7)
+}
+
+
+
+/*Curstom Klassen*/
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -2457,6 +2475,12 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #6c757d;
   border-color: #6c757d;
+}
+
+.btn-orange {
+    color: #343a40;
+    background-color: #ffc107;
+    border-color: #6c757d;
 }
 
 .btn-secondary:hover {
@@ -6547,6 +6571,12 @@ button.bg-primary:focus {
   background-color: #dc3545 !important;
 }
 
+.bg-table {
+    background-color: #6c757d !important;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+}
+
 a.bg-secondary:hover, a.bg-secondary:focus,
 button.bg-secondary:hover,
 button.bg-secondary:focus {
@@ -6565,6 +6595,10 @@ button.bg-success:focus {
 
 .bg-info {
   background-color: #17a2b8 !important;
+}
+
+.bg-green{
+    background-color: #28a745 !important;
 }
 
 a.bg-info:hover, a.bg-info:focus,

@@ -2,7 +2,7 @@
 
 @{ ViewData["Title"] = "Arbeitspaket löschen"; }
 
-<h1>Arbeitspaket löschen</h1>
+<h1 style="color: #ffa400"><b>Arbeitspaket löschen</b></h1>
 
 <h3>Möchten sie dieses Arbeitspaket wirklich löschen?</h3>
 <div>
@@ -44,6 +44,12 @@
     <form asp-action="PaketLöschenGet">
         <input type="hidden" asp-for="ArbeitsPaketId" />
         <input type="submit" value="Arbeitspaket löschen" class="btn btn-danger" /> |
-        <a asp-action="Index">Zurück zur Projektübersicht</a>
+        <a asp-action="PaketDetails" asp-route-id="@Model.ArbeitsPaketId" class="btn btn-dark" style="color: #ffa400">
+            <svg width="25px" height="25px" style="margin-right:10px" viewBox="0 0 16 16" class="bi bi-box-arrow-left" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.354 11.354a.5.5 0 0 0 0-.708L1.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z" />
+                <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 0-.5-.5H2a.5.5 0 0 0 0 1h9a.5.5 0 0 0 .5-.5z" />
+                <path fill-rule="evenodd" d="M14 13.5a1.5 1.5 0 0 0 1.5-1.5V4A1.5 1.5 0 0 0 14 2.5H7A1.5 1.5 0 0 0 5.5 4v1.5a.5.5 0 0 0 1 0V4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5v-1.5a.5.5 0 0 0-1 0V12A1.5 1.5 0 0 0 7 13.5h7z" />
+            </svg>Zurück zu den Paketdetails
+        </a>
     </form>
 </div>
