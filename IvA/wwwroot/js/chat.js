@@ -27,9 +27,9 @@ document.getElementById("sendButtonMessage").addEventListener("click", event => 
     let message = $("#messageInputChat").val()
     if (message.length > 0) {
         var fecha = new Date().toLocaleTimeString()
-        
+        console.log(destMessage+ "-" +destMessageName+ "-" + message)
         connection.invoke("SendMessagePrivate", destMessage, destMessageName, message).catch(err => console.error(err.toString()))           
-        $(".messages").append(`<div class="message msg_cli"><strong>yo</strong ><div> ${message}</div></div >`);
+        $(".messages").append(`<div class="message msg_cli"><strong>${myuserLocal}</strong ><div> ${message}</div></div >`);
         $("#messageInputChat").val("")
     }
     event.preventDefault()
@@ -49,8 +49,7 @@ connection.on("readmessage", (destinatario,query) => {
     })
 })
 
-// #007bff 
-// text-primary
+
 connection.on("ReceiveMessaggePrivate", (user, sender, message) => {
     
     document.getElementById("audio").play();
@@ -146,7 +145,7 @@ document.getElementById("min_user").addEventListener("click", function () {
     }
     else {
         document.getElementById("list_clients").style.display = "block"
-        document.getElementById("user_head").style.height = "50%" 
+        document.getElementById("user_head").style.height = "500px" 
         let id = document.getElementById("min_user")
         id.innerText="X"
         id.classList.remove("close_user2")
@@ -166,7 +165,7 @@ connection.on("MessageUpdate", (data) => {
     $(".messages").empty()
     for (var i = data.length-1; i >= 0; i--){                  
         if (data[i].quellID == myuserLocal) {
-            $(".messages").append(`<div class="message msg_cli"><strong>yo</strong><div> ${data[i].nachricht}</div></div >`)            
+            $(".messages").append(`<div class="message msg_cli"><strong>${data[i].quellID}</strong><div> ${data[i].nachricht}</div></div >`)            
         }
         else {
             $(".messages").append(`<div class="message msg_cli"><strong>${data[i].quellID}</strong><div> ${data[i].nachricht}</div></div >`)        

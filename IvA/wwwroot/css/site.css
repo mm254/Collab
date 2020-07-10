@@ -171,7 +171,7 @@ body {
 /* CSS PARA EL CHAT*/
 .systemChat {
     background: #ffffff;
-    height: 50%;
+    height: 500px;
     float: right;
     position: fixed;
     bottom: 2px;    
@@ -197,6 +197,7 @@ body {
     display: inline;
     width: 100%;
     border-top: solid 1px rgba(0, 0, 0, .05);
+    height:100%;
 }
 
     .user_chat_list:hover {
@@ -253,7 +254,8 @@ body {
 }
 .messages{
     width:100%;
-    max-height: 230px;
+    min-height: 400px;
+    max-height: 400px;
     overflow-y:auto;
 }
 
@@ -316,8 +318,11 @@ body {
 }
 
 #list_clients {
-    display: none;
+    display: none; 
+    min-height: 500px;
+    max-height: 500px;
     overflow-y: auto;
+    
 }
 
 #user_head{
@@ -333,4 +338,8 @@ body {
     font-size: 10px;
     float: right;
 }
-
+#inputg {
+    margin-top:8px;
+    /*border-radius:6px;
+    margin-bottom:5px;*/
+}
