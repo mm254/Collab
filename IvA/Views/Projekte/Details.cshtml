@@ -64,7 +64,7 @@
     <div class="card" style="background-color:rgb(52, 58, 64)">
         <div class="card-body">
             <h4 class="card-title" style="color: #ffa400"><b>To Do</b></h4>
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush" style="background-color:#808080">
                 @foreach (var item in Model.Packages)
                 {
                     if (item.Status == "To do")
@@ -80,7 +80,7 @@
     <div class="card" style="background-color:rgb(52, 58, 64)">
         <div class="card-body">
             <h4 class="card-title" style="color: #ffa400"><b>In Bearbeitung</b></h4>
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush" style="background-color:#808080">
                 @foreach (var item in Model.Packages)
                 {
                     if (item.Status == "In Bearbeitung")
@@ -96,7 +96,7 @@
     <div class="card" style="background-color:rgb(52, 58, 64)">
         <div class="card-body">
             <h4 class="card-title" style="color: #ffa400"><b>Fertig</b></h4>
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush" style="background-color:#808080">
                 @foreach (var item in Model.Packages)
                 {
                     if (item.Status == "Fertig")
