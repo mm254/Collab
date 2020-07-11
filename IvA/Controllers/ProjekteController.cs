@@ -581,11 +581,14 @@ namespace IvA.Controllers
                 }
             }
 
+            List<ProjectRoles> UserRoles = _context.ProjectRoles.ToList();
+
             PackagesDetailModel packagesDetails = new PackagesDetailModel
             {
                 ProjectUsers = projectUserList,
                 Package = package,
-                PackageUsers = userList
+                PackageUsers = userList,
+                Roles = UserRoles
             };
 
             int RoutingID = packagesDetails.Package.ProjektId;
@@ -762,6 +765,7 @@ namespace IvA.Controllers
             return View(arbeitsPaket);          
         }
 
+        // Weißt einem Nutzer eine neue Rolle innerhalb eines Projektes zu
         public async void ChangeUserProjectRole(string userId, int projectId, string role)
         {
             DeleteUserFromProjectRoles(userId, projectId);

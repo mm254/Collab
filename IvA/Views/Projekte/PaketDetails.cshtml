@@ -1,26 +1,16 @@
-﻿@model IvA.Models.PackagesDetailModel
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> _userManager
+@model IvA.Models.PackagesDetailModel
 
 @{ ViewData["Title"] = "Arbeitspaketdetails"; }
 
-<h1 style="color: #ffa400"><b>Details für das Arbeitspaket</b></h1>
+<h1 style="color: #ffa400"><b>Arbeitspaket: @Html.DisplayFor(model => model.Package.PaketName)</b></h1>
 <br />
 
 <div class="PaketInfo">
-    <h4 class="FirstLetter" style="padding-top:10px ; padding-left:10px"> Arbeitspaket: @Html.DisplayFor(model => model.Package.PaketName)</h4>
+    <h4 class="FirstLetter" style="padding-top:10px ; padding-left:10px"> Details für das Arbeitspaket</h4>
     <div>
         <dl class="row" style="padding-bottom:15px ; padding-top:10px ; padding-left: 10px">
-            <dt class="col-sm-2 FirstLetter">
-                Paketname
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Package.PaketName)
-            </dd>
-            <dt class="col-sm-2 FirstLetter">
-                ProjektID
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Package.ProjektId)
-            </dd>
             <dt class="col-sm-2 FirstLetter">
                 Beschreibung
             </dt>
@@ -63,11 +53,11 @@
         </svg>
         @if (Model.Package.Zeitbudget - Model.Package.VerbrauchteZeit > 0)
         {
-        <span class="btn btn-info">Verfügbare Zeit: @(Model.Package.Zeitbudget - Model.Package.VerbrauchteZeit) Stunden</span> 
+            <span class="btn btn-info">Verfügbare Zeit: @(Model.Package.Zeitbudget - Model.Package.VerbrauchteZeit) Stunden</span>
         }
         else
         {
-        <span class="btn btn-danger">Die verfügbare Arbeitszeit für dieses Paket ist überschritten!</span>
+            <span class="btn btn-danger">Die verfügbare Arbeitszeit für dieses Paket ist überschritten!</span>
         }
     </div>
 </div>
@@ -77,11 +67,13 @@
     <a class="btn btn-orange" style="margin-right:10px" asp-action="PaketAnpassen" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">
         <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-wrench" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" />
-        </svg><b>Bearbeiten</b></a>
+        </svg><b>Bearbeiten</b>
+    </a>
     <a class="btn btn-orange" style="margin-right:10px" asp-action="PaketZeit" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">
-        <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-clock-fill" fill=""#343a40" xmlns="http://www.w3.org/2000/svg">
+        <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-clock-fill" fill="" #343a40" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-        </svg><b>Zeit eintragen</b></a>
+        </svg><b>Zeit eintragen</b>
+    </a>
     <!--<a class="btn btn-primary" style="margin-right:10px" asp-action="PackageUserList" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Mitglieder</a>-->
     <a class="btn btn-danger" style="margin-right:10px" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId"><b>Arbeitspaket löschen</b></a>
     <a class="btn btn-dark" style="color: #ffa400 ; margin-right:10px" asp-action="Details" asp-route-id="@ViewBag.RoutingID" asp-controller="Projekte">Zurück zur Projektdetailübersicht</a>
@@ -99,9 +91,15 @@
     <tbody>
         @foreach (var item in Model.PackageUsers)
         {
+            string role = getRole(item);
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
+                    @switch (role)
+                    {
+                          case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
+                          case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                          case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
+                    }
                 </td>
                 <td>
                     <a class="btn btn-danger" asp-action="DeleteUserFromPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte"><b>Mitglied entfernen</b></a>
@@ -111,26 +109,66 @@
     </tbody>
 </table>
 
-<h2>Mitarbeiter vom Projekt hinzufügen</h2>
+<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Mitarbeiter vom Projekt hinzufügen
+</a>
 
-<table class="table bg-table">
-    <thead class="bg-table thead-dark">
-        <tr>
-            <th scope="col" style="color: #ffa400">Name</th>
-            <th scope="col" style="color: #ffa400">Optionen</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.ProjectUsers)
+<div class="collapse" id="collapseExample">
+    <div class="card card-body" style="background-color:rgb(52, 58, 64)">
+        @if (Model.ProjectUsers.Count <= 0)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    <a class="btn btn-orange" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte"><b>Mitglied hinzufügen</b></a>
-                </td>
-            </tr>
+             <h2>Alle Nutzer des Projekts wurden bereits zum Paket hinzugefügt.</h2>
         }
-    </tbody>
-</table>
+        else
+        {
+            @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) != "Nutzer")
+            {
+                <table class="table bg-table">
+                    <thead class="bg-table thead-dark">
+                        <tr>
+                            <th scope="col" style="color: #ffa400">Name</th>
+                            <th scope="col" style="color: #ffa400">Optionen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ProjectUsers)
+                        {
+                            string role = getRole(item);
+                            <tr>
+                                <td>
+                                    @switch (role)
+                                    {
+                                        case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
+                                        case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                                        case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
+                                   }
+                                </td>
+                                <td>
+                                    <a class="btn btn-orange" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte"><b>Mitglied hinzufügen</b></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h2>Sie haben keine Berechtigung um Nutzer zum Paket hinzuzufügen. </h2>
+            }
+        }
+    </div>
+</div>
+
+
+@functions{
+    public string getRole(IdentityUser user)
+    {
+        var rolesInProject = Model.Roles.FindAll(i => i.ProjectId == Model.Package.ProjektId);
+        var userRole = rolesInProject.Find(u => u.UserId == user.Id);
+        if (userRole != null)
+        {
+            return userRole.ProjectRole;
+        }
+        return "ErrorRole";
+    }
+}
