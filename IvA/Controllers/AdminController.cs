@@ -41,7 +41,7 @@ namespace IvA.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteUser(string? Id)
+        public async Task<IActionResult> DeleteUser(string Id)
         {
             var user = await userManager.FindByIdAsync(Id);
             if (user != null)
@@ -58,7 +58,7 @@ namespace IvA.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ChangeRole(string? Id)
+        public async Task<IActionResult> ChangeRole(string Id)
         {
             if(Id != null)
             {

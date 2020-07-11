@@ -1,4 +1,1 @@
-﻿- Löschen eines Projekts löscht nicht die zugehörigen Pakete aus der Datenbank
-
-- Url Projekten sichern
-
+﻿Bugfrei :)
