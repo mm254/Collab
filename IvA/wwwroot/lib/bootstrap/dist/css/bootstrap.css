@@ -2468,6 +2468,12 @@ fieldset:disabled a.btn {
   border-color: #007bff;
 }
 
+.btn-green {
+    color: black;
+    background-color: #75bb02;
+    border-color: black;
+}
+
 .btn-primary:hover {
   color: #fff;
   background-color: #0069d9;
@@ -6596,6 +6602,10 @@ button.bg-primary:focus {
   background-color: #dc3545 !important;
 }
 
+.bg-lightgrey {
+    background-color: black !important;
+}
+
 .bg-table {
     background-color: #6c757d !important;
     border: 1px solid rgba(0, 0, 0, 0.125);
@@ -6645,6 +6655,10 @@ button.bg-warning:focus {
 .bg-danger {
   background-color: #dc3545 !important;
 }
+.bg-danger2 {
+    background-color: #f13b28 !important;
+}
+
 
 a.bg-danger:hover, a.bg-danger:focus,
 button.bg-danger:hover,
