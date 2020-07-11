@@ -10,43 +10,43 @@
     <div>
         <dl class="row" style="padding-bottom:15px ; padding-top:10px ; padding-left: 10px">
             <dt class="col-sm-2 FirstLetter">
-                @Html.DisplayNameFor(model => model.Package.PaketName)
+                Paketname
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Package.PaketName)
             </dd>
             <dt class="col-sm-2 FirstLetter">
-                @Html.DisplayNameFor(model => model.Package.ProjektId)
+                ProjektID
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Package.ProjektId)
             </dd>
             <dt class="col-sm-2 FirstLetter">
-                @Html.DisplayNameFor(model => model.Package.Beschreibung)
+                Beschreibung
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Package.Beschreibung)
             </dd>
             <dt class="col-sm-2 FirstLetter" style="padding-top:10px">
-                @Html.DisplayNameFor(model => model.Package.Zeitbudget)
+                Zeitbudget
             </dt>
             <dd class="col-sm-10" style="padding-top:10px">
                 @Html.DisplayFor(model => model.Package.Zeitbudget) Stunden
             </dd>
             <dt class="col-sm-2 FirstLetter">
-                @Html.DisplayNameFor(model => model.Package.VerbrauchteZeit)
+                Verbrauchte Arbeitszeit
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Package.VerbrauchteZeit) Stunden
             </dd>
             <dt class="col-sm-2 FirstLetter">
-                @Html.DisplayNameFor(model => model.Package.Frist)
+                Frist
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Package.Frist)
             </dd>
             <dt style="padding-top:15px" class="col-sm-2 FirstLetter">
-                @Html.DisplayNameFor(model => model.Package.Status)
+                Status
             </dt>
             <dd style="padding-top:15px" class="col-sm-10">
                 @Html.DisplayFor(model => model.Package.Status)
@@ -84,7 +84,7 @@
         </svg><b>Zeit eintragen</b></a>
     <!--<a class="btn btn-primary" style="margin-right:10px" asp-action="PackageUserList" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">Mitglieder</a>-->
     <a class="btn btn-danger" style="margin-right:10px" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId"><b>Arbeitspaket löschen</b></a>
-    <a class="btn btn-dark" style="color: #ffa400 ; margin-right:10px" asp-action="Index" asp-controller="Projekte">Zurück zur Projektübersicht</a>
+    <a class="btn btn-dark" style="color: #ffa400 ; margin-right:10px" asp-action="Details" asp-route-id="@ViewBag.RoutingID" asp-controller="Projekte">Zurück zur Projektdetailübersicht</a>
 </div>
 
 <h2 style="margin-top:75px">Zugewiesene Mitarbeiter zum Arbeitspaket</h2>

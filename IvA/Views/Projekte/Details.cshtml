@@ -11,7 +11,7 @@
     <div style="padding-left:10px">
         <dl class="row">
             <dt class="col-sm-2 FirstLetter">
-                Projektowner
+                Projektersteller
             </dt>
             <dd class="col-sm-4">
                 @Model.Project.Projektersteller
@@ -34,10 +34,23 @@
             <dd class="col-sm-4">
                 @Model.Project.Deadline
             </dd>
+
             <dt class="col-sm-2 FirstLetter">
-                Beschreibung
+                Zeitbudget
             </dt>
             <dd class="col-sm-4">
+                @ViewBag.Zeitbudget Stunden
+            </dd>
+            <dt class="col-sm-2 FirstLetter">
+                <!--Platzhalter-->
+            </dt>
+            <dd class="col-sm-4">
+                <!--Platzhalter-->
+            </dd>
+            <dt class="col-sm-2 FirstLetter" style="margin-top:20px">
+                Beschreibung
+            </dt>
+            <dd  style="width:70% ; margin-top:20px ;word-wrap: break-word ; hyphens:auto">
                 @Model.Project.Beschreibung
             </dd>
         </dl>
@@ -83,7 +96,7 @@
                     if (item.Status == "To do")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400">
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400 ; hyphens:auto">
                               <svg width="1em" height="1em" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
                                  <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
                               </svg>@item.PaketName
@@ -103,7 +116,7 @@
                     if (item.Status == "In Bearbeitung")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400">   
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400 ; hyphens:auto">   
                                 <svg width="1em" height="1em" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
                                    <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
                                 </svg>@item.PaketName
@@ -123,7 +136,7 @@
                     if (item.Status == "Fertig")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400">
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400 ; hyphens:auto">
                                 <svg width="1em" height="1em" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
                                 </svg>@item.PaketName

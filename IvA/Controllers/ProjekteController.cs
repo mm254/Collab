@@ -130,6 +130,11 @@ namespace IvA.Controllers
                     ProjectProgress = percentages,
                     Roles = UserRoles
                 };
+
+                List<int> ProjektZeitBudget = (from P in Pakete where P.ProjektId == id select P.Zeitbudget).ToList();
+                int Zeit = ProjektZeitBudget.Sum();
+                ViewBag.Zeitbudget = Zeit;
+
                 return View(pDetailModel);
             }
         }
@@ -217,7 +222,10 @@ namespace IvA.Controllers
         }
 
         public IActionResult AddUser()
-        {                 
+        {
+            int RoutingID = Int32.Parse((string)RouteData.Values["id"]);
+            ViewBag.RoutingID = RoutingID;
+
             return View();
         }
 
@@ -455,6 +463,9 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
+            int RoutingID = Int32.Parse((string)RouteData.Values["id"]);
+            ViewBag.RoutingID = RoutingID;
+
             return View(projekte);
         }
 
@@ -530,6 +541,9 @@ namespace IvA.Controllers
 
                 return RedirectToAction("Details", "Projekte", new { id = ProId });
             }
+            int RoutingID = Int32.Parse((string)RouteData.Values["id"]);
+            ViewBag.RoutingID = RoutingID;
+
             return View(arbeitsPaket);
         }
 
@@ -573,6 +587,9 @@ namespace IvA.Controllers
                 Package = package,
                 PackageUsers = userList
             };
+
+            int RoutingID = packagesDetails.Package.ProjektId;
+            ViewBag.RoutingID = RoutingID;
 
             return View(packagesDetails);
         }
@@ -681,6 +698,7 @@ namespace IvA.Controllers
         Fehlercode 2: Versuch, ein Projekt zu löschen, obwohl man nicht der Project-Owner ist.
         Fehlercode 3: Versuch, ein Arbeitspaket zu erstellen, dessen Frist nach Ablauf der Projektdeadline liegt.
         Fehlercode 4: Ein nicht existierender Projectowner wird einem Projekt zugewiesen.
+        Fehlercode 5: Das Zeitbudget für ein Arbeitspaket darf nicht negativ sein
         */
         public async Task<IActionResult> ErrorMessage(int id) 
         {
