@@ -256,6 +256,10 @@ namespace IvA.Controllers
                     return RedirectToAction("Details", "Projekte", new { id = userToProject.id });
                    
                 }
+                else
+                {
+                    return (RedirectToAction("ErrorMessage", new { ID = 6 }));
+                }
             }
             return NotFound("Error beim Hinzufügen eines Projekts");
         }
