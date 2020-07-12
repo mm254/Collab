@@ -247,11 +247,14 @@ else
 @functions{
     public string getRole(IdentityUser user)
     {
-        var rolesInProject = Model.Roles.FindAll(i => i.ProjectId == Model.Project.ProjekteId);
-        var userRole = rolesInProject.Find(u => u.UserId == user.Id);
-        if (userRole != null)
+        if(user != null)
         {
-            return userRole.ProjectRole;
+            var rolesInProject = Model.Roles.FindAll(i => i.ProjectId == Model.Project.ProjekteId);
+            var userRole = rolesInProject.Find(u => u.UserId == user.Id);
+            if (userRole != null)
+            {
+                return userRole.ProjectRole;
+            }
         }
         return "ErrorRole";
     }
