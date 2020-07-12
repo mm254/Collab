@@ -38,7 +38,7 @@
                 <th scope="col" class="FirstLetter">
                     @Html.DisplayNameFor(model => model.Email)
                 </th>
-                <th>
+                <th scope="col" class="FirstLetter">
                     Projekte
                 </th>
                 <th scope="col" class="FirstLetter">
@@ -60,7 +60,7 @@
                         @Html.DisplayFor(modelItem => item.Email)
                     </td>
                     <td>
-                        <a class="btn btn-primary" asp-action="ListUserProjects" asp-route-userId="@item.Id">Projekte ansehen</a>
+                        <a class="btn btn-dark" style="color:#ffa400" asp-action="ListUserProjects" asp-route-userId="@item.Id">Projekte ansehen</a>
                     </td>
                     <td>
                         @foreach (var role in await userManager.GetRolesAsync(item))
