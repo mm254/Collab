@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using IvA.Data;
 using IvA.Models;
@@ -55,6 +56,15 @@ namespace IvA.Controllers
             }
 
             return RedirectToAction("ListUsers");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ListUserProjects(string userId)
+        {
+            var roles =  _context.ProjectRoles.ToList().Where(user => user.UserId == userId);
+            var user = await userManager.FindByIdAsync(userId);
+            ViewBag.Name = user.UserName;
+            return View(roles);
         }
 
         [Authorize(Roles = "Admin")]

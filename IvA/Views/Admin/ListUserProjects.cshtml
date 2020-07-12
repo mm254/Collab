@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IvA.Models.ProjectRoles>
+@inject UserManager<IdentityUser> userManager
+
+@{
+    ViewData["Title"] = "ListUserProjects";
+}
+
+    <h1>Alle Projekte von @ViewBag.Name</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectRole)
+            </th>
+            <th>
+                Option
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectRole)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-controller="Projekte" asp-route-id="@item.ProjectRolesId">Projekt ansehen</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="ListUsers">Zurück</a>
