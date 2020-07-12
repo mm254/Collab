@@ -131,9 +131,12 @@ namespace IvA.Controllers
                     Roles = UserRoles
                 };
 
-                List<int> ProjektZeitBudget = (from P in Pakete where P.ProjektId == id select P.Zeitbudget).ToList();
-                int Zeit = ProjektZeitBudget.Sum();
-                ViewBag.Zeitbudget = Zeit;
+                List<int> listTimeBudget = (from P in Pakete where P.ProjektId == id select P.Zeitbudget).ToList();
+                List<int> listTimeUsed = (from P in Pakete where P.ProjektId == id select P.VerbrauchteZeit).ToList();
+                int timeBudget = listTimeBudget.Sum();
+                int timeUsed = listTimeUsed.Sum();
+                ViewBag.timeBudget = timeBudget;
+                ViewBag.timeUsed = timeUsed;
 
                 return View(pDetailModel);
             }
@@ -234,9 +237,10 @@ namespace IvA.Controllers
             var roles = _context.ProjectRoles.ToList().FindAll(i => i.ProjectId == userToProject.id);
             ProjectRoles owner = roles.Find(o => o.ProjectRole == "Owner");
             IdentityUser user = await _userManager.FindByIdAsync(owner.UserId);
-            if (user.UserName != this.User.Identity.Name)
+            bool isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            if (user.UserName != this.User.Identity.Name && !isAdmin)
             {
-                return (RedirectToAction("ErrorMessage", new { ID = 1 }));
+                return (RedirectToAction("ErrorMessage", new { ID = 7 }));
             }
 
             if (userToProject.name != null)
@@ -386,7 +390,8 @@ namespace IvA.Controllers
             var roles = _context.ProjectRoles.ToList().FindAll(i => i.ProjectId == id);
             ProjectRoles owner = roles.Find(o => o.ProjectRole == "Owner");
             IdentityUser user = await _userManager.FindByIdAsync(owner.UserId);
-            if (user.UserName != this.User.Identity.Name)
+            bool isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            if (user.UserName != this.User.Identity.Name && !isAdmin)
             {
                 return (RedirectToAction("ErrorMessage", new {ID = 1 }));
             }
