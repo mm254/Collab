@@ -68,7 +68,7 @@ connection.on("ReceiveMessaggePrivate", (user, sender, message) => {
         farbe.style.color="#000000"
         id.innerText = "Message"
         setTimeout(function () {
-            usuarionoty.style.background = "#FFFFFF"
+            usuarionoty.style.background = "#b4b4b4"
             id.innerText = "Open"
             farbe.style.color = "#007bff"
         }, 8000)

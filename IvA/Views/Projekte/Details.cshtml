@@ -6,7 +6,7 @@
 
 <h1 style="margin-bottom:20px ; color: #ffa400"><b>Projektdetails: @Model.Project.Projektname</b></h1>
 
-<div  class="PaketInfo">
+<div class="PaketInfo">
     <h4 style="margin-bottom:25px ; padding-bottom:15px ; padding-top:10px ; padding-left: 10px" class="FirstLetter">Übersicht über die Projektinformationen</h4>
     <div style="padding-left:10px">
         <dl class="row">
@@ -103,9 +103,9 @@
                     {
                         <li class="list-group-item list-group-item-light">
                             <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400 ; hyphens:auto">
-                              <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
-                                 <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
-                              </svg>@item.PaketName
+                                <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                </svg>@item.PaketName
                             </a>
                         </li>
                     }
@@ -122,9 +122,9 @@
                     if (item.Status == "In Bearbeitung")
                     {
                         <li class="list-group-item list-group-item-light">
-                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400 ; hyphens:auto">   
+                            <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" class="btn btn-secondary" style="color: #ffa400 ; hyphens:auto">
                                 <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
-                                   <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                    <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
                                 </svg>@item.PaketName
                             </a>
                         </li>
@@ -158,8 +158,7 @@
     <h2>Mitglieder</h2>
 </p>
 
-
-@if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)).Equals("Owner") || User.IsInRole("Admin"))
+@if (!getRole(await _userManager.FindByNameAsync(User.Identity.Name)).Equals("Nutzer") || User.IsInRole("Admin"))
 {
     <a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte" class="btn btn-secondary" style="color: #ffa400 ; margin-bottom:25px ; margin-top:25px">
         <svg width="25px" height="25px" style="margin-right:8px ; margin-bottom:4px" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill=" #ffa400" xmlns="http://www.w3.org/2000/svg">
@@ -167,6 +166,11 @@
             <path fill-rule="evenodd" d="M13 7.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0v-2z" />
         </svg>Nutzer hinzufügen
     </a>
+}
+
+@if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)).Equals("Owner") || User.IsInRole("Admin"))
+{
+
     <table class="table bg-table">
         <thead class="bg-table thead-dark">
             <tr>
@@ -185,16 +189,16 @@
                             @switch (role)
                             {
                                 case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
-                                case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
-                                case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
-                            }
+                            case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                        case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
+                }
                         </td>
                         <td scope="col">
                             @if (!User.Identity.Name.Equals(item.UserName))
                             {
                                 if (role == "Owner")
                                 {
-                                    
+
                                 }
                                 else if (role == "Moderator")
                                 {
@@ -232,9 +236,9 @@ else
                         @switch (role)
                         {
                             case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
-                            case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
-                            case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
-                        }
+                        case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                    case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
+            }
                     </td>
                 </tr>
             }
@@ -254,7 +258,7 @@ else
 @functions{
     public string getRole(IdentityUser user)
     {
-        if(user != null)
+        if (user != null)
         {
             var rolesInProject = Model.Roles.FindAll(i => i.ProjectId == Model.Project.ProjekteId);
             var userRole = rolesInProject.Find(u => u.UserId == user.Id);
