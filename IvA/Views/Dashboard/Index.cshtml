@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<IvA.Models.ArbeitsPaketModel>
 
-@{
-    ViewData["Title"] = "Dashboard";
-}
+@{ ViewData["Title"] = "Dashboard"; }
 <h1 style="color:#ffa400 ; margin-bottom:20px"><b>Mein Dashboard</b></h1>
 <h3 class="FirstLetter" style="margin-bottom: 20px">Behalten sie den Überblick ober ihre zugeteilten Arbeitspakete</h3>
 
@@ -16,210 +14,222 @@
     </div>
 </div>
 
-<!--
-<h2>To Do</h2>
-<div class="card-columns">
-    @foreach (var item in Model)
+@foreach (var x in Model)
+{
+    int count = 0;
+    DateTime AktuellesDatum = DateTime.Now;
+    @if (x.Frist <= AktuellesDatum.AddDays(3))
+    @if (x.Frist < AktuellesDatum && x.Status != "fertig")
     {
-        DateTime now = DateTime.Now;
-        @if (item.Frist <= now.AddDays(3)) 
-        @if (item.Frist < now && item.Status!="fertig") 
-        {
-        <div class="card bg-danger" style="width: 15rem">
-            <div class="card-header text-center" style="font-size: 20px; color: black;"><a style="color: white;" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
-            <div class="card-body text-center">
-                <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
-                <p class="card-text" style="font-size: 20px;">@item.Frist</p>
-            </div>
-        </div>
-        }
-        @if (item.Frist <= now.AddDays(7) && item.Frist > now) 
-        {
-        <div class="card bg-warning" style="width: 15rem">
-            <div class="card-header text-center" style="font-size: 20px;"><a  style="color: white;" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName</a></div>
-            <div class="card-body text-center">
-                <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
-                <p class="card-text" style="font-size: 20px;">@item.Frist</p>
-            </div>
-        </div>
-        }
-        @if (item.Frist >= now.AddDays(7)) 
-        {
-        <div class="card bg-secondary" style="width: 15rem">
-            <div class="card-header text-center" style="font-size: 20px;"><a style="color: white;" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">@item.PaketName
-                    </a></div>
-            <div class="card-body text-center">
-                <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
-                <p class="card-text" style="font-size: 20px;">@item.Frist</p>
-            </div>
-        </div>
-        }
+        count += 1;
+
     }
-</div>
--->
+        @if (count > 0 && count < 2)
+        {
 
-
-<div id="accordion"  style="margin-bottom:20px">
-  <div class="card bg-secondary">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-          <button style="color:white" class="btn btn-danger FirstLetter" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-              <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="black" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-              </svg>
-                <b>Frist ist abgelaufen</b>
-          </button>
-      </h2>
-    </div>
-
-    <div id="collapseFour" class="collapse card-columns" style="margin-bottom:25px ; min-height:200px" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-            @foreach (var item in Model)
-            {
-                DateTime now = DateTime.Now;
-                @if (item.Frist <= now.AddDays(3)) 
-                @if (item.Frist < now && item.Status!="fertig")
-                {
-                <div style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
-                    <div class="card-header bg-danger text-center" style="font-size:20px; color:white">
-                        <a style="color: white ; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
-                            <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
-                            </svg>@item.PaketName
-                        </a>
+            <div id="accordion" style="margin-bottom:20px">
+                <div class="card bg-secondary">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button style="color:white" class="btn btn-danger FirstLetter" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                                <b>Frist ist abgelaufen</b>
+                            </button>
+                        </h2>
                     </div>
-                    <div class="card-body bg-dark text-center">
-                        <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
-                        <p class="card-text" style="font-size: 20px;">@item.Frist.ToShortDateString()</p>
+
+                    <div id="collapseFour" class="collapse card-columns" style="margin-bottom:25px ; min-height:200px" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            @foreach (var item in Model)
+                            {
+                                DateTime now = DateTime.Now;
+                                @if (item.Frist <= now.AddDays(3))
+                                @if (item.Frist < now && item.Status != "fertig")
+                                {
+                                <div style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
+                                    <div class="card-header bg-danger text-center" style="font-size:20px; color:white">
+                                        <a style="color: white ; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
+                                            <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                            </svg>@item.PaketName
+                                        </a>
+                                    </div>
+                                    <div class="card-body bg-dark text-center">
+                                        <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
+                                        <p class="card-text" style="font-size: 20px;">@item.Frist.ToShortDateString()</p>
+                                    </div>
+                                </div>
+                                }
+                             }
+                         </div>
+                     </div>
+                 </div>
+            </div>
+            break;
+         }      
+ }
+
+
+
+@foreach (var x in Model)
+{
+    int count = 0;
+    DateTime AktuellesDatum = DateTime.Now;
+    if (x.Frist <= AktuellesDatum.AddDays(7) && x.Frist > AktuellesDatum)
+    {
+        count += 1;
+
+    }
+        @if (count > 0 && count < 2)
+        {
+            <div id="accordion" style="margin-bottom:20px">
+                <div class="card bg-secondary">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button style="color:black" class="btn btn-orange FirstLetter" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                                <b>Frist läuft demnächst ab</b>
+                            </button>
+                        </h2>
                     </div>
-                </div>
-                }
-             }
-        </div>
-    </div>
-  </div>
-</div>
 
-
-<div id="accordion"  style="margin-bottom:20px">
-  <div class="card bg-secondary">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-          <button style="color:black" class="btn btn-orange FirstLetter" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-              <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="black" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-              </svg>
-                <b>Frist läuft demnächst ab</b>
-          </button>
-      </h2>
-    </div>
-
-    <div id="collapseThree" class="collapse card-columns" style="margin-bottom:25px ; min-height:200px" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-            @foreach (var item in Model)
-            {
-                DateTime now = DateTime.Now;
-                @if (item.Frist <= now.AddDays(7) && item.Frist > now)
-                {
-                <div style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
-                    <div class="card-header bg-warning text-center" style="font-size:20px; color:black">
-                        <a style="color: black ; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
-                            <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#black" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
-                            </svg>@item.PaketName
-                        </a>
-                    </div>
-                    <div class="card-body bg-dark text-center">
-                        <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
-                        <p class="card-text" style="font-size: 20px;">@item.Frist.ToShortDateString()</p>
-                    </div>
-                </div>
-                }
-             }
-        </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div id="accordion"  style="margin-bottom:20px">
-  <div class="card bg-secondary">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-          <button style="color:#ffa400" class="btn btn-dark FirstLetter" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="black" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-              </svg>
-                <b>In Bearbeitung</b>
-          </button>
-      </h2>
-    </div>
-
-    <div id="collapseOne" class="collapse card-columns" style="margin-bottom:25px" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-            @foreach (var item in Model)
-            {
-                DateTime now = DateTime.Now;
-                @if (item.Frist >= now.AddDays(7))
-                {
-                <div style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
-                    <div class="card-header bg-dark text-center" style="font-size:20px; color:#ffa400">
-                        <a style="color: #ffa400; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
-                            <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
-                            </svg>@item.PaketName
-                        </a>
-                    </div>
-                    <div class="card-body bg-lightgrey text-center">
-                        <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
-                        <p class="card-text" style="font-size: 20px;">@item.Frist.ToShortDateString()</p>
+                    <div id="collapseThree" class="collapse card-columns" style="margin-bottom:25px; min-height:200px" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            @foreach (var item in Model)
+                            {
+                                DateTime now = DateTime.Now;
+                                @if (item.Frist <= now.AddDays(7) && item.Frist > now)
+                                {
+                                <div style="width: 15rem ; margin-bottom:20px">
+                                    <div class="card-header bg-warning text-center" style="font-size:20px; color:black">
+                                        <a style="color: black ; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
+                                            <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#black" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                            </svg>@item.PaketName
+                                        </a>
+                                    </div>
+                                    <div class="card-body bg-dark text-center" style="break-inside: avoid">
+                                        <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
+                                        <p class="card-text" style="font-size: 20px;">@item.Frist.ToShortDateString()</p>
+                                    </div>
+                                </div>                  
+                                }
+                             }
+                        </div>
                     </div>
                 </div>
-                }
-             }
-        </div>
-    </div>
-  </div>
-</div>
+            </div>
+        break;
+         }
+ }
 
 
-
-<div id="accordion" style="margin-bottom:20px">
-  <div class="card bg-secondary">
-    <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
-          <button style="color:white" class="btn btn-success FirstLetter" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-              <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="black" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-              </svg>
-                <b>Abgeschlossene Arbeitspakete</b>
-          </button>
-      </h2>
-    </div>
-
-    <div id="collapseTwo" class="collapse card-columns" style="margin-bottom:25px" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
-            @foreach (var item in Model)
-            {
-                @if (item.Status == "Fertig")
+@foreach (var x in Model)
                 {
-                <div style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
-                    <div class="card-header bg-success text-center" style="font-size:20px">
-                        <a style="color: white; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
-                            <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
-                            </svg>@item.PaketName
-                            </a>
+    int count = 0;
+    DateTime AktuellesDatum = DateTime.Now;
+    if (x.Frist >= AktuellesDatum.AddDays(7))
+    {
+        count += 1;
+
+    }
+        @if (count > 0 && count < 2)
+        {
+            <div id="accordion" style="margin-bottom:20px">
+                <div class="card bg-secondary">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button style="color:#ffa400" class="btn btn-dark FirstLetter" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                                <b>In Bearbeitung</b>
+                            </button>
+                        </h2>
                     </div>
-                    <div class="card-body bg-dark text-center">
-                        <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
-                        <p class="card-text" style="font-size: 20px;">@item.Frist.ToShortDateString()</p>
+
+                    <div id="collapseOne" class="collapse card-columns" style="margin-bottom:25px" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            @foreach (var item in Model)
+                            {
+                                DateTime now = DateTime.Now;
+                                @if (item.Frist >= now.AddDays(7))
+                                {
+                                <div style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
+                                    <div class="card-header bg-dark text-center" style="font-size:20px; color:#ffa400">
+                                        <a style="color: #ffa400; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
+                                            <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                            </svg>@item.PaketName
+                                        </a>
+                                    </div>
+                                    <div class="card-body bg-lightgrey text-center">
+                                        <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
+                                        <p class="card-text" style="font-size: 20px;">@item.Frist.ToShortDateString()</p>
+                                    </div>
+                                </div>                          
+                                 }
+                             }
+                        </div>
                     </div>
                 </div>
-                }
-             }
-        </div>
-    </div>
-  </div>
-</div>
+            </div>
+          break;
+         }       
+ }
+
+@foreach (var x in Model)
+{
+    int count = 0;
+    if (x.Status == "Fertig")
+    {
+    count += 1;
+
+    }
+        @if (count > 0 && count < 2)
+        {
+            <div id="accordion" style="margin-bottom:20px">
+                <div class="card bg-secondary">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button style="color:white" class="btn btn-success FirstLetter" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                </svg>
+                                <b>Abgeschlossene Arbeitspakete</b>
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseTwo" class="collapse card-columns" style="margin-bottom:25px" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            @foreach (var item in Model)
+                            {
+                                @if (item.Status == "Fertig")
+                                {
+                                <div style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
+                                    <div class="card-header bg-success text-center" style="font-size:20px">
+                                        <a style="color: white; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
+                                            <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="white" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z" />
+                                            </svg>@item.PaketName
+                                        </a>
+                                    </div>
+                                    <div class="card-body bg-dark text-center">
+                                        <p class="card-text" style="font-size: 15px; overflow:hidden ; text-overflow:ellipsis ; white-space:nowrap">@item.Beschreibung</p>
+                                        <p class="card-text" style="font-size: 20px;">@item.Frist.ToShortDateString()</p>
+                                    </div>
+                                </div>
+                                }
+                             }
+                        </div>
+                    </div>
+                </div>
+            </div>
+           break;
+         }  
+ }
