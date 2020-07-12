@@ -4830,7 +4830,9 @@ input[type="button"].btn-block {
   }
 }
 
-
+.card-columns .card {
+  margin-bottom: 0.75rem;
+}
 
 @media (min-width: 576px) {
   .card-columns {

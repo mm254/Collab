@@ -752,6 +752,9 @@ namespace IvA.Controllers
                    
                     var zeit = _context.ArbeitsPaket.AsNoTracking().Where(p => p.ArbeitsPaketId == id).FirstOrDefault();
                     arbeitsPaket.VerbrauchteZeit = arbeitsPaket.VerbrauchteZeit + zeit.VerbrauchteZeit;
+                    if(arbeitsPaket.VerbrauchteZeit < 0){
+                        return (RedirectToAction("ErrorMessage", new { ID = 8 }));
+                    }
                     
                     _context.Update(arbeitsPaket);                
                     await _context.SaveChangesAsync();
