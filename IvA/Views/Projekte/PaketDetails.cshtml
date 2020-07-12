@@ -92,19 +92,22 @@
         @foreach (var item in Model.PackageUsers)
         {
             string role = getRole(item);
-            <tr>
-                <td>
-                    @switch (role)
-                    {
-                          case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
-                          case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
-                          case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
-                    }
-                </td>
-                <td>
-                    <a class="btn btn-danger" asp-action="DeleteUserFromPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte"><b>Mitglied entfernen</b></a>
-                </td>
-            </tr>
+            if (role != "ErrorRole")
+            {
+                <tr>
+                    <td>
+                        @switch (role)
+                        {
+                            case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
+                            case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                            case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" asp-action="DeleteUserFromPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte"><b>Mitglied entfernen</b></a>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
@@ -134,19 +137,22 @@
                         @foreach (var item in Model.ProjectUsers)
                         {
                             string role = getRole(item);
-                            <tr>
-                                <td>
-                                    @switch (role)
-                                    {
-                                        case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
-                                        case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
-                                        case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
-                                   }
-                                </td>
-                                <td>
-                                    <a class="btn btn-orange" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte"><b>Mitglied hinzufügen</b></a>
-                                </td>
-                            </tr>
+                            if (role != "ErrorRole")
+                            {
+                                <tr>
+                                    <td>
+                                        @switch (role)
+                                        {
+                                            case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
+                                            case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                                            case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
+                                        }
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-orange" asp-action="AddUserToPackage" asp-route-id="@(ViewContext.RouteData.Values["id"])" asp-route-name="@item.UserName" asp-controller="Projekte"><b>Mitglied hinzufügen</b></a>
+                                    </td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -163,11 +169,15 @@
 @functions{
     public string getRole(IdentityUser user)
     {
-        var rolesInProject = Model.Roles.FindAll(i => i.ProjectId == Model.Package.ProjektId);
-        var userRole = rolesInProject.Find(u => u.UserId == user.Id);
-        if (userRole != null)
+        if (user != null)
         {
-            return userRole.ProjectRole;
+            var rolesInProject = Model.Roles.FindAll(i => i.ProjectId == Model.Package.ProjektId);
+            var userRole = rolesInProject.Find(u => u.UserId == user.Id);
+            if (userRole != null)
+            {
+                return userRole.ProjectRole;
+            }
+
         }
         return "ErrorRole";
     }

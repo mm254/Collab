@@ -59,7 +59,7 @@
 <div>
     <div style="margin-bottom:20px; margin-top:25px">
         <div>
-            @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) != "Nutzer")
+            @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) != "Nutzer" || User.IsInRole("Admin"))
             {
                 <a class="btn btn-orange" asp-action="Edit" asp-route-id="@Model.Project.ProjekteId">
                     <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-wrench" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
@@ -74,7 +74,7 @@
                     <b>Arbeitspaket erstellen</b>
                 </a>
             }
-            @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) == "Owner")
+            @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) == "Owner" || User.IsInRole("Admin"))
             {
                 <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Project.ProjekteId"><b>Projekt löschen</b></a>
             }
@@ -159,7 +159,7 @@
 </p>
 
 
-@if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)).Equals("Owner"))
+@if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)).Equals("Owner") || User.IsInRole("Admin"))
 {
     <a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte" class="btn btn-secondary" style="color: #ffa400 ; margin-bottom:25px ; margin-top:25px">
         <svg width="25px" height="25px" style="margin-right:8px ; margin-bottom:4px" viewBox="0 0 16 16" class="bi bi-person-plus-fill" fill=" #ffa400" xmlns="http://www.w3.org/2000/svg">
@@ -178,32 +178,39 @@
             @foreach (var item in Model.ProjectUsers)
             {
                 string role = getRole(item);
-                <tr>
-                    <td scope="col">
-                        @switch (role)
-                        {
-                            case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
-                        case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
-                    case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
-            }
-                    </td>
-                    <td scope="col">
-                        @if (!User.Identity.Name.Equals(item.UserName))
-                        {
-                            <a class="btn btn-orange" asp-action="ChangeOwnership" asp-route-id="@Model.Project.ProjekteId" asp-route-newOwner="@item.Id" asp-route-role="">Owner ernennen</a>
-                            if (role == "Moderator")
+                if (role != "ErrorRole")
+                {
+                    <tr>
+                        <td scope="col">
+                            @switch (role)
                             {
-                                <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Nutzer">Moderator wegnehmen</a>
+                                case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
+                                case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                                case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
                             }
-                            else
+                        </td>
+                        <td scope="col">
+                            @if (!User.Identity.Name.Equals(item.UserName))
                             {
-                                <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Moderator">Moderator ernennen</a>
+                                if (role == "Owner")
+                                {
+                                    
+                                }
+                                else if (role == "Moderator")
+                                {
+                                    <a class="btn btn-orange" asp-action="ChangeOwnership" asp-route-id="@Model.Project.ProjekteId" asp-route-newOwner="@item.Id" asp-route-role="">Owner ernennen</a>
+                                    <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Nutzer">Moderator wegnehmen</a>
+                                }
+                                else if (role == "Nutzer")
+                                {
+                                    <a class="btn btn-orange" asp-action="ChangeOwnership" asp-route-id="@Model.Project.ProjekteId" asp-route-newOwner="@item.Id" asp-route-role="">Owner ernennen</a>
+                                    <a class="btn btn-orange" asp-action="ChangeProjectRole" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.Id" asp-route-role="Moderator">Moderator ernennen</a>
+                                    <a class="btn btn-danger" asp-action="DeleteUserFromProject" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.UserName">Nutzer entfernen</a>
+                                }
                             }
-
-                            <a class="btn btn-danger" asp-action="DeleteUserFromProject" asp-route-id="@Model.Project.ProjekteId" asp-route-name="@item.UserName">Nutzer entfernen</a>
-                        }
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
