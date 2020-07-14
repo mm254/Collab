@@ -487,6 +487,12 @@ namespace IvA.Controllers
             if(projekte != null)
             {
                 _context.Projekte.Remove(projekte);
+
+                List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
+                List<ArbeitsPaketModel> PaketLöschen = (from P in Pakete where P.ProjektId == id select P).ToList();
+
+                _context.ArbeitsPaket.RemoveRange(PaketLöschen);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

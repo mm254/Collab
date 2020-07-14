@@ -2,7 +2,7 @@
 
 @{ ViewData["Title"] = "Dashboard"; }
 <h1 style="color:#ffa400 ; margin-bottom:20px"><b>Mein Dashboard</b></h1>
-<h3 class="FirstLetter" style="margin-bottom: 20px">Behalten sie den Überblick ober ihre zugeteilten Arbeitspakete</h3>
+<h3 class="FirstLetter" style="margin-bottom: 20px">Behalten sie den Überblick über ihre zugeteilten Arbeitspakete</h3>
 
 <div class="dropdown" style="margin-bottom:20px">
     <button class="btn btn-secondary dropdown-toggle FirstLetter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -40,7 +40,7 @@
                         </h2>
                     </div>
 
-                    <div id="collapseFour" class="collapse card-columns" style="margin-bottom:25px" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div id="collapseFour" class="collapse card-columns" aria-labelledby="headingOne" data-parent="#accordion">
                         <div>
                             @foreach (var item in Model)
                             {
@@ -48,7 +48,7 @@
                                 @if (item.Frist <= now.AddDays(3))
                                 @if (item.Frist < now && item.Status != "fertig")
                                 {
-                                <div  class="card-body" style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
+                                <div  class="card" style="width: 15rem ; margin-bottom:20px ; margin-left:20px ; margin-top:20px ;break-inside:avoid ; border-color: black">
                                     <div class="card-header bg-danger text-center" style="font-size:20px; color:white">
                                         <a style="color: white ; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
                                             <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -97,14 +97,14 @@
                         </h2>
                     </div>
 
-                    <div id="collapseThree" class="collapse card-columns" style="margin-bottom:25px" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div id="collapseThree" class="collapse card-columns" aria-labelledby="headingOne" data-parent="#accordion">
                         <div >
                             @foreach (var item in Model)
                             {
                                 DateTime now = DateTime.Now;
                                 @if (item.Frist <= now.AddDays(7) && item.Frist > now)
                                 {
-                                <div class="card-body" style="width: 15rem ; margin-bottom:20px">
+                                <div class="card" style="width: 15rem ; margin-bottom:20px ; margin-left:20px ; margin-top:20px ; break-inside:avoid ; border-color: black">
                                     <div class="card-header bg-warning text-center" style="font-size:20px; color:black">
                                         <a style="color: black ; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
                                             <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#black" xmlns="http://www.w3.org/2000/svg">
@@ -152,14 +152,14 @@
                         </h2>
                     </div>
 
-                    <div id="collapseOne" class="collapse card-columns" style="margin-bottom:25px" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div id="collapseOne" class="collapse card-columns" aria-labelledby="headingOne" data-parent="#accordion">
                         <div>
                             @foreach (var item in Model)
                             {
                                 DateTime now = DateTime.Now;
                                 @if (item.Frist >= now.AddDays(7))
                                 {
-                                <div class="card-body" style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
+                                <div class="card" style="width: 15rem ; margin-bottom:20px ; margin-left:20px ; margin-top:20px ; break-inside:avoid ; border-color: black">
                                     <div class="card-header bg-dark text-center" style="font-size:20px; color:#ffa400">
                                         <a style="color: #ffa400; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
                                             <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
@@ -205,13 +205,13 @@
                         </h2>
                     </div>
 
-                    <div id="collapseTwo" class="collapse card-columns" style="margin-bottom:25px" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div id="collapseTwo" class="collapse card-columns" aria-labelledby="headingOne" data-parent="#accordion">
                         <div>
                             @foreach (var item in Model)
                             {
                                 @if (item.Status == "Fertig")
                                 {
-                                <div class="card-body" style="width: 15rem ; margin-bottom:20px ; break-inside:avoid">
+                                <div class="card" style="width: 15rem ; margin-bottom:20px ; margin-left:20px ; margin-top:20px  ; break-inside:avoid ; border-color: black">
                                     <div class="card-header bg-success text-center" style="font-size:20px">
                                         <a style="color: white; word-wrap: break-word ; hyphens:auto" asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
                                             <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="white" xmlns="http://www.w3.org/2000/svg">
