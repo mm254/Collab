@@ -3,23 +3,23 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<!--Diese HTML-Datei dient nur zu Test- und Debuggingzwecken und wird in der Live-Version nicht verwendet-->
 <h1>Details</h1>
 
 <div>
     <h4>UserLogin</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UserName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UserID)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UserID)
         </dd>
     </dl>

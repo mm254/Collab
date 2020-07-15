@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="de">
+<!-- Diese Seite dient als Template und rendert im Body dynamisch die jeweils von einer ControllerMEthode zurückgelieferte View-->
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,6 +20,8 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
+
+                    <!-- Menüleiste mit den Tabs Dachboard / Projekte / Adminpanel-->
                     <ul class="navbar-nav flex-grow-1" style="padding-left: 25px">
                         @if (this.User.Identity.IsAuthenticated)
                         {
@@ -44,15 +47,19 @@
         </nav>
     </header>
     <div class="container">
+        <!-- Hier wird jeweils die von einer Actionmethode zurückgegebenen View gerendert-->
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
+    <!-- Chatfunktion-->
     @if (this.User.Identity.IsAuthenticated)
     {
         <div style="margin-top:100px">
 
             <div class="systemChat align-baseline transparente" id="user_head">
+                <!--Container der alle Nutzer anezigt, die Online sind-->
                 <div class="columna " id="user_content">
                     <div class="row" id="xxx">
                         <div id="user_title_bar">
@@ -64,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- Container mit dem Eingabefeld für Nachrichten-->
                 <div class="columna" id="message_content">
                     <div class="row">
                         <div id="chat_title_bar">
@@ -89,6 +97,7 @@
         </div>
     }
 
+    <!-- Seitenfuß, enthält das Impressum-->
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 - Collab - <a asp-area="" asp-controller="Home" asp-action="Impressum">Impressum</a>

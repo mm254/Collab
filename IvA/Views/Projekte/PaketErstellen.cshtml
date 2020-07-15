@@ -2,6 +2,7 @@
 
 @{ ViewData["Title"] = "Arbeitspaket erstellen"; }
 
+<!-- Formular, um ein Arbeitspaket zu erstellen-->
 <h1 style="color: #ffa400"><b>Arbeitspakete erstellen</b></h1>
 <br />
 <hr />
@@ -45,6 +46,7 @@
     </div>
 </div>
 
+<!-- Rückleitung zur Paketdetailseite-->
 <div>
     <a asp-action="Details" asp-route-id="@ViewBag.RoutingID" class="btn btn-dark" style="color: #ffa400">
         <svg width="25px" height="25px" style="margin-right:10px" viewBox="0 0 16 16" class="bi bi-box-arrow-left" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">

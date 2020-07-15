@@ -4,9 +4,12 @@
 
 @{ ViewData["Title"] = "Arbeitspaketdetails"; }
 
+
+<!-- Ansichtsseite für die Arbeitspaketdetails-->
 <h1 style="color: #ffa400"><b>Arbeitspaket: @Html.DisplayFor(model => model.Package.PaketName)</b></h1>
 <br />
 
+<!-- Tabelle, welche die Details über ein speziisches Arbeitspaket darstellt-->
 <div class="PaketInfo">
     <h4 class="FirstLetter" style="padding-top:10px ; padding-left:10px"> Details für das Arbeitspaket</h4>
     <div>
@@ -43,6 +46,8 @@
             </dd>
         </dl>
     </div>
+
+    <!-- Blauer Container zeigt die verfügbare Arbeitszeit für ein Arbeitspaket. Das Feld färbt sich rot, wenn die Arbeitszeit das Zeitbudget überschreitet-->
     <div style="color:#ffa400 ; padding-left:10px ; padding-bottom: 10px ; padding-bottom:10px" align="left">
         <svg style="margin-right:25px" width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-alarm" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 15A6 6 0 1 0 8 3a6 6 0 0 0 0 12zm0 1A7 7 0 1 0 8 2a7 7 0 0 0 0 14z" />
@@ -62,6 +67,7 @@
     </div>
 </div>
 
+<!-- Bearbeitungsfunktionen für die Arbeitpaketdetails. Nutzer erhalten nur den Button "Zeit eintragen". Admins / Owner / Moderatoren können Paketdetails verändern und Pakete löschen-->
 <div>
     <a class="btn btn-orange" style="margin-top:15px ; margin-right:10px" asp-action="PaketZeit" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">
         <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-clock-fill" fill="" #343a40" xmlns="http://www.w3.org/2000/svg">
@@ -83,6 +89,7 @@
      }
 </div>
 
+<!-- Tabelle, welche die einem Arbeitspaket zugeordneten Nutzer anzeigt. Admins / Owner / Moderatoren können Nutzer von einem Paket löschen-->
 <h2 style="margin-top:75px">Zugewiesene Mitarbeiter zum Arbeitspaket</h2>
 
 <table class="table bg-table">
@@ -119,6 +126,7 @@
     </tbody>
 </table>
 
+<!-- Button, mit dem Ein Nutzer, welcher dem Projekt zugeordnet ist, einem Arbeitspaket zugeordnet werden kann-->
 <a class="btn btn-orange" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     <b>Mitarbeiter vom Projekt hinzufügen</b>
 </a>

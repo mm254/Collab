@@ -10,6 +10,7 @@ using IvA.Models;
 
 namespace IvA.Controllers
 {
+    //Der Controller stellt Basisfunktion für Interaktion mit der Datenbanktablee "Message" bereit und dient dazu, Chatnachrichten persitent zu speichern
     public class MessageController : Controller
     {
         private readonly ApplicationDbContext _context;

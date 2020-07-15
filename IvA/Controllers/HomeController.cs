@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IvA.Controllers
 {
+    // Die Controllermethoden geben jeweils die HTML-Datei für die Startseite zurück
     public class HomeController : Controller { 
 
         private readonly ILogger<HomeController> _logger;
@@ -20,11 +21,13 @@ namespace IvA.Controllers
             _logger = logger;
         }
 
+        //gibt die Startseite zurück
         public IActionResult Index()
         {
             return View();
         }
 
+        //Gibt das Impressum zurück
         public IActionResult Impressum()
         {
             return View();

@@ -2,12 +2,15 @@
 @{
     ViewData["Title"] = "Projektübersicht";
 }
+
+<!-- Ansicht für die Projektübersichtsseite, auf der alle einem Nutzer zugeordneten Projekte angezeigt werden-->
 <h2 align="center" class="display-4" style="color: #ffa400"><b>Projektübersicht</b></h2>
 <h2 style="padding-top:25px">
     Behalten sie die Übersicht über ihre Projekte. <br />
     Erstellen und Verwalten sie flexibel Projekte und Arbeitspakete.
 </h2>
 
+<!-- Button für die Erstellung eines Projektes. Name ist ein Link zur Actionmethode Creat im Controller Projekte-->
 <p style="padding-top:25px ; padding-bottom: 25px">
     <a class="btn btn-orange" asp-action="Create">
             <svg width="25px" height="25px" style="margin-right:8px ; margin-bottom:4px"viewBox="0 0 16 16" class="bi bi-clipboard-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -18,10 +21,12 @@
     </a>
 </p>
 
+<!-- Karten mit dem Projektnamen und der abgekürzten Projektbeschreibung-->
 <div class="card-columns" style="margin-top:15px">
 
     @foreach (var item in Model)
     {
+        <!-- Wenn das aktuelle Datum das Datum der Projektdeadline übersteigt, färbt sich die projektkarte rot-->
         @if (item.Deadline <= DateTime.Now)
         {
         <div class="card bg-danger">
@@ -41,6 +46,7 @@
         }
         else
         {
+        <!-- Wenn das aktuelle Datum vor Ablauf der Deadline eines Projektes liegt, wird die Projektkarte grau/gold angezeigt -->
         <div class="card bg-secondary">
             <div class="card-header text-center">
                 <a asp-action="Details" asp-route-id="@item.ProjekteId" class="btn btn-dark" style="color: #ffa400">
