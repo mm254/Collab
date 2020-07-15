@@ -22,6 +22,7 @@ namespace IvA.Controllers
         private UserManager<IdentityUser> _userManager;
         private Helper helper;
 
+        // Instanz der Datenbankklasse wird erstellt und per Dependency Injection zugewiesen.
         public ProjekteController(ApplicationDbContext context, 
                                   UserManager<IdentityUser> userManager, 
                                   SignInManager<IdentityUser> signInManager)
@@ -150,33 +151,6 @@ namespace IvA.Controllers
             return View();
         }
 
-        public IActionResult CreatePackage(int id)
-        {
-            return View(_context.Projekte.Find(id));
-        }
-
-        // Martin watt is hier mit?
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePackage([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Frist,Status")] ArbeitsPaketModel arbeitsPaket, int pId)
-        {
-            if (ModelState.IsValid)
-            {
-                arbeitsPaket.Status = "To do";
-                _context.Add(arbeitsPaket);
-                await _context.SaveChangesAsync();
-                ProjekteArbeitsPaketeViewModel pp = new ProjekteArbeitsPaketeViewModel();
-                pp.ProjekteId = pId;
-                pp.ArbeitsPaketId = arbeitsPaket.ArbeitsPaketId;
-                _context.Add(pp);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(arbeitsPaket);
-        }
-
         /* Erstellt ein Projekt und fügt dieses der Tabelle "Projekte" hinzu. Projektersteller ist immmer der aktuell eingeloggte User. 
          * Das Datum der projekterstellung wird automatisch aus der Betriebsystemszeit generiert. Der Projektestatus ist anfangs immer "To Do".
            Nach Erstellung des Projektes wird der Nutzer auf die Indexseite zurückgeleitet.*/
@@ -191,6 +165,7 @@ namespace IvA.Controllers
             {
                 _context.Add(projekte);
 
+                //Status, Erstellungdatum, Mitglieder und Projektersteller werden automatisch gesetzt
                 projekte.ErstelltAm = DateTime.Now;
                 projekte.Status = "To Do";
                 projekte.Mitglieder = "";
@@ -208,7 +183,7 @@ namespace IvA.Controllers
                 };
                 _context.Add(firstMember);
 
-                // Projektersteller zum Owner ernnen
+                // Projektersteller zum Owner ernennen
                 ProjectRoles owner = new ProjectRoles()
                 {
                     ProjectId = projekte.ProjekteId,
@@ -224,16 +199,20 @@ namespace IvA.Controllers
             return View(projekte);
         }
 
+        // gibt die HTML-Datei für die Nutzer hinzufügen Ansicht zurück
         public IActionResult AddUser()
         {
+            // RoutingID, um auf die Projektdetailseite zurückzugelangen
             int RoutingID = Int32.Parse((string)RouteData.Values["id"]);
             ViewBag.RoutingID = RoutingID;
 
             return View();
         }
 
+        //Ordnet einen Nutzer einem Projekt zu
         public async Task<IActionResult> AddUserToProject([Bind("id,name")] AddUserModel userToProject)
         {
+            // Die Methode steht nur Projektownern oder Admins zur Verfügung, sonst erscheit eine Fehlermeldung
             var roles = _context.ProjectRoles.ToList().FindAll(i => i.ProjectId == userToProject.id);
             ProjectRoles owner = roles.Find(o => o.ProjectRole == "Owner");
             IdentityUser user = await _userManager.FindByIdAsync(owner.UserId);
@@ -243,6 +222,7 @@ namespace IvA.Controllers
                 return (RedirectToAction("ErrorMessage", new { ID = 7 }));
             }
 
+            // Die Zuorndung eines Nutzers zu einem Projekt wird in der Tabelle ProjekteUserViewModel gespeichert
             if (userToProject.name != null)
             {
                 IdentityUser newUser = await _userManager.FindByNameAsync(userToProject.name);
@@ -268,7 +248,7 @@ namespace IvA.Controllers
             return NotFound("Error beim Hinzufügen eines Projekts");
         }
 
-        //Martin??????
+        //Erstellt eine Liste aller einem Projekt zugeordneten Nutzer
         public async Task<IActionResult> ProjectUserList(int id)
         {
             List<ProjekteUserViewModel> projectUsers =  _context.ProjekteUserViewModel.ToList();
@@ -284,6 +264,7 @@ namespace IvA.Controllers
             return View(users);
         }
 
+        //Erstellt eine Liste aller einem Arbeitspaket zugeordneten Nutzer
         public async Task<IActionResult> PackageUserList(int id)
         {
             List<PaketeUserViewModel> projectUsers = _context.PaketeUserViewModel.ToList();
@@ -299,6 +280,7 @@ namespace IvA.Controllers
             return View(packageUsers);
         }
 
+        //Fügt einem Arbeitspaket einen Nutzer hinzu. Der Nutzer muss einen Nutzeraccount besitzen
         public async Task<IActionResult> AddUserToPackage(int id, string name)
         {
             
@@ -320,6 +302,7 @@ namespace IvA.Controllers
             return NotFound("Fehler beim Hinzufügen");
         }
 
+        // Die Methode entfernt einen Nutzer aus einem Projekt
         public async Task<IActionResult> DeleteUserFromProject(string name, int id)
         {
             if (name != null)
@@ -341,6 +324,7 @@ namespace IvA.Controllers
             return NotFound("Error beim entfernen eines Nutzers");
         }
 
+        // Die Methode entfernt einen Nutzer aus einem Arbeitspaket
         public async Task<IActionResult> DeleteUserFromPackage(string name, int id)
         {
             if (name != null)
@@ -361,6 +345,7 @@ namespace IvA.Controllers
             return NotFound("Error beim entfernen eines Nutzers");
         }
 
+        //Die Methode ermöglicht das Ändern der Rollenverteilung innerhalb eines Projektes
         public async Task<IActionResult> ChangeProjectRole(string name, int id, string role)
         {
             ChangeUserProjectRole(name, id, role);
@@ -368,6 +353,7 @@ namespace IvA.Controllers
             return RedirectToAction("Details", "Projekte", new { id = id });
         }
 
+        //Die Methode ermöglicht das wechseln des Projektowners
         public async Task<IActionResult> ChangeOwnership(string newOwner, int id)
         {
             var loggedUser = await _userManager.GetUserAsync(this.User);
@@ -387,10 +373,12 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
+            // Die Bearbeitenfunktion für Projekte steht nur Admins und Projektowner zur Verfügung
             var roles = _context.ProjectRoles.ToList().FindAll(i => i.ProjectId == id);
             ProjectRoles owner = roles.Find(o => o.ProjectRole == "Owner");
             IdentityUser user = await _userManager.FindByIdAsync(owner.UserId);
             bool isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+            // Fehlermeldung, falls der User kein Admin oder Projektowner ist
             if (user.UserName != this.User.Identity.Name && !isAdmin)
             {
                 return (RedirectToAction("ErrorMessage", new {ID = 1 }));
@@ -460,6 +448,8 @@ namespace IvA.Controllers
 
             List<ProjekteModel> Projekte = _context.Projekte.ToList();
             var EditValid = (from p in Projekte where p.ProjekteId == id select p.Projektersteller).FirstOrDefault();
+            
+            // Löschen-Funktion für Projekte ist nur für den Projektowner verfügbar, sonst Fehlermeldung
             if (EditValid != this.User.Identity.Name)
             {
                 return (RedirectToAction("ErrorMessage", new { ID = 2 })); ;
@@ -472,13 +462,14 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
+            //RoutingID, um von der Löschenfunktion zurück zur Projektdetailansicht zurückzugelangen
             int RoutingID = Int32.Parse((string)RouteData.Values["id"]);
             ViewBag.RoutingID = RoutingID;
 
             return View(projekte);
         }
 
-        // POST: Entfernt einen Eintrag aus der Tabelle "Projekte" anhand der übergeben ProjektID und leitet den Nutzer danach autoamtisch auf die Projektindexseite zurück
+        // POST: Entfernt einen Eintrag aus der Tabelle "Projekte" anhand der übergeben ProjektID und leitet den Nutzer danach autoamtisch auf die Projektübersichtsseite zurück
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -486,8 +477,10 @@ namespace IvA.Controllers
             var projekte = await _context.Projekte.FindAsync(id);
             if(projekte != null)
             {
+                //Löscht das spezifische Projekt
                 _context.Projekte.Remove(projekte);
 
+                //Löscht alle Arbeitspakete, die einem Projekt zugeordnet sind
                 List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
                 List<ArbeitsPaketModel> PaketLöschen = (from P in Pakete where P.ProjektId == id select P).ToList();
 
@@ -513,34 +506,41 @@ namespace IvA.Controllers
         //---------------------------- Paket erstellen ----------------------
 
         // Die Methode erstellt ein Arbeitspaket und ordnet dieses autoomatisch dem richtig Projekt zu. Nach erfolgreicher Erstellung wird der Nutzer auf die entsprechende Detailansicht des Projektes zurückgeleitet.
-        public async Task<IActionResult> PaketErstellen ([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Zeitbudget,Frist,Status")]ArbeitsPaketModel arbeitsPaket, ProjekteArbeitsPaketeViewModel papv, int pId)
+        public async Task<IActionResult> PaketErstellen ([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Zeitbudget,Frist,Status")]ArbeitsPaketModel arbeitsPaket, ProjekteArbeitsPaketeViewModel ProPaViewMo, int pId)
         {
             if (ModelState.IsValid)
             {
+                // EInem Arbeitspaket wird die ProjektID anhand der in der URL übergebenen ID zugeordnet
                 var ProId = RouteData.Values["id"];
 
                 arbeitsPaket.Status = "To do";
                 arbeitsPaket.ProjektId = Int32.Parse((string)ProId);
 
+                //Deadline eines spezifischen Projektes auswählen
                 var Projects = _context.Projekte.ToList();
                 var Deadline = (from p in Projects where p.ProjekteId == Int32.Parse((string)ProId) select p.Deadline).FirstOrDefault();
+                
+                //Fehlermeldung, wenn die Frist eines Arbeitspaketes später als die Deadline des zugeordneten Projektes gewählt wird
                 if (arbeitsPaket.Frist >= Deadline)
                 {
                     return (RedirectToAction("ErrorMessage", new { ID = 3 })); ;
                 }
+                //Fehlermeldung, wenn das Zeitbudget eines Arbeitspaketes negativ gewählt wird
                 if (arbeitsPaket.Zeitbudget < 0)
                 {
                     int ErrorID = 5;
                     return (RedirectToAction("ErrorMessage", new { ID = ErrorID })); ;
                 }
 
+                //Angabe über ein erstelltes Arbeitspaket persitent in der Tabele ArbeitsPaket speichern
                 _context.Add(arbeitsPaket);
                 await _context.SaveChangesAsync();
 
+                // Einem neuen Arbeitspaket wird die passende ProjektID zugeordnet, ProjektID und ArbeitsPaketID werden als Zuordnung in der Tabelle ProjekteArbeitsPaketViewModel gespeichert
                 List<ArbeitsPaketModel> Pakete = _context.ArbeitsPaket.ToList();
-                papv.ProjekteId = Int32.Parse((string)ProId);
-                papv.ArbeitsPaketId = arbeitsPaket.ArbeitsPaketId;
-                _context.Add(papv);
+                ProPaViewMo.ProjekteId = Int32.Parse((string)ProId);
+                ProPaViewMo.ArbeitsPaketId = arbeitsPaket.ArbeitsPaketId;
+                _context.Add(ProPaViewMo);
 
                 // Ersteller des Pakets wird als erstes Mitglied eingetragen
                 var currentUser = this.User;
@@ -556,6 +556,8 @@ namespace IvA.Controllers
 
                 return RedirectToAction("Details", "Projekte", new { id = ProId });
             }
+
+            //RoutingID wird an die View übergeben, um auf die Projektdetailansicht zurückzugelangen
             int RoutingID = Int32.Parse((string)RouteData.Values["id"]);
             ViewBag.RoutingID = RoutingID;
 
@@ -606,6 +608,7 @@ namespace IvA.Controllers
                 Roles = UserRoles
             };
 
+            // ID für das Routing zurück auf die Paketdetailansicht
             int RoutingID = packagesDetails.Package.ProjektId;
             ViewBag.RoutingID = RoutingID;
 
@@ -615,7 +618,7 @@ namespace IvA.Controllers
         //------------------------------ Paket anpassen --------------------------------------
 
         // Gibt die Html-Datei PaketAnpassen anhand der übergebenen PaketID zurück
-        public async Task<IActionResult> PaketAnpassen(int? id)
+        public IActionResult PaketAnpassen(int? id)
         {
             if (id == null)
             {
@@ -673,7 +676,7 @@ namespace IvA.Controllers
         
         //------------------- Arbeitspakete löschen --------------------
 
-        //GET: Gibt die Html-Datei für das löschen von Arbeitspaketen wieder
+        //GET: Gibt die Html-Datei für das löschen eines spezfischen Arbeitspaketes wieder
         public async Task<IActionResult> PaketLöschenGet(int? id)
         {
             if (id == null)
@@ -690,21 +693,24 @@ namespace IvA.Controllers
 
             return View(arbeitsPaket);
         }
-        // POST: Entfernt einen Eintrag aus der Tabelle "ArbeitsPaket" anhand der übergeben PaketID und leitet den Nutzer danach autoamtisch auf die Projektdetailseite zurück
+        // POST: Entfernt einen Eintrag aus der Tabelle "ArbeitsPaket" anhand der übergeben PaketID und leitet den Nutzer danach automatisch auf die Projektdetailseite zurück
         [HttpPost, ActionName("PaketLöschenGet")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PaketLöschenPost(int id)
         {
             List<ProjekteArbeitsPaketeViewModel> ProjektPakete = _context.ProjekteArbeitsPaketeViewModel.ToList();
 
+            //Entfernt das ausgewählte Arbeitspaket
             var arbeitsPaket = await _context.ArbeitsPaket.FindAsync(id);
             _context.ArbeitsPaket.Remove(arbeitsPaket);
 
+            //Entfernt die Zuordnung eines pakets zu einem Projekt aus der Tabele ProjektePaketeViewModel
             int tableID = (from table in ProjektPakete where table.ArbeitsPaketId == id select table.ProjekteArbeitsPaketeViewModelId).FirstOrDefault();
             var proPakViewModel = await _context.ProjekteArbeitsPaketeViewModel.FindAsync(tableID);
 
             _context.ProjekteArbeitsPaketeViewModel.Remove(proPakViewModel);
 
+            //Änderungen an der Datenbank speichern
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Projekte", new { id = arbeitsPaket.ProjektId });
         }
@@ -717,8 +723,11 @@ namespace IvA.Controllers
         Fehlercode 3: Versuch, ein Arbeitspaket zu erstellen, dessen Frist nach Ablauf der Projektdeadline liegt.
         Fehlercode 4: Ein nicht existierender Projectowner wird einem Projekt zugewiesen.
         Fehlercode 5: Das Zeitbudget für ein Arbeitspaket darf nicht negativ sein
+        Fehlercode 6: Ein Nutzer wurde nicht gefunden
+        Fehlercode 7: Fehlende Berechtigung, um einen Nutzer zu einem Projekt hinzuzufügen
+        Fehlercode 8: Die Verbrauchte Arbeitszeit für ein Arbeitspaket darf nicht negativ sein
         */
-        public async Task<IActionResult> ErrorMessage(int id) 
+        public IActionResult ErrorMessage(int id)
         {
             ErrorMessage message = new ErrorMessage();
             message.DynamicErrorMessage = Int32.Parse((string)RouteData.Values["id"]);
@@ -726,8 +735,8 @@ namespace IvA.Controllers
             return View(message);
         }
 
-        // Mit Hilfe der Methode wird für ein spezifisches Arbeitspaket die verbrauchte Arbeitszeit eingetragen
-        public async Task<IActionResult> PaketZeit(int? id)
+        // Mit Hilfe der Methode wird die Eingabemaske für die verbrauchte Arbeitszeit eines  spezifischen Arbeitspaketes aufgerufen
+        public IActionResult PaketZeit(int? id)
         {
             if (id == null)
             {
@@ -742,6 +751,8 @@ namespace IvA.Controllers
             arbeitsPaket.VerbrauchteZeit = 0;
             return View(arbeitsPaket);
         }
+
+        // Mit Hilfe der Methode wird die eingetragene Arbeitszeit für ein spezifisches Arbeitspaket persistent in der Tabelle ArbeitsPaket gespeichert
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PaketZeit(int id, [Bind("ArbeitsPaketId,ProjektId,PaketName,Beschreibung,Mitglieder,Zeitbudget,VerbrauchteZeit,Frist,Status")] ArbeitsPaketModel arbeitsPaket)
@@ -753,6 +764,8 @@ namespace IvA.Controllers
 
             if (ModelState.IsValid)
             {
+                //Die gespeicherte Arbeitszeit ist die Sume aus bisher verbrauchter Arbeitszeit + neuer verbrauchter Arbeitszeit.
+                // Wird die Zeit korrigiert, kann sie nicht unter 0 sinken.
                 try
                 {
                    
