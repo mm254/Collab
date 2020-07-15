@@ -4,8 +4,10 @@
 
 @{ ViewData["Title"] = "Projektdetails"; }
 
+<!-- HTML-Datei für die Detailansicht eines Projektes-->
 <h1 style="margin-bottom:20px ; color: #ffa400"><b>Projektdetails: @Model.Project.Projektname</b></h1>
 
+<!-- Tabelle, welche die Projektdetails eines spezifischen Projektes auflistet-->
 <div class="PaketInfo">
     <h4 style="margin-bottom:25px ; padding-bottom:15px ; padding-top:10px ; padding-left: 10px" class="FirstLetter">Übersicht über die Projektinformationen</h4>
     <div style="padding-left:10px">
@@ -57,6 +59,7 @@
     </div>
 </div>
 <div>
+    <!-- Buttons mit Bearbeitungsmöglichkeiten für ein Projekt. Ein Projekt bearbeiten können Moderatoren, Admins und Projektowner. Ein Projekt löschen können nur Owner und Admins-->
     <div style="margin-bottom:20px; margin-top:25px">
         <div>
             @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) != "Nutzer" || User.IsInRole("Admin"))
@@ -82,6 +85,7 @@
 
     </div>
 
+    <!--Fortschrittsleiste, welche von den Bearbeitungsstadien der Arbeitspakete abhängig ist-->
     <p style="margin-top:75px ; color: #ffa400">
         Fortschritt der Arbeitspakete:
         <div class="progress" style="margin-bottom:25px">
@@ -92,6 +96,8 @@
     </p>
 
 </div>
+
+<!-- Übersichtskarten mit den Bearbeitungsstadien der Arbeitspakete (To Do, In Bearbeitung, Fertig). Abhängig vom BEarbeitungsstatus wird ein Arbeitspaket eingeordnet. der Paketname ist ein Link zur Paketdetailanicht-->
 <div class="card-deck" style="margin-bottom:100px">
     <div class="card" style="background-color:rgb(52, 58, 64)">
         <div class="card-body">
@@ -158,6 +164,7 @@
     <h2>Mitglieder</h2>
 </p>
 
+<!-- Button, um Nutzer einem Projekt hinzuzufügen.-->
 @if (!getRole(await _userManager.FindByNameAsync(User.Identity.Name)).Equals("Nutzer") || User.IsInRole("Admin"))
 {
     <a asp-action="AddUser" asp-route-id="@Model.Project.ProjekteId" asp-controller="Projekte" class="btn btn-secondary" style="color: #ffa400 ; margin-bottom:25px ; margin-top:25px">
@@ -168,6 +175,7 @@
     </a>
 }
 
+<!-- Tabelle, die alle einem Projekt zugeordneten Nutzer anzeigt. Jeder Nutzer erhält ein Badge mit seiner Rolle-->
 @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)).Equals("Owner") || User.IsInRole("Admin"))
 {
 
@@ -246,7 +254,7 @@ else
     </table>
 }
 
-
+<!-- Rückleitung zur Projektgesamtübersicht-->
 <a class="btn btn-dark" style="color: #ffa400" asp-action="Index">
     <svg width="25px" height="25px" style="margin-right:10px" viewBox="0 0 16 16" class="bi bi-box-arrow-left" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" d="M4.354 11.354a.5.5 0 0 0 0-.708L1.707 8l2.647-2.646a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708 0z" />

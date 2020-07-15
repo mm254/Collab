@@ -4,9 +4,11 @@
     ViewData["Title"] = "List";
 }
 
+<!-- Seite für die Listendarstellung des Dashboards-->
 <h1 style="color:#ffa400 ; margin-bottom:20px"><b>Mein Dashboard</b></h1>
 <h3 class="FirstLetter" style="margin-bottom: 20px">Behalten sie den Überblick über ihre zugeteilten Arbeitspakete</h3>
 
+<!-- Drop Down Menü unter der Seitenüberschrift mit den Menüpunkte List und Card-->
 <div class="dropdown" style="margin-bottom:20px">
     <button class="btn btn-secondary dropdown-toggle FirstLetter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Ansicht wählen
@@ -17,6 +19,7 @@
     </div>
 </div>
 
+<!-- Listet alle Arbeitspakete, die einem Nutzer zugeordnet sind, in einer Tabelle auf. Der Paketnamen ist eine Verlinkung auf die Detailansicht des Paketes-->
 <table class="table bg-table">
     <thead class="bg-table thead-dark">
         <tr>
@@ -32,13 +35,16 @@
         </tr>
     </thead>
     <tbody>
+
+        <!-- Es wird durch alle Arbeitspakete durchiteriert-->
         @foreach (var item in Model)
         {
             if (item.Status != "Fertig") 
             {
             <tr>
                  @if (item.Frist <= DateTime.Now)
-                {
+                 {
+                     <!-- Arbeitspaket wird rot angezeigt, wenn das aktuelle Datum über der Frist eines Paketes liegt und der Status nicht "Fertig" ist-->
                     <td class="table-danger bg-danger">
                         <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" style="color:black">
                             <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#black" xmlns="http://www.w3.org/2000/svg">
@@ -53,8 +59,9 @@
                         <a style="color:black">@Html.DisplayFor(modelItem => item.Frist)</a>
                     </td>
                 }
-                else if (item.Frist <= DateTime.Now.AddDays(3))
+                else if (item.Frist <= DateTime.Now.AddDays(7))
                 {
+                     <!-- Arbeitspaket wird gelb angezeigt, wenn das aktuelle Datum sieben Tage oder kürzer vor Ablauf der Frist eines Paketes liegt und der Status nicht "Fertig" ist-->
                     <td class="table-danger bg-warning">
                         <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" style="color:black">
                             <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#black" xmlns="http://www.w3.org/2000/svg">
@@ -72,6 +79,7 @@
                
                 else 
                 {
+                      <!-- Arbeitspaket wird grau/gold angezeigt, wenn das aktuelle Datum sieben Tage oder mehr vor Ablauf der Frist eines Paketes liegt und der Status nicht "Fertig" ist-->
                     <td>
                         <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId">
                             <svg width="25px" height="25px" style="margin-right:7px" viewBox="0 0 16 16" class="bi bi-box-seam" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">
@@ -97,13 +105,17 @@
     
 </table>
 <br />
+
+<!-- Fertige Arbeitspakete sind optisch in einer eigenen Tabelle untergebracht-->
 <h3 class="FirstLetter" style="margin-bottom:25px">Fertige Arbeitspakete</h3>
 <table class="table bg-table">
     <tbody>
+        <!-- Es wird durch alle Arbeitspakete durchiteriert-->
         @foreach (var item in Model)
         {
             if (item.Status == "Fertig")
             {
+                 <!-- Arbeitspaket wird grün angezeigt, wenn der Bearbeitungsstaus eines Arbeitspaketes "Fertig" ist-->
                 <tr class="bg-success">
                     <td>
                         <a asp-action="PaketDetails" asp-controller="Projekte" asp-route-id="@item.ArbeitsPaketId" style="color:white">

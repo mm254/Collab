@@ -1,9 +1,12 @@
 ﻿@model IEnumerable<IvA.Models.ArbeitsPaketModel>
 
 @{ ViewData["Title"] = "Dashboard"; }
+
+<!-- Indexseite für das Dashboard, es wird standardmäßig die Cardsansicht zurückgegeben-->
 <h1 style="color:#ffa400 ; margin-bottom:20px"><b>Mein Dashboard</b></h1>
 <h3 class="FirstLetter" style="margin-bottom: 20px">Behalten sie den Überblick über ihre zugeteilten Arbeitspakete</h3>
 
+<!-- Drop Down Menü unter der Seitenüberschrift mit den Menüpunkte List und Card-->
 <div class="dropdown" style="margin-bottom:20px">
     <button class="btn btn-secondary dropdown-toggle FirstLetter" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Ansicht wählen
@@ -14,6 +17,7 @@
     </div>
 </div>
 
+<!-- Vier verschieden Container für die unterschiedlichen Kategorien, ein Container wird ausgeblendet, wenn sich darin kein Card mit einem Arbeitspaket darin befindet-->
 @foreach (var x in Model)
 {
     int count = 0;
@@ -26,7 +30,7 @@
     }
         @if (count > 0 && count < 2)
         {
-
+            <!--Button, um den jeweiligen Container aus- und wieder einzuklappen-->
             <div id="accordion" style="margin-bottom:20px">
                 <div class="card bg-secondary">
                     <div class="card-header" id="headingOne">
@@ -40,6 +44,8 @@
                         </h2>
                     </div>
 
+                    <!-- Ausgeklappter Container, enthält für jedes Arbeitspaket ein eigenes Card. Cards werden nach Frist von links nach rechts und oben nach unten sortiert-->
+                    <!-- Ein Card wird angezeigt, wenn die Frist eines Arbeitspaketes abgelaufen ist-->
                     <div id="collapseFour" class="collapse card-columns" aria-labelledby="headingOne" data-parent="#accordion">
                         <div>
                             @foreach (var item in Model)
@@ -84,6 +90,7 @@
     }
         @if (count > 0 && count < 2)
         {
+            <!--Button, um den jeweiligen Container aus- und wieder einzuklappen-->
             <div id="accordion" style="margin-bottom:20px">
                 <div class="card bg-secondary">
                     <div class="card-header" id="headingOne">
@@ -97,6 +104,8 @@
                         </h2>
                     </div>
 
+                    <!-- Ausgeklappter Container, enthält für jedes Arbeitspaket ein eigenes Card. Cards werden nach Frist von links nach rechts und oben nach unten sortiert-->
+                    <!-- Ein Card wird angezeigt, wenn das aktuelle Datum sieben Tage oder kürzer vor Ablauf der Frist eines Arbeitspaketes steht ist-->
                     <div id="collapseThree" class="collapse card-columns" aria-labelledby="headingOne" data-parent="#accordion">
                         <div >
                             @foreach (var item in Model)
@@ -139,6 +148,7 @@
     }
         @if (count > 0 && count < 2)
         {
+            <!--Button, um den jeweiligen Container aus- und wieder einzuklappen-->
             <div id="accordion" style="margin-bottom:20px">
                 <div class="card bg-secondary">
                     <div class="card-header" id="headingOne">
@@ -152,6 +162,8 @@
                         </h2>
                     </div>
 
+                    <!-- Ausgeklappter Container, enthält für jedes Arbeitspaket ein eigenes Card. Cards werden nach Frist von links nach rechts und oben nach unten sortiert-->
+                    <!-- Ein Card wird angezeigt, das aktuelle Datum mehr als sieben Tage von der Frist eines Arbeitspaketes entfernt liegt und der Status nicht "Fertig" ist-->
                     <div id="collapseOne" class="collapse card-columns" aria-labelledby="headingOne" data-parent="#accordion">
                         <div>
                             @foreach (var item in Model)
@@ -192,6 +204,7 @@
     }
         @if (count > 0 && count < 2)
         {
+            <!--Button, um den jeweiligen Container aus- und wieder einzuklappen-->
             <div id="accordion" style="margin-bottom:20px">
                 <div class="card bg-secondary">
                     <div class="card-header" id="headingOne">
@@ -205,6 +218,8 @@
                         </h2>
                     </div>
 
+                    <!-- Ausgeklappter Container, enthält für jedes Arbeitspaket ein eigenes Card. Cards werden nach Frist von links nach rechts und oben nach unten sortiert-->
+                    <!-- Ein Card wird angezeigt, wenn der Bearbeitungsstatus eines Arbeitspaketes "Fertig" ist-->
                     <div id="collapseTwo" class="collapse card-columns" aria-labelledby="headingOne" data-parent="#accordion">
                         <div>
                             @foreach (var item in Model)

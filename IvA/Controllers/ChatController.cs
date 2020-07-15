@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IvA.Controllers
 {
+    //Dieser Controller hat den einzigen Zwck, die Chat.html zurückzugeben, um die Chatfunktion aus anderen Controllern auszulagern
     public class ChatController : Controller
     {
         private readonly ApplicationDbContext _context;

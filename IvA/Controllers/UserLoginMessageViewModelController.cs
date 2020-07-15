@@ -10,6 +10,7 @@ using IvA.Models;
 
 namespace IvA.Controllers
 {
+    //Der Controller diente für Entwicklungs- und Debuggingzwecke
     public class UserLoginMessageViewModelController : Controller
     {
         private readonly ApplicationDbContext _context;

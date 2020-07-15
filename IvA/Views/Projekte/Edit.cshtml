@@ -4,7 +4,7 @@
     ViewData["Title"] = "Projektdetails ändern";
 }
 
-
+<!-- Formular für die Anpassung von Projektdetails-->
 <h2 style="color: #ffa400"><b>Projektinformationen ändern</b></h2>
 
 <h4 style="padding-bottom:25px ; padding-top:25px">Ändern sie ihre Projektdetails. Sie haben hier die Möglichkeit, den Projektnamen, die Projektbeschreibung, den aktuellen Bearbeitungsstatus oder die Deadline flexibel anzupassen.</h4>
@@ -70,6 +70,7 @@
     </div>
 </div>
 
+<!-- Rückleitung auf die spezifische Projektdetailansicht-->
 <div>
     <a asp-action="Details" asp-route-id="@Model.ProjekteId" class="btn btn-dark" style="color: #ffa400">
         <svg width="25px" height="25px" style="margin-right:10px" viewBox="0 0 16 16" class="bi bi-box-arrow-left" fill="#ffa400" xmlns="http://www.w3.org/2000/svg">

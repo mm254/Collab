@@ -2,6 +2,7 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+<!-- Generiert die Accountverwaltung und Loginfunktion am oberen rechten Bildschirmrand-->
 <ul class="navbar-nav flex-grow-1" style="padding-left: 400px; padding-right: 25px;">
 @if (SignInManager.IsSignedIn(User))
 {

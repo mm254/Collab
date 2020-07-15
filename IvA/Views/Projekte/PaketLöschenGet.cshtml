@@ -4,6 +4,7 @@
 
 <h1 style="color: #ffa400"><b>Arbeitspaket löschen</b></h1>
 
+<!-- Formular, die alle Paketdetails auflistet und einen Button zu rLÖschung eines Arbeitspaketes bereitstellt-->
 <h3>Möchten sie dieses Arbeitspaket wirklich löschen?</h3>
 <div>
     <br />
@@ -41,6 +42,7 @@
         </dd>
     </dl>
 
+    <!-- Rückleitung zur Paketdetailseite-->
     <form asp-action="PaketLöschenGet">
         <input type="hidden" asp-for="ArbeitsPaketId" />
         <input type="submit" value="Arbeitspaket löschen" class="btn btn-danger" /> |
