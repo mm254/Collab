@@ -12,9 +12,11 @@ using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
 using System.Dynamic;
 using IvA.Validation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IvA.Controllers
 {
+    [Authorize(Roles = "Admin,Nutzer")]
     public class ProjekteController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -38,6 +40,7 @@ namespace IvA.Controllers
         //--------------------------------------------------------------------------------------------------------------------
 
         // Listet alle Projekte des Nutzers auf
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> Index()
         {
             var loggedUser = await _userManager.GetUserAsync(this.User);
@@ -314,10 +317,21 @@ namespace IvA.Controllers
                     ProjekteUserViewModel projectUser = userList.Find(n => n.UserId == user.Id);
                     if(projectUser != null)
                     {
-                        _context.ProjekteUserViewModel.Remove(projectUser);
-                        DeleteUserFromProjectRoles(name, id);
-                        await _context.SaveChangesAsync();
-                        return RedirectToAction("Details", "Projekte", new { id = id });
+                        // Überprüfen ob die zu entfernen Person der Owner ist. Wenn ja kommt eine Fehlermeldung
+                        var projectRoles = _context.ProjectRoles.ToList().Where(x => x.ProjectId == id);
+                        var owner = projectRoles.Where(x => x.ProjectRole == "Owner").First();
+                        var ownerUser = await _userManager.FindByIdAsync(owner.UserId);
+                        if (!ownerUser.UserName.Equals(name))
+                        {
+                            _context.ProjekteUserViewModel.Remove(projectUser);
+                            DeleteUserFromProjectRoles(name, id);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction("Details", "Projekte", new { id = id });
+                        }
+                        else
+                        {
+                            return (RedirectToAction("ErrorMessage", new { ID = 8 }));
+                        }
                     }
                 }
             }
@@ -356,8 +370,10 @@ namespace IvA.Controllers
         //Die Methode ermöglicht das wechseln des Projektowners
         public async Task<IActionResult> ChangeOwnership(string newOwner, int id)
         {
-            var loggedUser = await _userManager.GetUserAsync(this.User);
-            ChangeUserProjectRole(loggedUser.Id, id, "Nutzer");
+            var projectRoles = _context.ProjectRoles.ToList().Where(x => x.ProjectId == id);
+            var owner = projectRoles.Where(x => x.ProjectRole == "Owner").First();
+            var oldOwner = await _userManager.FindByIdAsync(owner.UserId);
+            ChangeUserProjectRole(oldOwner.Id, id, "Nutzer");
             ChangeUserProjectRole(newOwner, id, "Owner");
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", "Projekte", new { id = id });
@@ -726,6 +742,7 @@ namespace IvA.Controllers
         Fehlercode 6: Ein Nutzer wurde nicht gefunden
         Fehlercode 7: Fehlende Berechtigung, um einen Nutzer zu einem Projekt hinzuzufügen
         Fehlercode 8: Die Verbrauchte Arbeitszeit für ein Arbeitspaket darf nicht negativ sein
+        Fehlercode 9: Der Owner darf nicht aus dem Projekt entfernt werden
         */
         public IActionResult ErrorMessage(int id)
         {

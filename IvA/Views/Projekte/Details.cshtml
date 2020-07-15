@@ -197,12 +197,12 @@
                             @switch (role)
                             {
                                 case "Owner":<h4>@item.UserName <span class="badge badge-warning" style="margin-left:10px">@role</span></h4> break;
-                            case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
-                        case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
-                }
+                                case "Moderator": <h4>@item.UserName <span class="badge badge-primary" style="margin-left:10px">@role</span></h4>break;
+                                case "Nutzer": <h4>@item.UserName <span class="badge badge-info" style="margin-left:10px">@role</span></h4>break;
+                        }
                         </td>
                         <td scope="col">
-                            @if (!User.Identity.Name.Equals(item.UserName))
+                            @if (!User.Identity.Name.Equals(item.UserName) || User.IsInRole("Admin"))
                             {
                                 if (role == "Owner")
                                 {
