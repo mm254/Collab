@@ -16,6 +16,8 @@ connection.on("ReceiveMessage", function (user, message) {
     document.getElementById("ulmessages").appendChild(li);
 });
 
+
+// Der Button zum Senden von Nachrichten wird aktivieren
 connection.start().then(function () {   
     document.getElementById("sendButtonMessage").disabled = false;
 }).catch(function (err) {
@@ -23,6 +25,7 @@ connection.start().then(function () {
 
 });
 
+// Funktion, die eine Nachricht zwischen zwei Benutzern sendet
 document.getElementById("sendButtonMessage").addEventListener("click", event => {
     let message = $("#messageInputChat").val()
     if (message.length > 0) {
@@ -35,10 +38,12 @@ document.getElementById("sendButtonMessage").addEventListener("click", event => 
     event.preventDefault()
 })
 
+//Durch Klicken auf das Feld zum Schreiben einer Nachricht wird die ReadMessage-Funktion aktiviert
 document.getElementById("messageInputChat").addEventListener("focus", function () {    
     connection.invoke("readmessage", myuserLocal, destMessageName).catch(err => console.error(err.toString()))
 
 })
+
 
 connection.on("readmessage", (destinatario,query) => {       
     $(".noty").each(function () {
@@ -49,7 +54,8 @@ connection.on("readmessage", (destinatario,query) => {
     })
 })
 
-
+// Wenn eine Nachricht empfangen wird, ertönt ein Ton. Auch wenn die ChatBox minimiert ist, 
+// ändert sich die Farbe 8 Sekunden lang, um anzuzeigen, dass eine neue Nachricht eingetroffen ist
 connection.on("ReceiveMessaggePrivate", (user, sender, message) => {
     
     document.getElementById("audio").play();
@@ -92,8 +98,8 @@ connection.on("ClientConnected", function (data) {
     selectClientMessage()
 })
 
-connection.on("ClientUpdate", (data) => {
-    //console.log(myuserLocal+" actualizado " + data)
+// Wenn ein Benutzer das System login, werden die verbundenen Benutzer aktualisiert
+connection.on("ClientUpdate", (data) => {    
     $("#list_clients").html("")
 
     $.each(data, (ind, elem) => {
@@ -102,17 +108,16 @@ connection.on("ClientUpdate", (data) => {
     selectClientMessage()
 })
 
+// Zählen Sie die Anzahl der ungelesenen Nachrichten
 connection.on("mensajesnoleidos", (data) => {
     $(".noty").each(function () {
         let elem=$(this)       
-        let cont = 0;
-        //console.log("# mensajes: " + data.length)
+        let cont = 0;       
         for (let i = 0; i < data.length; i++) {                                
             if (elem.data("destinatarionombre") == data[i].quellID && data[i].zielID == myuserLocal) {            
                 cont++;
             }
-        }
-        //console.log("mensajes " + myuserLocal +" : " + cont)
+        }        
         if (cont > 0) {
             elem.html(cont)
         }        
@@ -122,7 +127,7 @@ connection.on("mensajesnoleidos", (data) => {
     
 })
 
-
+// Minimierung des Meldungsfeldes
 document.getElementById("min_message").addEventListener("click", function () {
     document.getElementById("message_content").style.display = "none"
     let id = document.getElementById("min_user")
@@ -131,6 +136,7 @@ document.getElementById("min_message").addEventListener("click", function () {
     id.classList.add("close_user2")  
 })
 
+// Minimierung des Feldes der verbundenen Benutzer.
 document.getElementById("min_user").addEventListener("click", function () {
     if (sw == 0) {
         document.getElementById("list_clients").style.display = "none"
@@ -155,12 +161,12 @@ document.getElementById("min_user").addEventListener("click", function () {
 
 })
 
+
 connection.on("myUser", (data) => {    
-    myuserLocal=data
-    //console.log('myUser: ' + myuserLocal)
+    myuserLocal=data    
 })
 
-
+// Aktualisierung des Nachrichtenfelds
 connection.on("MessageUpdate", (data) => {    
     $(".messages").empty()
     for (var i = data.length-1; i >= 0; i--){                  
@@ -175,18 +181,7 @@ connection.on("MessageUpdate", (data) => {
     chatBox.scrollTop = chatBox.scrollHeight;
 })
 
-document.getElementById("sendButtonMessage").addEventListener("click", function (event) {
-    let message = $("#messageInputChat").val()
-    if (message.length > 1) {
-        connection.invoke("SendMessage", message).catch(function (err) {
-            $(".messages").append(`<div class="message msg_cli"><strong>${user}</strong ><div> ${message}</div></div >`)            
-        });
-    }
-    $("#messageInputChat").val("")
-    event.preventDefault()
-    })
-
-
+// Auswahl des Nachrichtenziels
 function selectClientMessage() {
     $(".user_chat_list").each(function (index) {
         $(this).on('click', () => {            
