@@ -65,6 +65,7 @@ namespace IvA.Controllers
         }
 
         // Listet die Projektdetails für ein spezifisches Projekt anhand der übergebenen ID auf. 
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -149,6 +150,7 @@ namespace IvA.Controllers
         //------------------------------ Projekt erstellen ---------------------------------
 
         // GET: Gibt die Html-Datei Projekte/Create zurück, welche die Eingabemaske für die Projekterstellung zur Verfügung stellt.
+        [Authorize(Roles = "Admin,Nutzer")]
         public IActionResult Create()
         {
             return View();
@@ -162,6 +164,7 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> Create([Bind("Id,Projektname,Projektersteller,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.ProjekteModel projekte)
         {
             if (ModelState.IsValid)
@@ -203,6 +206,7 @@ namespace IvA.Controllers
         }
 
         // gibt die HTML-Datei für die Nutzer hinzufügen Ansicht zurück
+        [Authorize(Roles = "Admin,Nutzer")]
         public IActionResult AddUser()
         {
             // RoutingID, um auf die Projektdetailseite zurückzugelangen
@@ -213,6 +217,7 @@ namespace IvA.Controllers
         }
 
         //Ordnet einen Nutzer einem Projekt zu
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> AddUserToProject([Bind("id,name")] AddUserModel userToProject)
         {
             // Die Methode steht nur Projektownern oder Admins zur Verfügung, sonst erscheit eine Fehlermeldung
@@ -252,6 +257,7 @@ namespace IvA.Controllers
         }
 
         //Erstellt eine Liste aller einem Projekt zugeordneten Nutzer
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> ProjectUserList(int id)
         {
             List<ProjekteUserViewModel> projectUsers =  _context.ProjekteUserViewModel.ToList();
@@ -268,6 +274,7 @@ namespace IvA.Controllers
         }
 
         //Erstellt eine Liste aller einem Arbeitspaket zugeordneten Nutzer
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> PackageUserList(int id)
         {
             List<PaketeUserViewModel> projectUsers = _context.PaketeUserViewModel.ToList();
@@ -284,6 +291,7 @@ namespace IvA.Controllers
         }
 
         //Fügt einem Arbeitspaket einen Nutzer hinzu. Der Nutzer muss einen Nutzeraccount besitzen
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> AddUserToPackage(int id, string name)
         {
             
@@ -306,6 +314,7 @@ namespace IvA.Controllers
         }
 
         // Die Methode entfernt einen Nutzer aus einem Projekt
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> DeleteUserFromProject(string name, int id)
         {
             if (name != null)
@@ -339,6 +348,7 @@ namespace IvA.Controllers
         }
 
         // Die Methode entfernt einen Nutzer aus einem Arbeitspaket
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> DeleteUserFromPackage(string name, int id)
         {
             if (name != null)
@@ -360,6 +370,7 @@ namespace IvA.Controllers
         }
 
         //Die Methode ermöglicht das Ändern der Rollenverteilung innerhalb eines Projektes
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> ChangeProjectRole(string name, int id, string role)
         {
             ChangeUserProjectRole(name, id, role);
@@ -368,6 +379,7 @@ namespace IvA.Controllers
         }
 
         //Die Methode ermöglicht das wechseln des Projektowners
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> ChangeOwnership(string newOwner, int id)
         {
             var projectRoles = _context.ProjectRoles.ToList().Where(x => x.ProjectId == id);
@@ -382,6 +394,7 @@ namespace IvA.Controllers
         ///------------------------------ Projekt anpassen --------------------------------------
 
         // Gibt die Html-Datei Projekte/Edit anhand der übergebenen ProjektID zurück
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -413,6 +426,7 @@ namespace IvA.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> Edit(int id, [Bind("ProjekteId,Projektname,Projektersteller,ErstelltAm,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.ProjekteModel projekte)
         {
           
@@ -455,6 +469,7 @@ namespace IvA.Controllers
         //------------------------------ Projekt löschen --------------------------------
 
         //GET: Gibt die Html-Datei für das löschen von Arbeitspaketen wieder
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -487,6 +502,7 @@ namespace IvA.Controllers
 
         // POST: Entfernt einen Eintrag aus der Tabelle "Projekte" anhand der übergeben ProjektID und leitet den Nutzer danach autoamtisch auf die Projektübersichtsseite zurück
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin,Nutzer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -522,6 +538,7 @@ namespace IvA.Controllers
         //---------------------------- Paket erstellen ----------------------
 
         // Die Methode erstellt ein Arbeitspaket und ordnet dieses autoomatisch dem richtig Projekt zu. Nach erfolgreicher Erstellung wird der Nutzer auf die entsprechende Detailansicht des Projektes zurückgeleitet.
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> PaketErstellen ([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Zeitbudget,Frist,Status")]ArbeitsPaketModel arbeitsPaket, ProjekteArbeitsPaketeViewModel ProPaViewMo, int pId)
         {
             if (ModelState.IsValid)
@@ -583,6 +600,7 @@ namespace IvA.Controllers
         //---------------------- PaketDetails ----------------------------------------
 
         // Gibt die Html-Datei PaketDetails anhand der übergebenen PaketID zurück
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> PaketDetails(int? id)
         {
             if (id == null)
@@ -634,6 +652,7 @@ namespace IvA.Controllers
         //------------------------------ Paket anpassen --------------------------------------
 
         // Gibt die Html-Datei PaketAnpassen anhand der übergebenen PaketID zurück
+        [Authorize(Roles = "Admin,Nutzer")]
         public IActionResult PaketAnpassen(int? id)
         {
             if (id == null)
@@ -653,6 +672,7 @@ namespace IvA.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin,Nutzer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PaketAnpassen(int id, [Bind("ArbeitsPaketId,ProjektId,PaketName,Beschreibung,Mitglieder,Zeitbudget,VerbrauchteZeit,Frist,Status")] ArbeitsPaketModel arbeitsPaket)
         {
@@ -685,14 +705,16 @@ namespace IvA.Controllers
         }
 
         //Prüft, ob ein Eintrag in der Tabelle "ArbeitsPaket" mit der entsprechenden ID vorhanden ist.
+        [Authorize(Roles = "Admin,Nutzer")]
         private bool ArbeitsPaketExists(int id)
         {
             return _context.ArbeitsPaket.Any(e => e.ArbeitsPaketId == id);
         }
-        
+
         //------------------- Arbeitspakete löschen --------------------
 
         //GET: Gibt die Html-Datei für das löschen eines spezfischen Arbeitspaketes wieder
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> PaketLöschenGet(int? id)
         {
             if (id == null)
@@ -711,6 +733,7 @@ namespace IvA.Controllers
         }
         // POST: Entfernt einen Eintrag aus der Tabelle "ArbeitsPaket" anhand der übergeben PaketID und leitet den Nutzer danach automatisch auf die Projektdetailseite zurück
         [HttpPost, ActionName("PaketLöschenGet")]
+        [Authorize(Roles = "Admin,Nutzer")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PaketLöschenPost(int id)
         {
@@ -753,6 +776,7 @@ namespace IvA.Controllers
         }
 
         // Mit Hilfe der Methode wird die Eingabemaske für die verbrauchte Arbeitszeit eines  spezifischen Arbeitspaketes aufgerufen
+        [Authorize(Roles = "Admin,Nutzer")]
         public IActionResult PaketZeit(int? id)
         {
             if (id == null)
@@ -772,6 +796,7 @@ namespace IvA.Controllers
         // Mit Hilfe der Methode wird die eingetragene Arbeitszeit für ein spezifisches Arbeitspaket persistent in der Tabelle ArbeitsPaket gespeichert
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> PaketZeit(int id, [Bind("ArbeitsPaketId,ProjektId,PaketName,Beschreibung,Mitglieder,Zeitbudget,VerbrauchteZeit,Frist,Status")] ArbeitsPaketModel arbeitsPaket)
         {
             if (id != arbeitsPaket.ArbeitsPaketId)

@@ -64,12 +64,6 @@
         <div>
             @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) != "Nutzer" || User.IsInRole("Admin"))
             {
-                <a class="btn btn-orange" asp-action="Edit" asp-route-id="@Model.Project.ProjekteId">
-                    <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-wrench" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" />
-                    </svg>
-                    <b>Anpassen</b>
-                </a>
                 <a class="btn btn-orange" asp-action="PaketErstellen" asp-route-id="@Model.Project.ProjekteId">
                     <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-archive-fill" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM6 7a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6zM.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z" />
@@ -79,6 +73,12 @@
             }
             @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) == "Owner" || User.IsInRole("Admin"))
             {
+                <a class="btn btn-orange" asp-action="Edit" asp-route-id="@Model.Project.ProjekteId">
+                    <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-wrench" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" />
+                    </svg>
+                    <b>Anpassen</b>
+                </a>
                 <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Project.ProjekteId"><b>Projekt löschen</b></a>
             }
         </div>
