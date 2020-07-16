@@ -481,10 +481,10 @@ namespace IvA.Controllers
             var EditValid = (from p in Projekte where p.ProjekteId == id select p.Projektersteller).FirstOrDefault();
             
             // Löschen-Funktion für Projekte ist nur für den Projektowner verfügbar, sonst Fehlermeldung
-            if (EditValid != this.User.Identity.Name)
+            /*if (EditValid != this.User.Identity.Name)
             {
                 return (RedirectToAction("ErrorMessage", new { ID = 2 })); ;
-            }
+            }*/
 
             var projekte = await _context.Projekte
                 .FirstOrDefaultAsync(m => m.ProjekteId == id);
