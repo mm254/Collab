@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using IvA.Validation;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using IvA.Validation;
 
 namespace IvA.Models
 {
     /*
      Datenmodell für ein Projekt
      */
-    public class ProjekteModel {
+    public class ProjekteModel
+    {
 
         [Key]
         public int ProjekteId { get; set; }
@@ -29,7 +27,7 @@ namespace IvA.Models
 
         [DataType(DataType.Date)]
         [CurrentDate(ErrorMessage = "Das Datum der Deadline muss in der Zukunft liegen!")]
-        public DateTime Deadline { get; set; } 
+        public DateTime Deadline { get; set; }
 
         public string Status { get; set; } = "To Do";
 

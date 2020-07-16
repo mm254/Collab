@@ -1,5 +1,3 @@
-using System;
-
 namespace IvA.Models
 {
     public class ErrorViewModel

@@ -1,21 +1,18 @@
-﻿using System;
+﻿using IvA.Data;
+using IvA.Models;
+using IvA.Validation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using IvA.Data;
-using IvA.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using System.Runtime.InteropServices;
-using System.Dynamic;
-using IvA.Validation;
-using Microsoft.AspNetCore.Authorization;
 
 namespace IvA.Controllers
 {
+    // Controller der die
     [Authorize(Roles = "Admin,Nutzer")]
     public class ProjekteController : Controller
     {
@@ -25,8 +22,8 @@ namespace IvA.Controllers
         private Helper helper;
 
         // Instanz der Datenbankklasse wird erstellt und per Dependency Injection zugewiesen.
-        public ProjekteController(ApplicationDbContext context, 
-                                  UserManager<IdentityUser> userManager, 
+        public ProjekteController(ApplicationDbContext context,
+                                  UserManager<IdentityUser> userManager,
                                   SignInManager<IdentityUser> signInManager)
         {
             _signInManager = signInManager;
@@ -47,20 +44,20 @@ namespace IvA.Controllers
             List<ProjekteUserViewModel> UserProjects = _context.ProjekteUserViewModel.ToList();
             var Projects = _context.Projekte.ToList();
             var projectList = from _projects in Projects
-                                join _userProjects in UserProjects
-                                on _projects.ProjekteId equals _userProjects.ProjekteId
-                                where _userProjects.UserId == loggedUser.Id
-                                select new ProjekteModel
-                                {
-                                    ProjekteId = _projects.ProjekteId,
-                                    Beschreibung = _projects.Beschreibung,
-                                    Deadline = _projects.Deadline,
-                                    Mitglieder = _projects.Mitglieder,
-                                    Projektname = _projects.Projektname,
-                                    ErstelltAm = _projects.ErstelltAm,
-                                    Status = _projects.Status,
-                                    Projektersteller = _projects.Projektersteller
-                                };
+                              join _userProjects in UserProjects
+                              on _projects.ProjekteId equals _userProjects.ProjekteId
+                              where _userProjects.UserId == loggedUser.Id
+                              select new ProjekteModel
+                              {
+                                  ProjekteId = _projects.ProjekteId,
+                                  Beschreibung = _projects.Beschreibung,
+                                  Deadline = _projects.Deadline,
+                                  Mitglieder = _projects.Mitglieder,
+                                  Projektname = _projects.Projektname,
+                                  ErstelltAm = _projects.ErstelltAm,
+                                  Status = _projects.Status,
+                                  Projektersteller = _projects.Projektersteller
+                              };
             return View(projectList);
         }
 
@@ -101,25 +98,25 @@ namespace IvA.Controllers
 
                 // Schnitt aus drei Tabellen um alle zu einem Projekt zugehörigen Pakete zu erhalten
                 var packages = from _projekte in Projekte
-                                    where _projekte.ProjekteId == id
-                                    join _projektPakete in ProjektPakete
-                                    on _projekte.ProjekteId equals _projektPakete.ProjekteId into table1
+                               where _projekte.ProjekteId == id
+                               join _projektPakete in ProjektPakete
+                               on _projekte.ProjekteId equals _projektPakete.ProjekteId into table1
 
-                                    from _projektPakete in table1.ToList()
-                                    join _pakete in Pakete
-                                    on _projektPakete.ArbeitsPaketId equals _pakete.ArbeitsPaketId into table2
+                               from _projektPakete in table1.ToList()
+                               join _pakete in Pakete
+                               on _projektPakete.ArbeitsPaketId equals _pakete.ArbeitsPaketId into table2
 
-                                    from _pakete in table2.ToList()
-                                    select new ArbeitsPaketModel
-                                    {
-                                        ArbeitsPaketId = _pakete.ArbeitsPaketId,
-                                        ProjektId = _pakete.ProjektId,
-                                        PaketName = _pakete.PaketName,
-                                        Beschreibung = _pakete.Beschreibung,
-                                        Mitglieder = _pakete.Mitglieder,
-                                        Frist = _pakete.Frist,
-                                        Status = _pakete.Status
-                                    };
+                               from _pakete in table2.ToList()
+                               select new ArbeitsPaketModel
+                               {
+                                   ArbeitsPaketId = _pakete.ArbeitsPaketId,
+                                   ProjektId = _pakete.ProjektId,
+                                   PaketName = _pakete.PaketName,
+                                   Beschreibung = _pakete.Beschreibung,
+                                   Mitglieder = _pakete.Mitglieder,
+                                   Frist = _pakete.Frist,
+                                   Status = _pakete.Status
+                               };
                 ProjekteModel project = Projekte.Find(m => m.ProjekteId == id);
 
                 // Anhand der Liste der Pakete werden drei Prozentwerte ermittelt die den Projektfortschritt wiedergeben
@@ -129,13 +126,14 @@ namespace IvA.Controllers
                 // Erstellen des finalen Models
                 ProjekteDetailModel pDetailModel = new ProjekteDetailModel
                 {
-                    Packages = packages.ToList(),
-                    Project = project,
-                    ProjectUsers = userList,
-                    ProjectProgress = percentages,
-                    Roles = UserRoles
+                    Packages = packages.ToList(), // Alle dem Projekt zugeörigen Pakete
+                    Project = project,            // Das Projekt mit den Details
+                    ProjectUsers = userList,      // Liste an Mitgliedern
+                    ProjectProgress = percentages, // Werte für den Fortschrittsbalken
+                    Roles = UserRoles           // Rollen der Mitglieder
                 };
 
+                // Aus allen Paketen werden die Angaben zu geplanten sowie bereits verbuchten Stunden addiert und mittels ViewBag an den View weitergeleitet
                 List<int> listTimeBudget = (from P in Pakete where P.ProjektId == id select P.Zeitbudget).ToList();
                 List<int> listTimeUsed = (from P in Pakete where P.ProjektId == id select P.VerbrauchteZeit).ToList();
                 int timeBudget = listTimeBudget.Sum();
@@ -205,7 +203,7 @@ namespace IvA.Controllers
             return View(projekte);
         }
 
-        // gibt die HTML-Datei für die Nutzer hinzufügen Ansicht zurück
+        // Gibt die HTML-Datei für die Nutzer hinzufügen Ansicht zurück
         [Authorize(Roles = "Admin,Nutzer")]
         public IActionResult AddUser()
         {
@@ -236,7 +234,8 @@ namespace IvA.Controllers
                 IdentityUser newUser = await _userManager.FindByNameAsync(userToProject.name);
                 if (newUser != null)
                 {
-                    ProjekteUserViewModel newUserInProject = new ProjekteUserViewModel() {
+                    ProjekteUserViewModel newUserInProject = new ProjekteUserViewModel()
+                    {
                         ProjekteId = userToProject.id,
                         UserId = newUser.Id
                     };
@@ -246,7 +245,7 @@ namespace IvA.Controllers
 
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Details", "Projekte", new { id = userToProject.id });
-                   
+
                 }
                 else
                 {
@@ -256,49 +255,15 @@ namespace IvA.Controllers
             return NotFound("Error beim Hinzufügen eines Projekts");
         }
 
-        //Erstellt eine Liste aller einem Projekt zugeordneten Nutzer
-        [Authorize(Roles = "Admin,Nutzer")]
-        public async Task<IActionResult> ProjectUserList(int id)
-        {
-            List<ProjekteUserViewModel> projectUsers =  _context.ProjekteUserViewModel.ToList();
-            List<IdentityUser> users = new List<IdentityUser>();
-            foreach(ProjekteUserViewModel u in projectUsers)
-            {
-                if(u.ProjekteId == id)
-                {
-                    string userId = u.UserId;
-                    users.Add(await _userManager.FindByIdAsync(userId));
-                }
-            }
-            return View(users);
-        }
-
-        //Erstellt eine Liste aller einem Arbeitspaket zugeordneten Nutzer
-        [Authorize(Roles = "Admin,Nutzer")]
-        public async Task<IActionResult> PackageUserList(int id)
-        {
-            List<PaketeUserViewModel> projectUsers = _context.PaketeUserViewModel.ToList();
-            List<IdentityUser> packageUsers = new List<IdentityUser>();
-            foreach(PaketeUserViewModel user in projectUsers)
-            {
-                if (user.ArbeitsPaketId == id)
-                {
-                    var member = await _userManager.FindByIdAsync(user.UserId);
-                    packageUsers.Add(member);
-                }
-            }
-            return View(packageUsers);
-        }
-
         //Fügt einem Arbeitspaket einen Nutzer hinzu. Der Nutzer muss einen Nutzeraccount besitzen
         [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> AddUserToPackage(int id, string name)
         {
-            
+
             if (name != null)
             {
                 IdentityUser newUser = await _userManager.FindByNameAsync(name);
-                if(newUser != null)
+                if (newUser != null)
                 {
                     PaketeUserViewModel newMember = new PaketeUserViewModel
                     {
@@ -324,7 +289,7 @@ namespace IvA.Controllers
                 {
                     List<ProjekteUserViewModel> userList = _context.ProjekteUserViewModel.ToList().FindAll(i => i.ProjekteId == id);
                     ProjekteUserViewModel projectUser = userList.Find(n => n.UserId == user.Id);
-                    if(projectUser != null)
+                    if (projectUser != null)
                     {
                         // Überprüfen ob die zu entfernen Person der Owner ist. Wenn ja kommt eine Fehlermeldung
                         var projectRoles = _context.ProjectRoles.ToList().Where(x => x.ProjectId == id);
@@ -410,7 +375,7 @@ namespace IvA.Controllers
             // Fehlermeldung, falls der User kein Admin oder Projektowner ist
             if (user.UserName != this.User.Identity.Name && !isAdmin)
             {
-                return (RedirectToAction("ErrorMessage", new {ID = 1 }));
+                return (RedirectToAction("ErrorMessage", new { ID = 1 }));
             }
 
             IvA.Models.ProjekteModel projekte = await _context.Projekte.FindAsync(id);
@@ -429,7 +394,7 @@ namespace IvA.Controllers
         [Authorize(Roles = "Admin,Nutzer")]
         public async Task<IActionResult> Edit(int id, [Bind("ProjekteId,Projektname,Projektersteller,ErstelltAm,Mitglieder,Beschreibung,Deadline,Status")]  IvA.Models.ProjekteModel projekte)
         {
-          
+
             if (id != projekte.ProjekteId)
             {
                 return NotFound();
@@ -479,12 +444,6 @@ namespace IvA.Controllers
 
             List<ProjekteModel> Projekte = _context.Projekte.ToList();
             var EditValid = (from p in Projekte where p.ProjekteId == id select p.Projektersteller).FirstOrDefault();
-            
-            // Löschen-Funktion für Projekte ist nur für den Projektowner verfügbar, sonst Fehlermeldung
-            /*if (EditValid != this.User.Identity.Name)
-            {
-                return (RedirectToAction("ErrorMessage", new { ID = 2 })); ;
-            }*/
 
             var projekte = await _context.Projekte
                 .FirstOrDefaultAsync(m => m.ProjekteId == id);
@@ -507,7 +466,7 @@ namespace IvA.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var projekte = await _context.Projekte.FindAsync(id);
-            if(projekte != null)
+            if (projekte != null)
             {
                 //Löscht das spezifische Projekt
                 _context.Projekte.Remove(projekte);
@@ -539,7 +498,7 @@ namespace IvA.Controllers
 
         // Die Methode erstellt ein Arbeitspaket und ordnet dieses autoomatisch dem richtig Projekt zu. Nach erfolgreicher Erstellung wird der Nutzer auf die entsprechende Detailansicht des Projektes zurückgeleitet.
         [Authorize(Roles = "Admin,Nutzer")]
-        public async Task<IActionResult> PaketErstellen ([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Zeitbudget,Frist,Status")]ArbeitsPaketModel arbeitsPaket, ProjekteArbeitsPaketeViewModel ProPaViewMo, int pId)
+        public async Task<IActionResult> PaketErstellen([Bind("ArbeitsPaketId,PaketName,Beschreibung,Mitglieder,Zeitbudget,Frist,Status")]ArbeitsPaketModel arbeitsPaket, ProjekteArbeitsPaketeViewModel ProPaViewMo, int pId)
         {
             if (ModelState.IsValid)
             {
@@ -552,7 +511,7 @@ namespace IvA.Controllers
                 //Deadline eines spezifischen Projektes auswählen
                 var Projects = _context.Projekte.ToList();
                 var Deadline = (from p in Projects where p.ProjekteId == Int32.Parse((string)ProId) select p.Deadline).FirstOrDefault();
-                
+
                 //Fehlermeldung, wenn die Frist eines Arbeitspaketes später als die Deadline des zugeordneten Projektes gewählt wird
                 if (arbeitsPaket.Frist >= Deadline)
                 {
@@ -614,13 +573,15 @@ namespace IvA.Controllers
                 return NotFound();
             }
 
+            // Liste der zum Paket zugewiesenen Nutzer wird generiert
             List<IdentityUser> userList = new List<IdentityUser>();
-            var packageUsers =  _context.PaketeUserViewModel.ToList().FindAll(m => m.ArbeitsPaketId == package.ArbeitsPaketId);
-            foreach(PaketeUserViewModel user in packageUsers)
+            var packageUsers = _context.PaketeUserViewModel.ToList().FindAll(m => m.ArbeitsPaketId == package.ArbeitsPaketId);
+            foreach (PaketeUserViewModel user in packageUsers)
             {
                 userList.Add(await _userManager.FindByIdAsync(user.UserId));
             }
 
+            // Liste der Nutzer, die Teil des Projekts sind aber (noch) nicht zum Paket geordnet sind
             List<IdentityUser> projectUserList = new List<IdentityUser>();
             var projectUsers = _context.ProjekteUserViewModel.ToList().FindAll(a => a.ProjekteId == package.ProjektId);
             foreach (ProjekteUserViewModel users in projectUsers)
@@ -632,6 +593,7 @@ namespace IvA.Controllers
                 }
             }
 
+            // Laden der projektinternen Rollen
             List<ProjectRoles> UserRoles = _context.ProjectRoles.ToList();
 
             PackagesDetailModel packagesDetails = new PackagesDetailModel
@@ -810,14 +772,15 @@ namespace IvA.Controllers
                 // Wird die Zeit korrigiert, kann sie nicht unter 0 sinken.
                 try
                 {
-                   
+
                     var zeit = _context.ArbeitsPaket.AsNoTracking().Where(p => p.ArbeitsPaketId == id).FirstOrDefault();
                     arbeitsPaket.VerbrauchteZeit = arbeitsPaket.VerbrauchteZeit + zeit.VerbrauchteZeit;
-                    if(arbeitsPaket.VerbrauchteZeit < 0){
+                    if (arbeitsPaket.VerbrauchteZeit < 0)
+                    {
                         return (RedirectToAction("ErrorMessage", new { ID = 8 }));
                     }
-                    
-                    _context.Update(arbeitsPaket);                
+
+                    _context.Update(arbeitsPaket);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -831,15 +794,15 @@ namespace IvA.Controllers
                         throw;
                     }
                 }
-                
-                return RedirectToAction("PaketDetails", "Projekte", new { id });               
+
+                return RedirectToAction("PaketDetails", "Projekte", new { id });
             }
-           
-            return View(arbeitsPaket);          
+
+            return View(arbeitsPaket);
         }
 
         // Weißt einem Nutzer eine neue Rolle innerhalb eines Projektes zu
-        public async void ChangeUserProjectRole(string userId, int projectId, string role)
+        public void ChangeUserProjectRole(string userId, int projectId, string role)
         {
             DeleteUserFromProjectRoles(userId, projectId);
             ProjectRoles newRole = new ProjectRoles()
@@ -852,15 +815,14 @@ namespace IvA.Controllers
         }
 
         // Entfernt alle Rollen die einem User in einem Projekt zugewiesen sind
-        public async void DeleteUserFromProjectRoles(string userId, int projectId)
+        public void DeleteUserFromProjectRoles(string userId, int projectId)
         {
             List<ProjectRoles> activeRoles = _context.ProjectRoles.ToList().FindAll(n => n.UserId == userId);
             activeRoles = activeRoles.FindAll(i => i.ProjectId == projectId);
-            foreach(ProjectRoles role in activeRoles)
+            foreach (ProjectRoles role in activeRoles)
             {
                 _context.ProjectRoles.Remove(role);
             }
-            //await _context.SaveChangesAsync();
         }
     }
 }

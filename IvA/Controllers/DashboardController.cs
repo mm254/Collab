@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IvA.Data;
+﻿using IvA.Data;
 using IvA.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace IvA.Controllers
 {
@@ -73,4 +73,4 @@ namespace IvA.Controllers
         }
 
     }
-} 
+}
