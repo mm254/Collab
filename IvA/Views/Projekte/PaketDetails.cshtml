@@ -69,24 +69,26 @@
 
 <!-- Bearbeitungsfunktionen für die Arbeitpaketdetails. Nutzer erhalten nur den Button "Zeit eintragen". Admins / Owner / Moderatoren können Paketdetails verändern und Pakete löschen-->
 <div>
+    @if(Model.PackageUsers.Contains(await _userManager.FindByNameAsync(User.Identity.Name)) ||getRole(await _userManager.FindByNameAsync(User.Identity.Name)) != "Nutzer" || User.IsInRole("Admin"))
+    {
     <a class="btn btn-orange" style="margin-top:15px ; margin-right:10px" asp-action="PaketZeit" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">
         <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-clock-fill" fill="" #343a40" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
         </svg><b>Zeit eintragen</b>
     </a>
+    }
 
-
-    @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) != "Nutzer")
+    @if (getRole(await _userManager.FindByNameAsync(User.Identity.Name)) != "Nutzer" || User.IsInRole("Admin"))
     {
 
-    <a class="btn btn-orange" style="margin-right:10px ; margin-top:15px" asp-action="PaketAnpassen" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">
-        <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-wrench" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" />
-        </svg><b>Bearbeiten</b>
-    </a>
+        <a class="btn btn-orange" style="margin-right:10px ; margin-top:15px" asp-action="PaketAnpassen" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId">
+            <svg width="1em" height="1em" style="margin-right:8px" viewBox="0 0 16 16" class="bi bi-wrench" fill="#343a40" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M.102 2.223A3.004 3.004 0 0 0 3.78 5.897l6.341 6.252A3.003 3.003 0 0 0 13 16a3 3 0 1 0-.851-5.878L5.897 3.781A3.004 3.004 0 0 0 2.223.1l2.141 2.142L4 4l-1.757.364L.102 2.223zm13.37 9.019L13 11l-.471.242-.529.026-.287.445-.445.287-.026.529L11 13l.242.471.026.529.445.287.287.445.529.026L13 15l.471-.242.529-.026.287-.445.445-.287.026-.529L15 13l-.242-.471-.026-.529-.445-.287-.287-.445-.529-.026z" />
+            </svg><b>Bearbeiten</b>
+        </a>
 
-     <a class="btn btn-danger" style="margin-right:10px ; margin-top:15px" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId"><b>Arbeitspaket löschen</b></a>
-     }
+        <a class="btn btn-danger" style="margin-right:10px ; margin-top:15px" asp-action="PaketLöschenGet" asp-controller="Projekte" asp-route-id="@Model.Package.ArbeitsPaketId"><b>Arbeitspaket löschen</b></a>
+    }
 </div>
 
 <!-- Tabelle, welche die einem Arbeitspaket zugeordneten Nutzer anzeigt. Admins / Owner / Moderatoren können Nutzer von einem Paket löschen-->

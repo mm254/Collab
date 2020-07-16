@@ -442,7 +442,7 @@ namespace IvA.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Details", "Projekte", new { id = id });
                 }
                 else
                 {
