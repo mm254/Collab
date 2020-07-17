@@ -1,21 +1,16 @@
-﻿using IvA.Data;
-using IvA.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using IvA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace IvA.Validation
 {
     public class Helper
     {
-        private readonly ApplicationDbContext _context;
-        private UserManager<IdentityUser> _userManager;
 
         public Helper()
         {
-            
+
         }
 
         public string[] CalculatePercentages(List<ArbeitsPaketModel> packages)

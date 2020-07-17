@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using IvA.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using IvA.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
 
 namespace IvA.Controllers
 {
     // Die Controllermethoden geben jeweils die HTML-Datei für die Startseite zurück
-    public class HomeController : Controller { 
+    public class HomeController : Controller
+    {
 
         private readonly ILogger<HomeController> _logger;
 
@@ -33,6 +28,7 @@ namespace IvA.Controllers
             return View();
         }
 
+        // Seitenübergreifendes Fehler Handling
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
