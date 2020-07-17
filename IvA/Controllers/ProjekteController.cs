@@ -17,9 +17,9 @@ namespace IvA.Controllers
     public class ProjekteController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private SignInManager<IdentityUser> _signInManager;
-        private UserManager<IdentityUser> _userManager;
-        private Helper helper;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly Helper helper;
 
         // Instanz der Datenbankklasse wird erstellt und per Dependency Injection zugewiesen.
         public ProjekteController(ApplicationDbContext context,
@@ -244,7 +244,7 @@ namespace IvA.Controllers
                     ChangeUserProjectRole(newUser.Id, userToProject.id, "Nutzer");
 
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Details", "Projekte", new { id = userToProject.id });
+                    return RedirectToAction("Details", "Projekte", new { userToProject.id });
 
                 }
                 else
@@ -272,7 +272,7 @@ namespace IvA.Controllers
                     };
                     _context.Add(newMember);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("PaketDetails", "Projekte", new { id = id });
+                    return RedirectToAction("PaketDetails", "Projekte", new { id });
                 }
             }
             return NotFound("Fehler beim Hinzufügen");
@@ -327,7 +327,7 @@ namespace IvA.Controllers
                     {
                         _context.PaketeUserViewModel.Remove(packageUser);
                         await _context.SaveChangesAsync();
-                        return RedirectToAction("PaketDetails", "Projekte", new { id = id });
+                        return RedirectToAction("PaketDetails", "Projekte", new { id });
                     }
                 }
             }
@@ -340,7 +340,7 @@ namespace IvA.Controllers
         {
             ChangeUserProjectRole(name, id, role);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", "Projekte", new { id = id });
+            return RedirectToAction("Details", "Projekte", new { id });
         }
 
         //Die Methode ermöglicht das wechseln des Projektowners
@@ -353,7 +353,7 @@ namespace IvA.Controllers
             ChangeUserProjectRole(oldOwner.Id, id, "Nutzer");
             ChangeUserProjectRole(newOwner, id, "Owner");
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", "Projekte", new { id = id });
+            return RedirectToAction("Details", "Projekte", new { id });
         }
 
         ///------------------------------ Projekt anpassen --------------------------------------
@@ -421,7 +421,7 @@ namespace IvA.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction("Details", "Projekte", new { id = id });
+                    return RedirectToAction("Details", "Projekte", new { id });
                 }
                 else
                 {

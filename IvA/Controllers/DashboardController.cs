@@ -13,7 +13,7 @@ namespace IvA.Controllers
     public class DashboardController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public DashboardController(ApplicationDbContext context,
                                     UserManager<IdentityUser> userManager)

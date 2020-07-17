@@ -11,7 +11,7 @@
 
 <!--Tabelle für die Nutzerverwaltung-->
 <div class="PaketInfo">
-    <table class="table bg-table">
+    <table class="table bg-table table-responsive">
         <!--Tabellenkopf-->
         <thead class="bg-table thead-dark">
             <tr>
@@ -28,7 +28,10 @@
                     Rolle
                 </th>
                 <th scope="col" class="FirstLetter">
-                    Optionen
+                    Admin ernennen
+                </th>
+                <th scope="col" class="FirstLetter">
+                    Nutzer löschen
                 </th>
             </tr>
         </thead>
@@ -36,36 +39,49 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        <a class="btn btn-dark" style="color:#ffa400" asp-action="ListUserProjects" asp-route-userId="@item.Id">Projekte ansehen</a>
-                    </td>
-                    <td>
-                        @foreach (var role in await userManager.GetRolesAsync(item))
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a class="btn btn-dark" style="color:#ffa400" asp-action="ListUserProjects" asp-route-userId="@item.Id">Projekte ansehen</a>
+                </td>
+                <td>
+                    @foreach (var role in await userManager.GetRolesAsync(item))
+                    {
+                        @role
+                    }
+                </td>
+                <td>
+                    @if (!User.Identity.Name.Equals(item.UserName))
+                    {
+                        if (!await userManager.IsInRoleAsync(item, "Admin"))
                         {
-                            @role
+                            <a class="btn btn-orange" asp-action="ChangeRole" asp-route-id="@item.Id">Admin ernennen</a>
                         }
-                    </td>
-                    <td>
-                        @if (!User.Identity.Name.Equals(item.UserName))
+                        else
                         {
-                            if (!await userManager.IsInRoleAsync(item, "Admin"))
-                            {
-                                <a class="btn btn-orange" asp-action="ChangeRole" asp-route-id="@item.Id">Admin ernennen</a>
-                            }
-                            else
-                            {
-                                <a class="btn btn-danger" asp-action="DeleteUser" asp-route-id="@item.Id">Nutzer löschen</a>
-                            }
+                            <a class="btn btn-orange disabled" asp-action="ChangeRole" asp-route-id="@item.Id">Admin ernennen</a>
                         }
-                    </td>
-                </tr>
+                    }
+                </td>
+                <td>
+                    @if (!User.Identity.Name.Equals(item.UserName))
+                    {
+                        if (!await userManager.IsInRoleAsync(item, "Admin"))
+                        {
+                            <a class="btn btn-danger" asp-action="DeleteUser" asp-route-id="@item.Id">Nutzer löschen</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-danger disabled" asp-action="DeleteUser" asp-route-id="@item.Id">Nutzer löschen</a>
+                        }
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>
