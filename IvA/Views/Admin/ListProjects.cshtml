@@ -5,10 +5,12 @@
 
 <h1 style="color: #ffa400 ; margin-bottom:20px"><b>Projektübersicht für Administratoren</b></h1>
 
+<!-- Tabelle, welche alle aktuell existierenden Projekte anzeigt-->
 <table class="table bg-table" style="table-layout:fixed">
+    <!--Tabellenkopf-->
     <thead class="bg-table thead-dark">
         <tr>
-            <th scope="col" class="FirstLetter" >
+            <th scope="col" class="FirstLetter">
                 Name
             </th>
             <th scope="col" class="FirstLetter">
@@ -28,30 +30,30 @@
             </th>
         </tr>
     </thead>
+    <!--Tabellenrumpf, der Name des Projektes leitet auf die Projektdetailseite weiter. Der "Bearbeiten" Button leitet auf die Proejktänderungsseite weiter. Der "Löschen" Button leitet auf die Proejktlöschungsseite weiter.-->
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                <a asp-action="Details" asp-controller="Projekte" asp-route-id="@item.ProjekteId" style="word-wrap:break-word ; hyphens:auto">@item.Projektname</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Projektersteller)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ErstelltAm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Deadline)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-controller="Projekte" asp-route-id="@item.ProjekteId" class="btn btn-primary">Bearbeiten</a>
-                <a asp-action="Delete" asp-controller="Projekte" asp-route-id="@item.ProjekteId" class="btn btn-danger">Löschen</a>
-            </td>
-        </tr>
-        }
+<tr>
+    <td>
+        <a asp-action="Details" asp-controller="Projekte" asp-route-id="@item.ProjekteId" style="word-wrap:break-word ; hyphens:auto">@item.Projektname</a>
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Projektersteller)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ErstelltAm)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Deadline)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Status)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-controller="Projekte" asp-route-id="@item.ProjekteId" class="btn btn-primary">Bearbeiten</a>
+        <a asp-action="Delete" asp-controller="Projekte" asp-route-id="@item.ProjekteId" class="btn btn-danger">Löschen</a>
+    </td>
+</tr>}
     </tbody>
 </table>

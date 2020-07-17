@@ -8,7 +8,9 @@
 
     <h1 style="color:#ffa400 ; margin-bottom:25px">Alle Projekte von @ViewBag.Name</h1>
 
+<!-- Tabelle, welche alle einem Nutzer zugeordneten Projekte zeigt-->
 <table class="table bg-table">
+    <!-- Tabellenkopf -->
     <thead class="bg-table thead-dark">
         <tr>
             <th scope="col" class="FirstLetter">
@@ -22,6 +24,7 @@
             </th>
         </tr>
     </thead>
+    <!-- Tabellenrumpf, enthält den Button "Projekt ansehen"-->
     <tbody>
         @foreach (var item in Model)
         {
@@ -40,4 +43,5 @@
     </tbody>
 </table>
 
+<!-- Rückleitung auf die Nutzerverwaltung-->
 <a class="btn btn-orange" asp-action="ListUsers"><b>Zurück zur Nutzerverwaltung</b></a>
